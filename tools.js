@@ -148,7 +148,26 @@ const timeTool = new Tool({
 });
 
 function timeAccelerate() {     // Globally accelerate time while mouse held, slowly return to normal on mouse release
-    sound.timeAccel.play();
+    let accelInterval = 500;
+
+    function accelerate() {
+        sound.timeAccel.cloneNode().play();
+        timeFactor++;
+        accelInterval = Math.max(50, accelInterval - 15); // prevent it from going too fast
+
+        mainCanvas.on('pointerup', (e) => {
+            clearTimeout(accelTimeout);
+            decelerate();
+        })
+
+        accelTimeout = setTimeout(accelerate, accelInterval);
+    }
+
+    function decelerate() {
+        // Start to slow the acceleration down, then reverse until timeFactor is back to 1
+    }
+
+    accelerate();
 }
 
 function timeFreezeEntity(target) {   // Freeze an entity in time

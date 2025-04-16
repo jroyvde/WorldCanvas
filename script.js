@@ -44,7 +44,7 @@ mainCanvas.on('contextmenu', (e) => {
 });
 
 // Handle click events
-mainCanvas.on('click', (e) => {
+mainCanvas.on('pointerdown', (e) => {
     if (e.target.image() != bubbleImage) {  // Make sure we're not clicking on a Tool Bubble
         if (e.evt.button === 2) {  // Right click
             if (activeTool.rightClickAction) {  // Make sure the active tool has a rightClickAction before trying to execute it
