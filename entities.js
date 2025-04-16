@@ -1,5 +1,8 @@
 // Library for our Entities
 
+// Array containing all Entities
+let entitiesOnCanvas = [  ];
+
 // Being
 class Being {
     constructor(spawnX, spawnY) {
@@ -12,9 +15,16 @@ class Being {
         });
         mainLayer.add(this.sprite);
         this.sprite.start();
+
+        // Add object to the entitiesOnCanvas array, and remember unique entityIndex
+        entitiesOnCanvas.push(this);
+        this.entityIndex = entitiesOnCanvas.length - 1;
+        // Use the sprite's ID to remember its parent's Index
+        this.sprite.id(this.entityIndex.toString());
         
         this.mappedTool = null; // Mapped Tool: Default = null; Set for each subclass
 
+        this.frozen = false;
         // Properties applying to all Beings
         this.speed = 0.2;   // Base movement speed
         this.age = 0;       // Age: Internal age. Old from 80, dead at 100. Animals should age faster than people.
@@ -35,6 +45,19 @@ class Being {
     }
 
     // Functions that can be used by all Beings
+
+    // Freeze in time
+    freeze() {
+        this.frozen = true;
+        this.sprite.stop();
+    }
+
+    // Unfreeze
+    unfreeze() {
+        this.frozen = false;
+        this.sprite.start();
+    }
+
     // Change active behaviour state
     changeState(newState) {
         this.state = newState;
@@ -54,7 +77,7 @@ class Being {
         }
 
         let agedSpeed = this.speed - (this.age / 6);    // Slow down based on age
-
+        console.log('le roam');
         moveKonvaSprite(this.sprite, agedSpeed, destinationX, destinationY, () => {
             setTimeout(() => this.startRoaming(), (3000 / timeFactor));
         });

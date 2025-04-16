@@ -152,5 +152,12 @@ function timeAccelerate() {     // Globally accelerate time while mouse held, sl
 }
 
 function timeFreezeEntity(target) {   // Freeze an entity in time
-    console.log('freeze');
+    if (getParentEntity(target)) {
+        let targetEntity = getParentEntity(target);
+        if (targetEntity.frozen) {
+            targetEntity.unfreeze();
+        } else {
+            targetEntity.freeze();
+        }
+    }
 }

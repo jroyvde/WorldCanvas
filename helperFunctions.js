@@ -1,9 +1,32 @@
+// Find out what a Sprite's parent Entity is
+function getParentEntity(sprite) {
+    entityIndex = parseInt(sprite.id());
+    return entitiesOnCanvas[entityIndex];
+}
+
+// Move a Konva sprite from one point to another
 function moveKonvaSprite(sprite, speed, endX, endY, onComplete) {
+    let paused = false;
+    let savedSpeed = null;
+
     let moveAnim;
 
     // Create animation logic in a function to allow re-creation
     function startMovement() {
         moveAnim = new Konva.Animation(function(frame) {
+
+            // Respond to freezing and un-freezing of parent Entities
+            if (getParentEntity(sprite)) {  // Check if the sprite actually belongs to an Entity
+                if (getParentEntity(sprite).frozen && !paused) {  // Check if the parent Entity has been frozen
+                    paused = true;
+                    savedSpeed = speed;
+                    speed = 0;
+                } else if (!getParentEntity(sprite).frozen && paused) {
+                    speed = savedSpeed;
+                    handleDragEnd();
+                }
+            }
+
             let dx = endX - sprite.x();
             let dy = endY - sprite.y();
             let distance = Math.sqrt(dx * dx + dy * dy);
@@ -29,6 +52,10 @@ function moveKonvaSprite(sprite, speed, endX, endY, onComplete) {
     // Start the initial movement
     startMovement();
 
+    // Listen for drag events, and run relevant functions
+    sprite.on('dragmove.move', handleDragMove);
+    sprite.on('dragend.move', handleDragEnd);
+
     // Stop movement on drag
     function handleDragMove() {
         if (moveAnim) moveAnim.stop();
@@ -40,16 +67,13 @@ function moveKonvaSprite(sprite, speed, endX, endY, onComplete) {
         startMovement(); // Recreate and start fresh animation
     }
 
-    // Attach event listeners only once
-    sprite.on('dragmove.move', handleDragMove);
-    sprite.on('dragend.move', handleDragEnd);
-
-    // Optional: Cleanup function to remove these specific event listeners
+    // Cleanup function to remove these specific event listeners
     function cleanup() {
         sprite.off('dragmove.move');
         sprite.off('dragend.move');
     }
 }
+
 
 // Choose a random spawn point for Beings, just outside the canvas
 function chooseSpawnPoint() {
