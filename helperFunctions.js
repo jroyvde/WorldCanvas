@@ -22,6 +22,7 @@ function moveKonvaSprite(sprite, speed, endX, endY, onComplete) {
                     savedSpeed = speed;
                     speed = 0;
                 } else if (!getParentEntity(sprite).frozen && paused) {
+                    paused = false;
                     speed = savedSpeed;
                     handleDragEnd();
                 }

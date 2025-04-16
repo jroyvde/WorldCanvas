@@ -77,7 +77,6 @@ class Being {
         }
 
         let agedSpeed = this.speed - (this.age / 6);    // Slow down based on age
-        console.log('le roam');
         moveKonvaSprite(this.sprite, agedSpeed, destinationX, destinationY, () => {
             setTimeout(() => this.startRoaming(), (3000 / timeFactor));
         });

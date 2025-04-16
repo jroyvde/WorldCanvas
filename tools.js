@@ -148,7 +148,7 @@ const timeTool = new Tool({
 });
 
 function timeAccelerate() {     // Globally accelerate time while mouse held, slowly return to normal on mouse release
-
+    sound.timeAccel.play();
 }
 
 function timeFreezeEntity(target) {   // Freeze an entity in time
@@ -156,8 +156,10 @@ function timeFreezeEntity(target) {   // Freeze an entity in time
         let targetEntity = getParentEntity(target);
         if (targetEntity.frozen) {
             targetEntity.unfreeze();
+            sound.timeUnfreeze.play();
         } else {
             targetEntity.freeze();
+            sound.timeFreeze.play();
         }
     }
 }
