@@ -33,7 +33,7 @@ const grabTool = new Tool({
             cursor.changeAnim('picking');
             cursor.changeOffset(6, 12);
             // Play sound
-            sound.pick.play();
+            sound.grabPick.play();
         })
         mainCanvas.on('dragend', (e) => {
             dragging = false;
