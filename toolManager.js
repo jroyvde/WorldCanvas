@@ -18,9 +18,8 @@ function switchTool(tool) {
         if (activeTool.onSwitchTo != null) {
             activeTool.onSwitchTo();
         }
-        else {
-            console.log('apparently no onSwitchTo for ' + activeTool.displayName);
-        }
+        // Play sound
+        sound.select.play();
     }
 }
 
