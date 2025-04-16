@@ -13,14 +13,17 @@ const mainCanvas = new Konva.Stage({
 });
 
 // Function for creating a layer, ensuring proper scaling, and adding to mainCanvas
-function makeScaledLayer() {
+function makeScaledLayer(scaleSetting) {
     const newLayer = new Konva.Layer();
-    newLayer.scale({ x: scaleFactor, y: scaleFactor });
+    if (scaleSetting != 'noscale') {
+        newLayer.scale({ x: scaleFactor, y: scaleFactor });
+    }
     newLayer.imageSmoothingEnabled(false);
     mainCanvas.add(newLayer);
     return newLayer;
 }
 
+const backgroundLayer = makeScaledLayer('noscale');
 const mainLayer = makeScaledLayer();    // Layer for background and entities inside the canvas
 const bubbleLayer = makeScaledLayer();  // Layer for tool bubbles and any other UI
 const cursorLayer = makeScaledLayer();  // Layer for the cursor
@@ -29,7 +32,7 @@ const cursorLayer = makeScaledLayer();  // Layer for the cursor
 const backgroundImageNode = new Konva.Image({
     image: backgroundImage,
 })
-mainLayer.add(backgroundImageNode);
+backgroundLayer.add(backgroundImageNode);
 
 // Add in cursor
 cursorLayer.add(cursor.sprite);

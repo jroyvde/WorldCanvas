@@ -17,7 +17,7 @@ class Being {
 
         // Properties applying to all Beings
         this.speed = 0.2;   // Base movement speed
-        this.age = 0.5;     // Age: Internal age. Baby -> Adult -> Old
+        this.age = 0;       // Age: Internal age. Old from 80, dead at 100. Animals should age faster than people.
         this.love = 0;      // Love should influence whether beings will gravitate towards others of the same type.
 
         // Only allow dragging if Grab Tool is active
@@ -53,7 +53,9 @@ class Being {
             this.sprite.scaleX(1);
         }
 
-        moveKonvaSprite(this.sprite, this.speed, destinationX, destinationY, () => {
+        let agedSpeed = this.speed - (this.age / 6);    // Slow down based on age
+
+        moveKonvaSprite(this.sprite, agedSpeed, destinationX, destinationY, () => {
             setTimeout(() => this.startRoaming(), (3000 / timeFactor));
         });
     }

@@ -26,8 +26,8 @@ const grabTool = new Tool({
     bubblePositionY: 150,
 
     onSwitchTo() {
-        let dragging = false;
         // Animate the hand based on what it's doing
+        let dragging = false;
         mainCanvas.on('dragstart', (e) => {
             dragging = true;
             cursor.changeAnim('picking');
@@ -65,10 +65,15 @@ const brushTool = new Tool({
     bubblePositionX: 142, 
     bubblePositionY: 150,
     leftClickAction: brushPaint,
+    rightClickAction: brushNextColor,
 });
 
-function brushPaint() {
+function brushPaint(target) {
     // paint
+}
+
+function brushNextColor() {
+    // change the brush color to the next in the list (purple, red, orange, yellow, green, blue...)
 }
 
 // Dog
@@ -106,9 +111,15 @@ const saveTool = new Tool({
 });
 
 function saveImage() {
-    const canvasCapture = mainLayer.toDataURL({
+    cursorLayer.visible(false);
+    bubbleLayer.visible(false);
+
+    const canvasCapture = mainCanvas.toDataURL({
         mimeType: 'image/png',
     });
+
+    cursorLayer.visible(true);
+    bubbleLayer.visible(true);
     
     let link = document.createElement('a');
     link.href = canvasCapture;
@@ -133,10 +144,14 @@ const timeTool = new Tool({
     cursorAnims: toolAnims,
     bubblePositionX: 230, 
     bubblePositionY: 150,
-    leftClickAction: null,
-    rightClickAction: freezeEntity,
+    leftClickAction: timeAccelerate,
+    rightClickAction: timeFreezeEntity,
 });
 
-function freezeEntity() {       // Freeze an entity in time
+function timeAccelerate() {     // Globally accelerate time while mouse held, slowly return to normal on mouse release
+
+}
+
+function timeFreezeEntity(target) {   // Freeze an entity in time
     console.log('freeze');
 }
