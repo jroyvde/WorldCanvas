@@ -41,8 +41,7 @@ const grabTool = new Tool({
             cursor.changeOffset(0, 0);
         })
         mainCanvas.on('pointerenter', (e) => {
-            if (!dragging && e.target && (e.target.image() == (dogImage) ||
-            e.target.image() == (personImage))) {
+            if (!dragging && e.target.draggable()) {
                 cursor.changeAnim('grabby');
             }
             else {
@@ -120,7 +119,7 @@ function saveImage() {
 
     cursorLayer.visible(true);
     bubbleLayer.visible(true);
-    
+
     let link = document.createElement('a');
     link.href = canvasCapture;
     link.download = 'WorldCanvas.png';
