@@ -1,0 +1,23 @@
+* {
+    margin: 0;
+}
+
+body {
+    background-color: darkslateblue;
+}
+
+#content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: darkslateblue;
+    height: 100vh;
+}
+
+#mainCanvas {
+    background-color: lightgray;
+    cursor: none;
+    margin: 4rem;
+    width: 960px;
+    height: 720px;
+}
