@@ -106,7 +106,7 @@ const saveTool = new Tool({
 });
 
 function saveImage() {
-    const canvasCapture = mainCanvas.toDataURL({
+    const canvasCapture = mainLayer.toDataURL({
         mimeType: 'image/png',
     });
     
