@@ -1,3 +1,4 @@
+console.log('tools.js loaded');
 // Library for all the Tools we can use
 
 // Tool base class

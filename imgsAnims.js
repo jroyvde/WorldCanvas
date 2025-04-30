@@ -54,6 +54,22 @@ const birdAnims = {
     ],
 };
 
+// Brush
+const brushImage = new Image();
+brushImage.src = "./sprites/entities/brush.png";
+
+const brushAnims = {
+    idle: [
+      0, 0, 16, 16,   // frame 1
+    ],
+    falling: [
+      0, 16, 16, 16,   // frame 1
+    ],
+    landing: [
+      0, 32, 16, 16,   // frame 1
+    ],
+};
+
 // TOOLS:
 
 // Default / placeholder tool art

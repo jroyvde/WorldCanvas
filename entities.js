@@ -1,10 +1,11 @@
+console.log('entities.js loaded');
 // Library for our Entities
 
 // Array containing all Entities
 let entitiesOnCanvas = [  ];
 
-// Being
-class Being {
+// Entity - For both Beings and Inanimate Entities
+class Entity {
     constructor(spawnX, spawnY) {
         this.sprite = new Konva.Sprite({
             x: spawnX,
@@ -19,16 +20,37 @@ class Being {
         // Add object to the entitiesOnCanvas array, and remember unique entityIndex
         entitiesOnCanvas.push(this);
         this.entityIndex = entitiesOnCanvas.length - 1;
-        // Use the sprite's ID to remember its parent's Index
-        this.sprite.id(this.entityIndex.toString());
+        this.sprite.id(this.entityIndex.toString());  // Use the sprite's ID to remember its parent's Index
         
         this.mappedTool = null; // Mapped Tool: Default = null; Set for each subclass
 
+        this.frozen = false; // Frozen in time if true
+    }
+
+    // Functions that can be used by all Entities
+    // Freeze in time
+    freeze() {
+        this.frozen = true;
+        this.sprite.stop();
+    }
+
+    // Unfreeze
+    unfreeze() {
         this.frozen = false;
+        this.sprite.start();
+    }
+}
+
+// Being
+class Being extends Entity {
+    constructor(spawnX, spawnY) {
+
+        super(spawnX, spawnY);
+
         // Properties applying to all Beings
         this.speed = 0.2;   // Base movement speed
         this.age = 0;       // Age: Internal age. Old from 80, dead at 100. Animals should age faster than people.
-        this.love = 0;      // Love should influence whether beings will gravitate towards others of the same type.
+        this.love = 0;      // Love should influence whether beings will gravitate towards others of the same type. Should be between -1 and 1. 0 = neutral.
 
         // Only allow dragging if Grab Tool is active
         this.sprite.on('pointerover', function (e) {
@@ -45,18 +67,6 @@ class Being {
     }
 
     // Functions that can be used by all Beings
-
-    // Freeze in time
-    freeze() {
-        this.frozen = true;
-        this.sprite.stop();
-    }
-
-    // Unfreeze
-    unfreeze() {
-        this.frozen = false;
-        this.sprite.start();
-    }
 
     // Change active behaviour state
     changeState(newState) {
@@ -83,9 +93,16 @@ class Being {
     }
 }
 
+class Inanimate extends Entity {
+    constructor(spawnX, spawnY) {
+        super(spawnX, spawnY);
+    }
+}
+
 // Dog
 class Dog extends Being {
     constructor(spawnX, spawnY) {
+
         super(spawnX, spawnY);
 
         // Set Dog image and animations
@@ -136,4 +153,33 @@ class Person extends Being {
 // Bird
 class Bird extends Being {
 
+}
+
+// Brush - Paintbrush that falls down near the beginning
+class Brush extends Inanimate {
+    constructor(spawnX, spawnY) {
+        super(spawnX, spawnY);
+
+        // Set Brush image and animations
+        this.sprite.image(brushImage);
+        this.sprite.animations(brushAnims);
+        this.sprite.animation('idle');
+        this.sprite.offsetX(8);
+        this.sprite.offsetY(8);
+
+        // Set Mapped Tool
+        this.mappedTool = brushTool;
+    }
+
+    // Fall from the top of screen & animate
+    fallFromTop() {
+        this.sprite.animation('falling');
+        console.log('*slide whistle*'); // Play a sound
+        moveKonvaSprite(newBrush.sprite, 1, (baseWidth / 2), (baseHeight / 2), () => this.splatOnGround());
+    }
+
+    splatOnGround() {
+        this.sprite.animation('landing');
+        console.log('*splat*'); // Play a sound
+    }
 }
