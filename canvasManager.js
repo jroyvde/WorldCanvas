@@ -1,5 +1,8 @@
 console.log('canvasManager.js loaded');
 
+// Use only right mouse button for dragging. Might change this, or not.
+Konva.dragButtons = [2];
+
 // Factor for scaling up our small, pixelly canvas
 const scaleFactor = 4;
 
