@@ -91,6 +91,21 @@ const brushToolAnims = {
   idle: [
     0, 0, 16, 16, // frame 1
   ],
+  red: [
+    0, 16, 16, 16, // frame 1
+  ],
+  orange: [
+    0, 32, 16, 16, // frame 1
+  ],
+  yellow: [
+    0, 48, 16, 16, // frame 1
+  ],
+  green: [
+    0, 64, 16, 16, // frame 1
+  ],
+  blue: [
+    0, 80, 16, 16, // frame 1
+  ],
 }
 
 // Dog tool

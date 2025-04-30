@@ -65,14 +65,40 @@ const brushTool = new Tool({
     bubblePositionY: 150,
     leftClickAction: brushPaint,
     rightClickAction: brushNextColor,
+    onSwitchFrom: brushDefaultColor,
 });
 
 function brushPaint(target) {
     // paint
 }
 
+brushTool.colors = [
+    'idle', // purple
+    'red',  // red
+    'orange', // orange
+    'yellow', // yellow
+    'green', // green
+    'blue', // blue
+]
+
+brushTool.colorIndex = 0; // Start with purple
+
 function brushNextColor() {
     // change the brush color to the next in the list (purple, red, orange, yellow, green, blue...)
+    if (brushTool.colorIndex < brushTool.colors.length - 1) {
+        brushTool.colorIndex++;
+        cursor.changeAnim(brushTool.colors[brushTool.colorIndex]);
+    } else {
+        brushTool.colorIndex = 0;
+        cursor.changeAnim('idle');
+    }
+    // Play sound
+}
+
+function brushDefaultColor() {
+    // Set the brush to the default color (purple)
+    brushTool.colorIndex = 0;
+    cursor.changeAnim('idle');
 }
 
 // Dog
