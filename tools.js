@@ -25,6 +25,7 @@ const grabTool = new Tool({
     cursorAnims: grabToolAnims,
     bubblePositionX: 120, 
     bubblePositionY: 150,
+    leftClickAction: extractTool,
 
     onSwitchTo() {
         // Animate the hand based on what it's doing
@@ -56,6 +57,20 @@ const grabTool = new Tool({
         mainCanvas.off('pointerenter');
     },
 });
+
+function extractTool(target) {
+    if (getParentEntity(target)) {
+        let targetEntity = getParentEntity(target);
+        if (targetEntity.mappedTool) {
+            if (!targetEntity.mappedTool.obtained) {
+                addTool(targetEntity.mappedTool);
+            }
+            switchTool(targetEntity.mappedTool);
+        } else {
+            return;
+        }
+    }
+}
 
 // Brush - Allows the user to paint. Colour-tints certain objects
 const brushTool = new Tool({
