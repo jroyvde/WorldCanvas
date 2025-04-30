@@ -10,6 +10,7 @@ const mainCanvas = new Konva.Stage({
     container: 'mainCanvas',
     width: baseWidth * scaleFactor,
     height: baseHeight * scaleFactor,
+    imageSmoothingEnabled: false,
 });
 
 // Function for creating a layer, ensuring proper scaling, and adding to mainCanvas

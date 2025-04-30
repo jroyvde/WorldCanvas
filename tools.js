@@ -147,24 +147,49 @@ const timeTool = new Tool({
     rightClickAction: timeFreezeEntity,
 });
 
-function timeAccelerate() {     // Globally accelerate time while mouse held, slowly return to normal on mouse release
+function timeAccelerate() {     // Globally accelerate time while mouse held, slowly return to normal on mouse release 
     let accelInterval = 500;
+
+    mainCanvas.on('pointerup', (e) => {
+        mainCanvas.off('pointerup');
+        clearTimeout(accelTimeout);
+        accelerating = false;
+        decelerate(accelInterval);
+    })
 
     function accelerate() {
         sound.timeAccel.cloneNode().play();
         timeFactor++;
         accelInterval = Math.max(50, accelInterval - 15); // prevent it from going too fast
 
-        mainCanvas.on('pointerup', (e) => {
-            clearTimeout(accelTimeout);
-            decelerate();
-        })
-
         accelTimeout = setTimeout(accelerate, accelInterval);
     }
 
-    function decelerate() {
-        // Start to slow the acceleration down, then reverse until timeFactor is back to 1
+    let initialAccelInterval;
+    let initialTimeFactor;
+
+    function decelerate(accelInterval) {
+        if (initialAccelInterval === undefined) {
+            initialAccelInterval = accelInterval;
+            initialTimeFactor = timeFactor;
+        }
+
+        sound.timeAccel.cloneNode().play();
+    
+        // Map accelInterval linearly to timeFactor
+        let t = (accelInterval - 500) / (initialAccelInterval - 500);
+        t = Math.max(0, Math.min(1, t)); // Clamp between 0 and 1
+        timeFactor = 1 + (initialTimeFactor - 1) * t;
+    
+        if (accelInterval >= 500) { // slightly above 1 to allow rounding errors
+            timeFactor = 1;
+            return;
+        }
+    
+        accelInterval += 15;
+        accelTimeout = setTimeout(() => {
+            decelerate(accelInterval);
+        }, accelInterval);
     }
 
     accelerate();
