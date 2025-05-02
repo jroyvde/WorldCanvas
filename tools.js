@@ -84,8 +84,49 @@ const brushTool = new Tool({
     onSwitchFrom: brushDefaultColor,
 });
 
-function brushPaint(target) {
-    // paint
+function brushPaint() {
+    let lastPointerPosition = null; // Store the last pointer position
+
+    mainCanvas.on('pointerdown', (e) => {
+        // Start painting when the pointer is pressed
+        lastPointerPosition = cursor.sprite.position();
+        paintAt(lastPointerPosition.x, lastPointerPosition.y);
+
+        mainCanvas.on('pointermove', onPointerMove);
+    });
+
+    mainCanvas.on('pointerup', (e) => {
+        // Stop painting when the pointer is released
+        mainCanvas.off('pointermove', onPointerMove);
+        lastPointerPosition = null;
+    });
+
+    function onPointerMove(e) {
+        const currentPointerPosition = cursor.sprite.position();
+        if (lastPointerPosition) {
+            drawLineBetween(lastPointerPosition, currentPointerPosition);
+        }
+        lastPointerPosition = currentPointerPosition;
+    }
+
+    function paintAt(x, y) {
+        const newPaint = new Paint(x, y, brushTool.colors[brushTool.colorIndex]);
+    }
+
+    function drawLineBetween(start, end) {
+        const distance = Math.sqrt(
+            Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)
+        );
+        const steps = Math.ceil(distance / 2); // Adjust step size for smoothness
+        const deltaX = (end.x - start.x) / steps;
+        const deltaY = (end.y - start.y) / steps;
+
+        for (let i = 0; i <= steps; i++) {
+            const x = start.x + deltaX * i;
+            const y = start.y + deltaY * i;
+            paintAt(x, y);
+        }
+    }
 }
 
 brushTool.colors = [

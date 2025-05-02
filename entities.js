@@ -1,4 +1,5 @@
 console.log('entities.js loaded');
+
 // Library for our Entities
 
 // Array containing all Entities
@@ -117,6 +118,7 @@ class Dog extends Being {
 
         // Any dog-specific properties
         this.excitement = 0; // Excitement makes the doggo very fast. Default = 0, Max = 1
+        this.tasty = [ brushImage ]; // Entities that the dog would like to eat (Images)
     }
 
     // Dog-specific functions
@@ -182,5 +184,26 @@ class Brush extends Inanimate {
     splatOnGround() {
         this.sprite.animation('landed');
         console.log('*splat*'); // Play a sound
+    }
+}
+
+// Paint - Paint created by the brush tool
+class Paint extends Inanimate {
+    constructor(spawnX, spawnY, brushColor) {
+        super(spawnX, spawnY);
+
+        // Set Paint image and animations
+        this.sprite.image(paintImage);
+        this.sprite.animations(paintAnims);
+        this.sprite.animation(brushColor);
+        this.sprite.frameRate(2);
+        this.sprite.offsetX(3);
+        this.sprite.offsetY(3);
+
+        // Not draggable
+        this.sprite.draggable(false);
+
+        // Set Mapped Tool
+        this.mappedTool = brushTool;
     }
 }
