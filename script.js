@@ -5,6 +5,10 @@ let debugMode = 1;
 switchTool(defaultTool);
 addTool(defaultTool);
 
+// USER TESTING: Give Time and Save tools by default
+addTool(timeTool);
+addTool(saveTool);
+
 // Handle key presses
 addEventListener("keydown", (e) => {
     // Debug Mode keyboard commands
@@ -47,7 +51,7 @@ addEventListener("keydown", (e) => {
             addTool(brushTool);
             addTool(dogTool);
             addTool(saveTool);
-            addTool(loveTool);
+            //addTool(loveTool);
             addTool(timeTool);
         }
     }

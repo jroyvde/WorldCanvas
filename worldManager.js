@@ -84,7 +84,8 @@ setInterval(() => {
     stateActions[worldState][randomInt]();
     // Check if worldState needs to update
     if (worldState < 1 && brushTool.obtained) {
-        worldState = 1;
+        //worldState = 1; // Desired behaviour
+        worldState = 2; // USER TESTING: Temporary behaviour
     }
 }, 5000);
 
