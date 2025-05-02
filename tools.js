@@ -81,23 +81,31 @@ const brushTool = new Tool({
     bubblePositionY: 150,
     leftClickAction: brushPaint,
     rightClickAction: brushNextColor,
-    onSwitchFrom: brushDefaultColor,
+    onSwitchFrom() {
+        // Remove all painting-related event listeners
+        mainCanvas.off('pointerdown.brushPaint');
+        mainCanvas.off('pointermove.brushPaint');
+        mainCanvas.off('pointerup.brushPaint');
+
+        // Reset color to default
+        brushDefaultColor();
+    },
 });
 
 function brushPaint() {
     let lastPointerPosition = null; // Store the last pointer position
 
-    mainCanvas.on('pointerdown', (e) => {
+    mainCanvas.on('pointerdown.brushPaint', (e) => {
         // Start painting when the pointer is pressed
         lastPointerPosition = cursor.sprite.position();
         paintAt(lastPointerPosition.x, lastPointerPosition.y);
 
-        mainCanvas.on('pointermove', onPointerMove);
+        mainCanvas.on('pointermove.brushPaint', onPointerMove);
     });
 
-    mainCanvas.on('pointerup', (e) => {
+    mainCanvas.on('pointerup.paintPUp', (e) => {
         // Stop painting when the pointer is released
-        mainCanvas.off('pointermove', onPointerMove);
+        mainCanvas.off('pointermove.brushPaint', onPointerMove);
         lastPointerPosition = null;
     });
 
@@ -242,10 +250,9 @@ const timeTool = new Tool({
 function timeAccelerate() {     // Globally accelerate time while mouse held, slowly return to normal on mouse release 
     let accelInterval = 500;
 
-    mainCanvas.on('pointerup', (e) => {
-        mainCanvas.off('pointerup');
+    mainCanvas.on('pointerup.timeAccelerate', (e) => {
+        mainCanvas.off('pointerup.timeAccelerate');
         clearTimeout(accelTimeout);
-        accelerating = false;
         decelerate(accelInterval);
     })
 
