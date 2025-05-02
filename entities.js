@@ -140,7 +140,7 @@ class Person extends Being {
         this.sprite.offsetY(32);
 
         // Set Mapped Tool
-        // this.mappedTool = personTool;
+        this.mappedTool = personTool;
 
         // Any person-specific properties
 
@@ -164,6 +164,7 @@ class Brush extends Inanimate {
         this.sprite.image(brushImage);
         this.sprite.animations(brushAnims);
         this.sprite.animation('idle');
+        this.sprite.frameRate(8);
         this.sprite.offsetX(8);
         this.sprite.offsetY(8);
 
@@ -173,13 +174,13 @@ class Brush extends Inanimate {
 
     // Fall from the top of screen & animate
     fallFromTop() {
-        this.sprite.animation('falling');
+        this.sprite.animation('idle');
         console.log('*slide whistle*'); // Play a sound
         moveKonvaSprite(newBrush.sprite, 1, (baseWidth / 2), (baseHeight / 2), () => this.splatOnGround());
     }
 
     splatOnGround() {
-        this.sprite.animation('landing');
+        this.sprite.animation('landed');
         console.log('*splat*'); // Play a sound
     }
 }

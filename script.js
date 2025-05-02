@@ -50,6 +50,7 @@ addEventListener("keydown", (e) => {
         if (e.key == "g") { // Press G to Give all tools
             addTool(brushTool);
             addTool(dogTool);
+            addTool(personTool);
             addTool(saveTool);
             //addTool(loveTool);
             addTool(timeTool);

@@ -141,6 +141,15 @@ function dogEat(target) {
 
 }
 
+// Person
+const personTool = new Tool({
+    displayName: 'Person',
+    cursorImage: personToolImage,
+    cursorAnims: personToolAnims,
+    bubblePositionX: 98,
+    bubblePositionY: 150,
+});
+
 // Save (temp name)
 const saveTool = new Tool({
     displayName: 'Save',

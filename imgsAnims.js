@@ -62,10 +62,12 @@ const brushAnims = {
     idle: [
       0, 0, 16, 16,   // frame 1
     ],
-    falling: [
-      0, 16, 16, 16,   // frame 1
-    ],
     landing: [
+      0, 16, 16, 16,   // frame 1
+      16, 16, 16, 16,  // frame 2
+      32, 16, 16, 16,  // frame 3
+    ],
+    landed: [
       0, 32, 16, 16,   // frame 1
     ],
 };
@@ -129,6 +131,16 @@ const dogToolImage = new Image();
 dogToolImage.src = "./sprites/tools/dog.png";
 
 const dogToolAnims = {
+  idle: [
+    0, 0, 16, 16, // frame 1
+  ],
+}
+
+// Person tool
+const personToolImage = new Image();
+personToolImage.src = "./sprites/tools/person.png";
+
+const personToolAnims = {
   idle: [
     0, 0, 16, 16, // frame 1
   ],
