@@ -170,3 +170,27 @@ const personToolAnims = {
     0, 0, 16, 16, // frame 1
   ],
 }
+
+// Time tool
+const timeToolImage = new Image();
+timeToolImage.src = "./sprites/tools/time.png";
+
+const timeToolAnims = {
+  idle: [
+    0, 0, 16, 16, // frame 1
+  ],
+  accel: [
+    0, 16, 16, 16, // frame 1
+    16, 16, 16, 16, // frame 2
+    32, 16, 16, 16, // frame 3
+    48, 16, 16, 16, // frame 4
+  ],
+  freeze: [
+    0, 32, 16, 16, // frame 1
+    16, 32, 16, 16, // frame 2
+  ],
+  unfreeze: [
+    0, 48, 16, 16, // frame 1
+    16, 48, 16, 16, // frame 2
+  ],
+}

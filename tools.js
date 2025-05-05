@@ -261,8 +261,8 @@ const loveTool = new Tool({
 // Time - Accelerates time on the whole world or specific entities. Can also freeze entities.
 const timeTool = new Tool({
     displayName: 'Time',
-    cursorImage: toolImage,
-    cursorAnims: toolAnims,
+    cursorImage: timeToolImage,
+    cursorAnims: timeToolAnims,
     bubblePositionX: 230, 
     bubblePositionY: 150,
     leftClickAction: timeAccelerate,
@@ -270,16 +270,21 @@ const timeTool = new Tool({
 });
 
 function timeAccelerate() {     // Globally accelerate time while mouse held, slowly return to normal on mouse release 
+    cursor.changeAnim('accel');
+    
     let accelInterval = 500;
 
     mainCanvas.on('pointerup.timeAccelerate', (e) => {
         mainCanvas.off('pointerup.timeAccelerate');
         clearTimeout(accelTimeout);
         decelerate(accelInterval);
+        cursor.changeAnim('idle');
+        cursor.changeFrameRate(2);
     })
 
     function accelerate() {
         sound.timeAccel.cloneNode().play();
+        cursor.changeFrameRate(2 * timeFactor);
         timeFactor++;
         accelInterval = Math.max(50, accelInterval - 15); // prevent it from going too fast
 
@@ -321,9 +326,29 @@ function timeFreezeEntity(target) {   // Freeze an entity in time
         let targetEntity = getParentEntity(target);
         if (targetEntity.frozen) {
             targetEntity.unfreeze();
+
+            cursor.changeAnim('unfreeze');
+            cursor.changeFrameRate(8);
+
+            // Change animation back to idle after 500ms
+            setTimeout(() => {
+                cursor.changeAnim('idle');
+                cursor.changeFrameRate(2);
+            }, 500);
+            
             sound.timeUnfreeze.play();
         } else {
             targetEntity.freeze();
+
+            cursor.changeAnim('freeze');
+            cursor.changeFrameRate(8);
+
+            // Change animation back to idle after 500ms
+            setTimeout(() => {
+                cursor.changeAnim('idle');
+                cursor.changeFrameRate(2);
+            }, 500);
+
             sound.timeFreeze.play();
         }
     }

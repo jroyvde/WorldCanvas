@@ -28,6 +28,10 @@ const cursor = {
         this.sprite.offsetY(y);
     },
 
+    changeFrameRate(rate) {
+        this.sprite.frameRate(rate);
+    },
+
     trackMouse(stage) {
         const container = stage.container();
     
