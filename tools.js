@@ -178,9 +178,25 @@ const dogTool = new Tool({
     leftClickAction: dogDecide,
 });
 
+let dogTasty = [ brushImage ];
+
 function dogDecide(target) {
-    // If clicking on a being, X
+    // Get target parent Entity
+    targetEntity = getParentEntity(target);
+
+    // Just bark if target is not an Entity
+    if (!targetEntity) {
+        dogBark();
+        return;
+    }
+
     // If clicking on 'food', eat
+    if (dogTasty.includes(target.image())) {
+        // If the target is tasty, eat it
+        dogEat(targetEntity);
+        return;
+    }
+
     // Otherwise, bark
     dogBark();
 }
@@ -190,8 +206,10 @@ function dogBark() {
     sound.dogBark.cloneNode().play();
 }
 
-function dogEat(target) {
 
+function dogEat(targetEntity) {
+    sound.dogEat.cloneNode().play();
+    targetEntity.destroy(); // Remove the target entity
 }
 
 // Person

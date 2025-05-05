@@ -40,6 +40,14 @@ class Entity {
         this.frozen = false;
         this.sprite.start();
     }
+
+    // Destroy / remove the Entity
+    destroy() {
+        this.sprite.destroy();
+        entitiesOnCanvas[this.entityIndex] = null; // Remove from the array
+        this.sprite = null; // Remove reference to the sprite
+        this.frozen = true; // Set frozen to true to prevent any further actions
+    }
 }
 
 // Being
@@ -118,7 +126,7 @@ class Dog extends Being {
 
         // Any dog-specific properties
         this.excitement = 0; // Excitement makes the doggo very fast. Default = 0, Max = 1
-        this.tasty = [ brushImage ]; // Entities that the dog would like to eat (Images)
+        this.tasty = dogTasty; // Entities that the dog would like to eat (Images)
     }
 
     // Dog-specific functions
