@@ -1,7 +1,15 @@
 const sound = {
+    brushColorChange: new Audio('./sound/brushColorChange.wav'),
+    brushPaint: new Audio('./sound/brushPaint.wav'),
+    brushSplat: new Audio('./sound/brushSplat.wav'),
+    dogBark: new Audio('./sound/dogBark.ogg'),
+    dogEat: new Audio('./sound/dogEat.ogg'),
     select: new Audio('./sound/select.wav'),
     grabPick: new Audio('./sound/grabPick.wav'),
+    personHappy: new Audio('./sound/personHappy.ogg'),
+    personShock: new Audio('./sound/personShock.ogg'),
     timeAccel: new Audio('./sound/timeAccel.wav'),
     timeFreeze: new Audio('./sound/timeFreeze.wav'),
-    timeUnfreeze: new Audio('./sound/timeUnfreeze.wav')
+    timeUnfreeze: new Audio('./sound/timeUnfreeze.wav'),
+    toolUnlock: new Audio('./sound/toolUnlock.wav'),
 };

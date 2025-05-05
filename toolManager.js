@@ -28,6 +28,7 @@ function addTool(tool) {
     if (!tool.obtained) {
         tool.obtained = true;               // mark the tool as obtained
         newBubble = new toolBubble(tool);   // add a new tool to the user's collection by having it appear
+        sound.toolUnlock.play();            // play the unlock sound
     }
 }
 

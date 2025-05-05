@@ -183,7 +183,7 @@ class Brush extends Inanimate {
 
     splatOnGround() {
         this.sprite.animation('landed');
-        console.log('*splat*'); // Play a sound
+        sound.brushSplat.play(); // Play a sound
     }
 }
 

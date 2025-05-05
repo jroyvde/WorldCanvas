@@ -119,6 +119,7 @@ function brushPaint() {
 
     function paintAt(x, y) {
         const newPaint = new Paint(x, y, brushTool.colors[brushTool.colorIndex]);
+        sound.brushPaint.play();
     }
 
     function drawLineBetween(start, end) {
@@ -158,6 +159,7 @@ function brushNextColor() {
         cursor.changeAnim('idle');
     }
     // Play sound
+    sound.brushColorChange.cloneNode().play();
 }
 
 function brushDefaultColor() {
@@ -180,10 +182,12 @@ function dogDecide(target) {
     // If clicking on a being, X
     // If clicking on 'food', eat
     // Otherwise, bark
+    dogBark();
 }
 
 function dogBark() {
-
+    // Play a sound - bork
+    sound.dogBark.cloneNode().play();
 }
 
 function dogEat(target) {
