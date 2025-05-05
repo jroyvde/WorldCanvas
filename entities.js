@@ -15,6 +15,7 @@ class Entity {
             frameIndex: 0,
             draggable: true,
         });
+
         mainLayer.add(this.sprite);
         this.sprite.start();
 
@@ -26,6 +27,17 @@ class Entity {
         this.mappedTool = null; // Mapped Tool: Default = null; Set for each subclass
 
         this.frozen = false; // Frozen in time if true
+
+        this.grabbable = true; // Can be dragged if true
+
+        // Only allow dragging if Grab Tool is active
+        this.sprite.on('pointerover', (e) => {
+            if ((activeTool === grabTool) && (this.grabbable)) {
+                e.target.draggable(true);
+            } else {
+                e.target.draggable(false);
+            }
+        });
     }
 
     // Functions that can be used by all Entities
@@ -60,15 +72,6 @@ class Being extends Entity {
         this.speed = 0.2;   // Base movement speed
         this.age = 0;       // Age: Internal age. Old from 80, dead at 100. Animals should age faster than people.
         this.love = 0;      // Love should influence whether beings will gravitate towards others of the same type. Should be between -1 and 1. 0 = neutral.
-
-        // Only allow dragging if Grab Tool is active
-        this.sprite.on('pointerover', function (e) {
-            if (activeTool === grabTool) {
-              e.target.draggable(true);
-            } else {
-              e.target.draggable(false);
-            }
-        });
 
         // Set default Roaming state
         this.state = 'roaming';
@@ -208,10 +211,10 @@ class Paint extends Inanimate {
         this.sprite.offsetX(3);
         this.sprite.offsetY(3);
 
-        // Not draggable
-        this.sprite.draggable(false);
-
         // Set Mapped Tool
         this.mappedTool = brushTool;
+
+        // Not grabbable
+        this.grabbable = false;
     }
 }
