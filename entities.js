@@ -188,7 +188,6 @@ class Brush extends Inanimate {
     // Fall from the top of screen & animate
     fallFromTop() {
         this.sprite.animation('idle');
-        console.log('*slide whistle*'); // Play a sound
         moveKonvaSprite(newBrush.sprite, 1, (baseWidth / 2), (baseHeight / 2), () => this.splatOnGround());
     }
 

@@ -81,14 +81,15 @@ const brushTool = new Tool({
     bubblePositionY: 150,
     leftClickAction: brushPaint,
     rightClickAction: brushNextColor,
+    onSwitchTo() {
+        // Change the cursor sprite to match the current color
+        cursor.changeAnim(brushTool.colors[brushTool.colorIndex]);
+    },
     onSwitchFrom() {
         // Remove all painting-related event listeners
         mainCanvas.off('pointerdown.brushPaint');
         mainCanvas.off('pointermove.brushPaint');
         mainCanvas.off('pointerup.brushPaint');
-
-        // Reset color to default
-        brushDefaultColor();
     },
 });
 
@@ -150,6 +151,11 @@ brushTool.colors = [
 brushTool.colorIndex = 0; // Start with purple
 
 function brushNextColor() {
+    // Remove all painting-related event listeners
+    mainCanvas.off('pointerdown.brushPaint');
+    mainCanvas.off('pointermove.brushPaint');
+    mainCanvas.off('pointerup.brushPaint');
+
     // change the brush color to the next in the list (purple, red, orange, yellow, green, blue...)
     if (brushTool.colorIndex < brushTool.colors.length - 1) {
         brushTool.colorIndex++;
@@ -160,12 +166,6 @@ function brushNextColor() {
     }
     // Play sound
     sound.brushColorChange.cloneNode().play();
-}
-
-function brushDefaultColor() {
-    // Set the brush to the default color (purple)
-    brushTool.colorIndex = 0;
-    cursor.changeAnim('idle');
 }
 
 // Dog
@@ -269,7 +269,16 @@ const timeTool = new Tool({
     rightClickAction: timeFreezeEntity,
 });
 
+let timeAccelState = 0; // 0 = Neutral, 1 = Accelerating, 2 = Decelerating
+
 function timeAccelerate() {     // Globally accelerate time while mouse held, slowly return to normal on mouse release 
+    // Don't accelerating if decelerating
+    if (timeAccelState == 2) {
+        return;
+    }
+
+    timeAccelState = 1;
+
     cursor.changeAnim('accel');
     
     let accelInterval = 500;
@@ -295,6 +304,8 @@ function timeAccelerate() {     // Globally accelerate time while mouse held, sl
     let initialTimeFactor;
 
     function decelerate(accelInterval) {
+        timeAccelState = 2;
+        
         if (initialAccelInterval === undefined) {
             initialAccelInterval = accelInterval;
             initialTimeFactor = timeFactor;
@@ -308,6 +319,7 @@ function timeAccelerate() {     // Globally accelerate time while mouse held, sl
         timeFactor = 1 + (initialTimeFactor - 1) * t;
     
         if (accelInterval >= 500) { // slightly above 1 to allow rounding errors
+            timeAccelState = 0;
             timeFactor = 1;
             return;
         }
@@ -337,7 +349,7 @@ function timeFreezeEntity(target) {   // Freeze an entity in time
             }, 500);
             
             sound.timeUnfreeze.play();
-        } else if (targetEntity.grabbable) {   // Use the Entity's grabbable variable to decide if we can freeze it
+        } else if (targetEntity.grabbable) {   // (For now,) Use the Entity's grabbable variable to decide if we can freeze it
             targetEntity.freeze();
 
             cursor.changeAnim('freeze');
