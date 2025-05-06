@@ -18,6 +18,11 @@ class Tool {
     }
 }
 
+// Placeholder for unimplemented tool actions
+function noAction() {
+    sound.error.cloneNode().play();
+}
+
 // Grab - Allows the user to pick things up and move them around
 const grabTool = new Tool({
     displayName: 'Grab',
@@ -176,6 +181,7 @@ const dogTool = new Tool({
     bubblePositionX: 164, 
     bubblePositionY: 150,
     leftClickAction: dogDecide,
+    rightClickAction: noAction,
 });
 
 let dogTasty = [ brushImage ];
@@ -219,16 +225,19 @@ const personTool = new Tool({
     cursorAnims: personToolAnims,
     bubblePositionX: 98,
     bubblePositionY: 150,
+    leftClickAction: noAction,
+    rightClickAction: noAction,
 });
 
 // Save (temp name)
 const saveTool = new Tool({
     displayName: 'Save',
-    cursorImage: toolImage,
-    cursorAnims: toolAnims,
+    cursorImage: saveToolImage,
+    cursorAnims: saveToolAnims,
     bubblePositionX: 186, 
     bubblePositionY: 150,
     leftClickAction: saveImage,
+    rightClickAction: noAction,
 });
 
 function saveImage() {
@@ -246,6 +255,8 @@ function saveImage() {
     link.href = canvasCapture;
     link.download = 'WorldCanvas.png';
     link.click();
+
+    sound.save.cloneNode().play();
 }
 
 // Love - Increases love on entities. (Alternate mode to decrease love?)

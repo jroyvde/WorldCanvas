@@ -171,6 +171,16 @@ const personToolAnims = {
   ],
 }
 
+// Save tool
+const saveToolImage = new Image();
+saveToolImage.src = "./sprites/tools/save.png";
+
+const saveToolAnims = {
+  idle: [
+    0, 0, 16, 16, // frame 1
+  ],
+}
+
 // Time tool
 const timeToolImage = new Image();
 timeToolImage.src = "./sprites/tools/time.png";
