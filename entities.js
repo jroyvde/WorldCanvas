@@ -177,7 +177,7 @@ class Brush extends Inanimate {
         this.sprite.image(brushImage);
         this.sprite.animations(brushAnims);
         this.sprite.animation('idle');
-        this.sprite.frameRate(8);
+        this.sprite.frameRate(2);
         this.sprite.offsetX(8);
         this.sprite.offsetY(8);
 
