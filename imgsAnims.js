@@ -84,31 +84,6 @@ const brushAnims = {
     ],
 };
 
-/* // Paint
-const paintImage = new Image();
-paintImage.src = "./sprites/entities/paint.png";
-
-const paintAnims = {
-    idle: [
-      0, 0, 6, 6,   // frame 1
-    ],
-    red: [
-      0, 6, 6, 6,   // frame 1
-    ],
-    orange: [
-      0, 12, 6, 6,   // frame 1
-    ],
-    yellow: [
-      0, 18, 6, 6,   // frame 1
-    ],
-    green: [
-      0, 24, 6, 6,   // frame 1
-    ],
-    blue: [
-      0, 30, 6, 6,   // frame 1
-    ],
-}; */
-
 // TOOLS:
 
 // Default / placeholder tool art

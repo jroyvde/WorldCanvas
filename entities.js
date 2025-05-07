@@ -62,7 +62,7 @@ class Entity {
         entitiesOnCanvas[this.entityIndex] = null; // Remove from the array
         this.sprite = null; // Remove reference to the sprite
         this.frozen = true; // Set frozen to true to prevent any further actions
-        
+
         // If this is a Being, decrement the activeBeings count
         if (this.love) {
             activeBeings--;
@@ -207,27 +207,5 @@ class Brush extends Inanimate {
     splatOnGround() {
         this.sprite.animation('landed');
         sound.brushSplat.play(); // Play a sound
-    }
-}
-
-
-// Paint - Paint created by the brush tool
-class Paint extends Inanimate {
-    constructor(spawnX, spawnY, brushColor) {
-        super(spawnX, spawnY);
-
-        // Set Paint image and animations
-        this.sprite.image(paintImage);
-        this.sprite.animations(paintAnims);
-        this.sprite.animation(brushColor);
-        this.sprite.frameRate(2);
-        this.sprite.offsetX(3);
-        this.sprite.offsetY(3);
-
-        // Set Mapped Tool
-        this.mappedTool = brushTool;
-
-        // Not grabbable
-        this.grabbable = false;
     }
 }
