@@ -6,6 +6,10 @@
 const backgroundImage = new Image();
 backgroundImage.src = "./sprites/background.png"
 
+// Night cast
+const nightCastImage = new Image();
+nightCastImage.src = "./sprites/nightCast.png"
+
 // Bubble
 const bubbleImage = new Image();
 bubbleImage.src = "./sprites/bubble.png"

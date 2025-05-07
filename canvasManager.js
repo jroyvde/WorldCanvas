@@ -29,9 +29,10 @@ function makeScaledLayer(scaleSetting) {
     return newLayer;
 }
 
-const backgroundLayer = makeScaledLayer('noscale');
+const backgroundLayer = makeScaledLayer();
 const paintLayer = makeScaledLayer();  // Layer for paint
 const mainLayer = makeScaledLayer();    // Layer for background and entities inside the canvas
+const castLayer = makeScaledLayer();  // Layer for night cast, any other casts
 const bubbleLayer = makeScaledLayer();  // Layer for tool bubbles and any other UI
 const cursorLayer = makeScaledLayer();  // Layer for the cursor
 
@@ -40,6 +41,14 @@ const backgroundImageNode = new Konva.Image({
     image: backgroundImage,
 })
 backgroundLayer.add(backgroundImageNode);
+
+// Add in night cast image
+const nightCastImageNode = new Konva.Image({
+    image: nightCastImage,
+    opacity: 0,
+    listening: false,  // Don't want to interact with the night cast image
+})
+castLayer.add(nightCastImageNode);
 
 // Add in cursor
 cursorLayer.add(cursor.sprite);
