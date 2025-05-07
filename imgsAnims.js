@@ -190,4 +190,12 @@ const timeToolAnims = {
     0, 48, 16, 16, // frame 1
     16, 48, 16, 16, // frame 2
   ],
+  freezeWorld: [
+    0, 64, 16, 16, // frame 1
+    16, 64, 16, 16, // frame 2
+  ],
+  unfreezeWorld: [
+    0, 80, 16, 16, // frame 1
+    16, 80, 16, 16, // frame 2
+  ],
 }

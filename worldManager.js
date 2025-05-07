@@ -1,6 +1,8 @@
 // World State: 0 = Start, 1 = Environmental Tools Unlocked, 2 = Living Being Tools Unlocked, 3 = Concept Tools Unlocked, 4 = Void
 let worldState = 0;
 
+let worldFrozen = false; // Flag to indicate if the world is frozen
+
 let timeOfDay = 12; // Time of day in hours (0-23)
 let minutes = 0; // Minutes past the hour
 
@@ -10,8 +12,12 @@ function tick() {
     if (worldState == 4) {
         return;
     }
-    
-    minutes++;
+
+    // Increment minutes, unless the world is frozen
+    if (!worldFrozen) {
+        minutes++;
+    }
+
     setNightCastOpacity(); // Update opacity based on time of day
     if (minutes >= 60) {
         minutes = 0;
@@ -125,8 +131,10 @@ let stateActions = [
 setInterval(() => {
     // Generate a random integer between 0 and 7
     let randomInt = Math.floor(Math.random() * 8);
-    // Call the function at the random index
-    stateActions[worldState][randomInt]();
+    // Unless the world is frozen, call the function at the random index
+    if (!worldFrozen) {
+        stateActions[worldState][randomInt]();
+    }
     // Check if worldState needs to update
     if (worldState < 1 && brushTool.obtained) {
         //worldState = 1; // Desired behaviour

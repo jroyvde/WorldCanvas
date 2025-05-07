@@ -283,7 +283,7 @@ const timeTool = new Tool({
     bubblePositionX: 230, 
     bubblePositionY: 150,
     leftClickAction: timeAccelerate,
-    rightClickAction: timeFreezeEntity,
+    rightClickAction: timeFreeze,
 });
 
 let timeAccelState = 0; // 0 = Neutral, 1 = Accelerating, 2 = Decelerating
@@ -350,35 +350,79 @@ function timeAccelerate() {     // Globally accelerate time while mouse held, sl
     accelerate();
 }
 
-function timeFreezeEntity(target) {   // Freeze an entity in time
+function timeFreeze(target) {
     if (getParentEntity(target)) {
-        let targetEntity = getParentEntity(target);
-        if (targetEntity.frozen) {
-            targetEntity.unfreeze();
+        timeFreezeEntity(target);
+    } else {
+        timeFreezeWorld();
+    }
+}
 
-            cursor.changeAnim('unfreeze');
-            cursor.changeFrameRate(8);
+function timeFreezeEntity(target) {  // Freeze an entity in time
+    let targetEntity = getParentEntity(target);
+    if (targetEntity.frozen) {
+        targetEntity.unfreeze();
 
-            // Change animation back to idle after 500ms
-            setTimeout(() => {
-                cursor.changeAnim('idle');
-                cursor.changeFrameRate(2);
-            }, 500);
-            
-            sound.timeUnfreeze.play();
-        } else if (targetEntity.grabbable) {   // (For now,) Use the Entity's grabbable variable to decide if we can freeze it
-            targetEntity.freeze();
+        cursor.changeAnim('unfreeze');
+        cursor.changeFrameRate(8);
 
-            cursor.changeAnim('freeze');
-            cursor.changeFrameRate(8);
+        // Change animation back to idle after 500ms
+        setTimeout(() => {
+            cursor.changeAnim('idle');
+            cursor.changeFrameRate(2);
+        }, 500);
+        
+        sound.timeUnfreeze.play();
+    } else if (targetEntity.grabbable) {  // (For now,) Use the Entity's grabbable variable to decide if we can freeze it
+        targetEntity.freeze();
 
-            // Change animation back to idle after 500ms
-            setTimeout(() => {
-                cursor.changeAnim('idle');
-                cursor.changeFrameRate(2);
-            }, 500);
+        cursor.changeAnim('freeze');
+        cursor.changeFrameRate(8);
 
-            sound.timeFreeze.play();
+        // Change animation back to idle after 500ms
+        setTimeout(() => {
+            cursor.changeAnim('idle');
+            cursor.changeFrameRate(2);
+        }, 500);
+
+        sound.timeFreeze.play();
+    }
+}
+
+function timeFreezeWorld() {  // Freeze the whole world in time
+    if (!worldFrozen) {
+        worldFrozen = true;
+        // Freeze all entities
+        for (let i = 0; i < entitiesOnCanvas.length; i++) {
+            entitiesOnCanvas[i].freeze();
         }
+
+        cursor.changeAnim('freezeWorld');
+        cursor.changeFrameRate(8);
+
+        // Change animation back to idle after 500ms
+        setTimeout(() => {
+            cursor.changeAnim('idle');
+            cursor.changeFrameRate(2);
+        }, 500);
+
+        sound.timeFreeze.play(); // Play sound
+    } else {
+        worldFrozen = false;
+        // Unfreeze all entities
+        for (let i = 0; i < entitiesOnCanvas.length; i++) {
+            entitiesOnCanvas[i].unfreeze();
+        }
+
+        cursor.changeAnim('unfreezeWorld');
+        cursor.changeFrameRate(8);
+
+        // Change animation back to idle after 500ms
+        setTimeout(() => {
+            cursor.changeAnim('idle');
+            cursor.changeFrameRate(2);
+        }, 500);
+
+        sound.timeUnfreeze.play(); // Play sound
     }
 }
