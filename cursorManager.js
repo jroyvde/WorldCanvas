@@ -19,6 +19,11 @@ const cursor = {
     },
 
     changeAnim(animName) {  // Play a different animation belonging to the current tool
+        // Make sure the animation exists for the current tool
+        if (!this.sprite.animations()[animName]) {
+            console.error(`Animation ${animName} does not exist for the current tool. (${this.sprite.image().src})`);
+            return;
+        }
         this.sprite.animation(animName);
         this.sprite.start();
     },

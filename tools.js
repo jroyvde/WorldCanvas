@@ -89,69 +89,67 @@ const brushTool = new Tool({
     rightClickAction: brushNextColor,
     onSwitchTo() {
         // Change the cursor sprite to match the current color
-        cursor.changeAnim(brushTool.colors[brushTool.colorIndex]);
+        cursor.changeAnim(brushTool.colors[brushTool.colorIndex].name);
     },
     onSwitchFrom() {
         // Remove all painting-related event listeners
         mainCanvas.off('pointerdown.brushPaint');
-        mainCanvas.off('pointermove.brushPaint');
         mainCanvas.off('pointerup.brushPaint');
+        mainCanvas.off('pointermove.brushPaint');  
     },
 });
 
 function brushPaint() {
-    let lastPointerPosition = null; // Store the last pointer position
+    let isPainting = false; // Flag to check if painting is in progress
+    let lastPointerPosition; // Store the last pointer position
 
     mainCanvas.on('pointerdown.brushPaint', (e) => {
         // Start painting when the pointer is pressed
+        isPainting = true;
         lastPointerPosition = cursor.sprite.position();
-        paintAt(lastPointerPosition.x, lastPointerPosition.y);
-
-        mainCanvas.on('pointermove.brushPaint', onPointerMove);
     });
 
     mainCanvas.on('pointerup.paintPUp', (e) => {
         // Stop painting when the pointer is released
-        mainCanvas.off('pointermove.brushPaint', onPointerMove);
-        lastPointerPosition = null;
+        isPainting = false;
     });
 
-    function onPointerMove(e) {
-        const currentPointerPosition = cursor.sprite.position();
-        if (lastPointerPosition) {
-            drawLineBetween(lastPointerPosition, currentPointerPosition);
-        }
-        lastPointerPosition = currentPointerPosition;
-    }
+    mainCanvas.on('pointermove.paintPMove', (e) => {
+        if (!isPainting) return; // Only paint if the pointer is pressed
+        
+        paintContext.globalCompositeOperation = 'source-over';
+        paintContext.beginPath();
 
-    function paintAt(x, y) {
-        const newPaint = new Paint(x, y, brushTool.colors[brushTool.colorIndex]);
         sound.brushPaint.play();
-    }
 
-    function drawLineBetween(start, end) {
-        const distance = Math.sqrt(
-            Math.pow(end.x - start.x, 2) + Math.pow(end.y - start.y, 2)
-        );
-        const steps = Math.ceil(distance / 2); // Adjust step size for smoothness
-        const deltaX = (end.x - start.x) / steps;
-        const deltaY = (end.y - start.y) / steps;
+        const localPos = {
+            x: lastPointerPosition.x - paintImage.x(),
+            y: lastPointerPosition.y - paintImage.y(),
+        };
 
-        for (let i = 0; i <= steps; i++) {
-            const x = start.x + deltaX * i;
-            const y = start.y + deltaY * i;
-            paintAt(x, y);
-        }
-    }
+        paintContext.moveTo(localPos.x, localPos.y);
+        const pos = cursor.sprite.position();
+        const newLocalPos = {
+            x: pos.x - paintImage.x(),
+            y: pos.y - paintImage.y(),
+        };
+        paintContext.lineTo(newLocalPos.x, newLocalPos.y);
+        paintContext.closePath();
+        paintContext.stroke();
+    
+        lastPointerPosition = pos;
+        // redraw manually
+        paintLayer.batchDraw();
+    });
 }
 
 brushTool.colors = [
-    'idle', // purple
-    'red',  // red
-    'orange', // orange
-    'yellow', // yellow
-    'green', // green
-    'blue', // blue
+    { name: 'idle', color: '#9614cc' }, // purple
+    { name: 'red', color: '#c21f1f' },  // red
+    { name: 'orange', color: '#e1721d' }, // orange
+    { name: 'yellow', color: '#e6c245' }, // yellow
+    { name: 'green', color: '#2aa822' },  // green
+    { name: 'blue', color: '#2372cc' },   // blue
 ]
 
 brushTool.colorIndex = 0; // Start with purple
@@ -165,10 +163,12 @@ function brushNextColor() {
     // change the brush color to the next in the list (purple, red, orange, yellow, green, blue...)
     if (brushTool.colorIndex < brushTool.colors.length - 1) {
         brushTool.colorIndex++;
-        cursor.changeAnim(brushTool.colors[brushTool.colorIndex]);
+        cursor.changeAnim(brushTool.colors[brushTool.colorIndex].name);
+        paintContext.strokeStyle = brushTool.colors[brushTool.colorIndex].color;
     } else {
         brushTool.colorIndex = 0;
         cursor.changeAnim('idle');
+        paintContext.strokeStyle = brushTool.colors[brushTool.colorIndex].color;
     }
     // Play sound
     sound.brushColorChange.cloneNode().play();

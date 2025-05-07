@@ -62,6 +62,11 @@ class Entity {
         entitiesOnCanvas[this.entityIndex] = null; // Remove from the array
         this.sprite = null; // Remove reference to the sprite
         this.frozen = true; // Set frozen to true to prevent any further actions
+        
+        // If this is a Being, decrement the activeBeings count
+        if (this.love) {
+            activeBeings--;
+        }
     }
 }
 

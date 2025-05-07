@@ -80,7 +80,7 @@ const brushAnims = {
     ],
 };
 
-// Paint
+/* // Paint
 const paintImage = new Image();
 paintImage.src = "./sprites/entities/paint.png";
 
@@ -103,7 +103,7 @@ const paintAnims = {
     blue: [
       0, 30, 6, 6,   // frame 1
     ],
-};
+}; */
 
 // TOOLS:
 

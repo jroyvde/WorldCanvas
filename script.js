@@ -38,14 +38,14 @@ addEventListener("keydown", (e) => {
         }
         if (e.key == "p") { // Press P to spawn a Person
             // spawn a person
-            newPerson = new Person(...chooseSpawnPoint());
+            spawnBeing("person");
         }
         if (e.key == "s") { // Press S to Save a .png of the canvas
             saveImage();
         }
         if (e.key == "d") { // Press D to spawn a Dog
             // spawn a dog
-            newDog = new Dog(...chooseSpawnPoint());
+            spawnBeing("dog");
         }
         if (e.key == "g") { // Press G to Give all tools
             addTool(brushTool);

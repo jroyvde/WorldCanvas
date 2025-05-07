@@ -30,6 +30,7 @@ function makeScaledLayer(scaleSetting) {
 }
 
 const backgroundLayer = makeScaledLayer('noscale');
+const paintLayer = makeScaledLayer();  // Layer for paint
 const mainLayer = makeScaledLayer();    // Layer for background and entities inside the canvas
 const bubbleLayer = makeScaledLayer();  // Layer for tool bubbles and any other UI
 const cursorLayer = makeScaledLayer();  // Layer for the cursor
@@ -64,3 +65,20 @@ mainCanvas.on('pointerdown', (e) => {
         }
     }
 });
+
+// Painting
+const paintCanvas = document.createElement('canvas');
+paintCanvas.width = baseWidth;
+paintCanvas.height = baseHeight;
+
+const paintImage = new Konva.Image({
+    image: paintCanvas,
+    width: baseWidth,
+    height: baseHeight,
+});
+paintLayer.add(paintImage);
+
+const paintContext = paintCanvas.getContext('2d');
+paintContext.strokeStyle = '#9614cc';
+paintContext.lineJoin = 'round';
+paintContext.lineWidth = 3;

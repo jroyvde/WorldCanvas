@@ -89,12 +89,19 @@ setInterval(() => {
     }
 }, 5000);
 
+let activeBeings = 0;
+
 function spawnBeing(type) {
+    if (activeBeings >= 10) {
+        return;
+    }
     if (type == "dog") {
         new Dog(...chooseSpawnPoint());
+        activeBeings++;
     }
     else if (type == "person") {
         new Person(...chooseSpawnPoint());
+        activeBeings++;
     }
 }
 
