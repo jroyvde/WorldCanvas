@@ -4,6 +4,14 @@ function getParentEntity(sprite) {
     return entitiesOnCanvas[entityIndex];
 }
 
+// Choose a variant image for a new entity  
+function chooseVariant(images) {
+    let variant = Math.floor(Math.random() * images.length);
+    return images[variant];
+    // Remember variant spawned so we can prefer variants that haven't been used
+
+}
+
 // Move a Konva sprite from one point to another
 function moveKonvaSprite(sprite, speed, endX, endY, onComplete) {
     let paused = false;

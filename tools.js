@@ -77,6 +77,7 @@ function extractTool(target) {
     }
 }
 
+
 // Brush - Allows the user to paint. Colour-tints certain objects
 const brushTool = new Tool({
     displayName: 'Brush',
@@ -173,6 +174,7 @@ function brushNextColor() {
     sound.brushColorChange.cloneNode().play();
 }
 
+
 // Dog
 const dogTool = new Tool({
     displayName: 'Dog',
@@ -218,6 +220,7 @@ function dogEat(targetEntity) {
     targetEntity.destroy(); // Remove the target entity
 }
 
+
 // Person
 const personTool = new Tool({
     displayName: 'Person',
@@ -228,6 +231,7 @@ const personTool = new Tool({
     leftClickAction: noAction,
     rightClickAction: noAction,
 });
+
 
 // Save (temp name)
 const saveTool = new Tool({
@@ -259,6 +263,7 @@ function saveImage() {
     sound.save.cloneNode().play();
 }
 
+
 // Love - Increases love on entities. (Alternate mode to decrease love?)
 const loveTool = new Tool({
     displayName: 'Love',
@@ -268,6 +273,7 @@ const loveTool = new Tool({
     bubblePositionY: 150,
     leftClickAction: null,
 });
+
 
 // Time - Accelerates time on the whole world or specific entities. Can also freeze entities.
 const timeTool = new Tool({

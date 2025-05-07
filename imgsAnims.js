@@ -33,8 +33,16 @@ const dogAnims = {
 };
 
 // Person
-const personImage = new Image();
+const personImage = new Image();  // Person 0 - Clyde
 personImage.src = "./sprites/entities/person.png";
+
+const personImage1 = new Image(); // Person 1 - Manny
+personImage1.src = "./sprites/entities/person-1.png";
+
+const personImage2 = new Image(); // Person 2 - Suzanne
+personImage2.src = "./sprites/entities/person-2.png";
+
+const personImages = [personImage, personImage1, personImage2];
 
 const personAnims = {
     idle: [

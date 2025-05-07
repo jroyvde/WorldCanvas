@@ -5,13 +5,14 @@ console.log('entities.js loaded');
 // Array containing all Entities
 let entitiesOnCanvas = [  ];
 
+
 // Entity - For both Beings and Inanimate Entities
 class Entity {
     constructor(spawnX, spawnY) {
         this.sprite = new Konva.Sprite({
             x: spawnX,
             y: spawnY,
-            frameRate: 2 * timeFactor, // Need to get the multiplication happening in realtime somehow
+            frameRate: 2, // Default frame rate
             frameIndex: 0,
             draggable: true,
         });
@@ -23,6 +24,8 @@ class Entity {
         entitiesOnCanvas.push(this);
         this.entityIndex = entitiesOnCanvas.length - 1;
         this.sprite.id(this.entityIndex.toString());  // Use the sprite's ID to remember its parent's Index
+
+        this.variant = 0;
         
         this.mappedTool = null; // Mapped Tool: Default = null; Set for each subclass
 
@@ -61,6 +64,7 @@ class Entity {
         this.frozen = true; // Set frozen to true to prevent any further actions
     }
 }
+
 
 // Being
 class Being extends Entity {
@@ -105,11 +109,13 @@ class Being extends Entity {
     }
 }
 
+
 class Inanimate extends Entity {
     constructor(spawnX, spawnY) {
         super(spawnX, spawnY);
     }
 }
+
 
 // Dog
 class Dog extends Being {
@@ -129,7 +135,7 @@ class Dog extends Being {
 
         // Any dog-specific properties
         this.excitement = 0; // Excitement makes the doggo very fast. Default = 0, Max = 1
-        this.tasty = dogTasty; // Entities that the dog would like to eat (Images)
+        this.tasty = dogTasty; // This array lives in tools.js for now.
     }
 
     // Dog-specific functions
@@ -146,7 +152,7 @@ class Person extends Being {
         super(spawnX, spawnY);
 
         // Set Person image and animations
-        this.sprite.image(personImage);
+        this.sprite.image(chooseVariant(personImages));
         this.sprite.animations(personAnims);
         this.sprite.animation('idle');
         this.sprite.offsetX(8);
@@ -163,10 +169,12 @@ class Person extends Being {
     
 }
 
+
 // Bird
 class Bird extends Being {
 
 }
+
 
 // Brush - Paintbrush that falls down near the beginning
 class Brush extends Inanimate {
@@ -196,6 +204,7 @@ class Brush extends Inanimate {
         sound.brushSplat.play(); // Play a sound
     }
 }
+
 
 // Paint - Paint created by the brush tool
 class Paint extends Inanimate {
