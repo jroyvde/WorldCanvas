@@ -393,9 +393,11 @@ function timeFreezeWorld() {  // Freeze the whole world in time
     if (!worldFrozen) {
         worldFrozen = true;
         // Freeze all entities
-        for (let i = 0; i < entitiesOnCanvas.length; i++) {
-            entitiesOnCanvas[i].freeze();
-        }
+        for (const entity of entitiesOnCanvas) {
+            if (entity != null) {
+                entity.freeze();
+            }
+        }        
 
         cursor.changeAnim('freezeWorld');
         cursor.changeFrameRate(8);
@@ -410,9 +412,11 @@ function timeFreezeWorld() {  // Freeze the whole world in time
     } else {
         worldFrozen = false;
         // Unfreeze all entities
-        for (let i = 0; i < entitiesOnCanvas.length; i++) {
-            entitiesOnCanvas[i].unfreeze();
-        }
+        for (const entity of entitiesOnCanvas) {
+            if (entity != null) {
+                entity.unfreeze();
+            }
+        }        
 
         cursor.changeAnim('unfreezeWorld');
         cursor.changeFrameRate(8);
