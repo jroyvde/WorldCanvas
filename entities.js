@@ -151,13 +151,19 @@ class Dog extends Being {
                 return;
             }
         }
-        // If we don't find anything tasty, just roam
+        // Otherwise, bark with a random chance
+        if (Math.random() < 0.2) {
+            this.bark();
+            return;
+        }
+        // Otherwise, just roam
         this.roam();
     }
 
     // Bark
     bark() {
-        // Play a sound - bork
+        sound.dogBark.cloneNode().play(); // Play a sound
+        setTimeout(() => this.assess(), (3000 / timeFactor));  // Assess again
     }
 
     // Go to a tasty thing and eat it
