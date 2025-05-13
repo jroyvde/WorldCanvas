@@ -392,6 +392,7 @@ function timeFreezeEntity(target) {  // Freeze an entity in time
 function timeFreezeWorld() {  // Freeze the whole world in time
     if (!worldFrozen) {
         worldFrozen = true;
+        worldFrozenImageNode.opacity(1);
         // Freeze all entities
         for (const entity of entitiesOnCanvas) {
             if (entity != null) {
@@ -411,6 +412,7 @@ function timeFreezeWorld() {  // Freeze the whole world in time
         sound.timeFreeze.play(); // Play sound
     } else {
         worldFrozen = false;
+        worldFrozenImageNode.opacity(0);
         // Unfreeze all entities
         for (const entity of entitiesOnCanvas) {
             if (entity != null) {

@@ -50,6 +50,16 @@ const nightCastImageNode = new Konva.Image({
 })
 castLayer.add(nightCastImageNode);
 
+// Add time freeze indicator
+const worldFrozenImageNode = new Konva.Image({
+    x: 4,
+    y: 4,
+    image: worldFrozenImage,
+    opacity: 0,
+    listening: false,  // Don't want to interact with the time freeze image
+})
+bubbleLayer.add(worldFrozenImageNode);
+
 // Add in cursor
 cursorLayer.add(cursor.sprite);
 cursor.trackMouse(mainCanvas);

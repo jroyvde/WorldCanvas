@@ -23,6 +23,10 @@ const bubbleAnims = {
   ],
 };
 
+// World freeze indicator
+const worldFrozenImage = new Image();
+worldFrozenImage.src = "./sprites/paused.png"
+
 // ENTITIES:
 
 // Dog
