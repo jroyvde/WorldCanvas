@@ -297,8 +297,15 @@ const personTool = new Tool({
     rightClickAction: noAction,
 });
 
+let randomizeInterval = null; // Store the interval ID
+
 function personRandomize(target) {
-    sound.personRandomize.play();
+    // Don't randomize if the interval is already running
+    if (randomizeInterval) {
+        return;
+    }
+
+    sound.personRandomize.cloneNode().play();  // Play sound
 
     // Determine if we are targeting a specific Entity or not
     let targetEntity;
@@ -310,9 +317,10 @@ function personRandomize(target) {
 
     // Randomize 5 times in rapid succession
     let count = 0;
-    const randomizeInterval = setInterval(() => {
+    randomizeInterval = setInterval(() => {
         if (count >= 5) {
             clearInterval(randomizeInterval);
+            randomizeInterval = null; // Reset the interval ID
             return;
         }
         count++;
