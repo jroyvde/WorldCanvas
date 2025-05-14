@@ -137,6 +137,9 @@ class Dog extends Being {
 
         // Event reactions
         this.sprite.on('dragstart', (e) => {
+            if (this.frozen) {
+                return;
+            }
             sound.dogShock.cloneNode().play(); // Play a sound
         });
 
@@ -215,6 +218,9 @@ class Person extends Being {
 
         // Event reactions
         this.sprite.on('dragstart', (e) => {
+            if (this.frozen) {
+                return;
+            }
             sound.personShock.cloneNode().play(); // Play a sound
         });
 
