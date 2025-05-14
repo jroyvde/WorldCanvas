@@ -136,6 +136,11 @@ class Dog extends Being {
         // Set Mapped Tool
         this.mappedTool = dogTool;
 
+        // Event reactions
+        this.sprite.on('dragstart', (e) => {
+            sound.dogBark.cloneNode().play(); // Play a sound
+        });
+
         // Any dog-specific properties
         this.excitement = 0; // Excitement makes the doggo very fast. Default = 0, Max = 1
         this.tasty = dogTasty; // This array lives in tools.js for now.
@@ -203,6 +208,11 @@ class Person extends Being {
 
         // Set Mapped Tool
         this.mappedTool = personTool;
+
+        // Event reactions
+        this.sprite.on('dragstart', (e) => {
+            sound.personShock.cloneNode().play(); // Play a sound
+        });
 
         // Any person-specific properties
 
