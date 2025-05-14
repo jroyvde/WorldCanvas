@@ -4,6 +4,8 @@ const sound = {
     brushSplat: new Audio('./sound/brushSplat.wav'),
     dogBark: new Audio('./sound/dogBark.ogg'),
     dogEat: new Audio('./sound/dogEat.ogg'),
+    dogLick: new Audio('./sound/dogLick.ogg'),
+    dogShock: new Audio('./sound/dogShock.ogg'),
     error: new Audio('./sound/error.wav'),
     select: new Audio('./sound/select.wav'),
     grabPick: new Audio('./sound/grabPick.wav'),

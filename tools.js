@@ -230,6 +230,12 @@ function dogDecide(target) {
         return;
     }
 
+    // If target is painted, lick it
+    if ([...paintedImages.values()].includes(targetEntity.sprite.image())) {
+        dogLick(targetEntity);
+        return;
+    }
+
     // If clicking on 'food', eat
     if (dogTasty.includes(target.image())) {
         // If the target is tasty, eat it
@@ -246,10 +252,37 @@ function dogBark() {
     sound.dogBark.cloneNode().play();
 }
 
-
 function dogEat(targetEntity) {
     sound.dogEat.cloneNode().play();
     targetEntity.destroy(); // Remove the target entity
+}
+
+function dogLick(targetEntity) {
+    console.log('Lick');
+    // Get the unpainted version of the painted image
+    const paintedImage = targetEntity.sprite.image();
+    let unpaintedImage = null;
+
+    // Find the key (unpainted image) for the given value (painted image)
+    for (const [key, value] of paintedImages.entries()) {
+        if (value === paintedImage) {
+            unpaintedImage = key;
+            break;
+        }
+    }
+
+    // If an unpainted version is found, update the entity's sprite
+    if (unpaintedImage) {
+        targetEntity.sprite.image(unpaintedImage);
+        console.log('Reverted to unpainted version');
+    } else {
+        console.error('Unpainted version not found for the painted image');
+    }
+
+    targetEntity.sprite.cache({ imageSmoothingEnabled: false });  // Cache immediately to avoid seeing a flicker of the white painted sprite
+    targetEntity.sprite.filters([]);  // Finally, remove the RGB filter
+
+    sound.dogLick.cloneNode().play(); // Play sound
 }
 
 

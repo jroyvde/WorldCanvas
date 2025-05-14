@@ -137,7 +137,7 @@ class Dog extends Being {
 
         // Event reactions
         this.sprite.on('dragstart', (e) => {
-            sound.dogBark.cloneNode().play(); // Play a sound
+            sound.dogShock.cloneNode().play(); // Play a sound
         });
 
         // Any dog-specific properties
