@@ -5,7 +5,6 @@ console.log('entities.js loaded');
 // Array containing all Entities
 let entitiesOnCanvas = [  ];
 
-
 // Entity - For both Beings and Inanimate Entities
 class Entity {
     constructor(spawnX, spawnY) {
@@ -32,6 +31,7 @@ class Entity {
         this.mappedTool = null; // Mapped Tool: Default = null; Set for each subclass
 
         this.frozen = false; // Frozen in time if true
+        this.destroyed = false; // Destroyed if true
 
         this.grabbable = true; // Can be dragged if true
 
@@ -61,9 +61,8 @@ class Entity {
     // Destroy / remove the Entity
     destroy() {
         this.sprite.destroy();
-        entitiesOnCanvas[this.entityIndex] = null; // Remove from the array
-        this.sprite = null; // Remove reference to the sprite
-        this.frozen = true; // Set frozen to true to prevent any further actions
+        entitiesOnCanvas[this.entityIndex] = null; // Replace its spot in the array with null
+        this.destroyed = true; // Set destroyed flag
 
         // If this is a Being, decrement the activeBeings count
         if (this.love) {
@@ -90,7 +89,7 @@ class Being extends Entity {
 
     // Functions that can be used by all Beings
 
-    roam() {      
+    roam() {
         let destinationX = Math.random() * mainLayer.width() / scaleFactor;
         let destinationY = Math.random() * mainLayer.height() / scaleFactor;
 
@@ -150,6 +149,11 @@ class Dog extends Being {
 
     // Assess the environment and decide what to do
     assess() {
+        // If destroyed, never do anything ever again
+        if (this.destroyed) {
+            return;
+        }
+
         // Check for tasty things in the entity array
         for (let i = 0; i < entitiesOnCanvas.length; i++) {
             if (entitiesOnCanvas[i] && dogTasty.includes(entitiesOnCanvas[i].sprite.image())) {
@@ -222,6 +226,11 @@ class Person extends Being {
 
     // Assess the environment and decide what to do
     assess() {
+        // If destroyed, never do anything ever again
+        if (this.destroyed) {
+            return;
+        }
+
         this.roam();
     }
 }
@@ -241,7 +250,7 @@ class Brush extends Inanimate {
         // Set Brush image and animations
         this.sprite.image(brushImage);
         this.sprite.animations(brushAnims);
-        this.sprite.animation('idle');
+        this.sprite.animation('landed');
         this.sprite.frameRate(2);
         this.sprite.offsetX(8);
         this.sprite.offsetY(8);
@@ -261,3 +270,5 @@ class Brush extends Inanimate {
         sound.brushSplat.play(); // Play a sound
     }
 }
+
+let validRandomEntities = [ Dog, Person, Brush ]; // List of valid entities to randomize to with the Person Tool

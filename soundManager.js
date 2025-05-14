@@ -8,6 +8,7 @@ const sound = {
     select: new Audio('./sound/select.wav'),
     grabPick: new Audio('./sound/grabPick.wav'),
     personHappy: new Audio('./sound/personHappy.ogg'),
+    personRandomize: new Audio('./sound/personRandomize.wav'),
     personShock: new Audio('./sound/personShock.ogg'),
     save: new Audio('./sound/save.ogg'),
     timeAccel: new Audio('./sound/timeAccel.wav'),

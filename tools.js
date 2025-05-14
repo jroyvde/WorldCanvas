@@ -260,9 +260,51 @@ const personTool = new Tool({
     cursorAnims: personToolAnims,
     bubblePositionX: 98,
     bubblePositionY: 150,
-    leftClickAction: noAction,
+    leftClickAction: personRandomize,
     rightClickAction: noAction,
 });
+
+function personRandomize(target) {
+    sound.personRandomize.play();
+
+    // Determine if we are targeting a specific Entity or not
+    let targetEntity;
+    if (getParentEntity(target)) {
+        targetEntity = getParentEntity(target);
+    } else {
+        targetEntity = null;
+    }
+
+    // Randomize 5 times in rapid succession
+    let count = 0;
+    const randomizeInterval = setInterval(() => {
+        if (count >= 5) {
+            clearInterval(randomizeInterval);
+            return;
+        }
+        count++;
+        personRandomizeStep(targetEntity);
+    }, 100);
+}
+
+function personRandomizeStep(targetEntity) {
+    // Use the entitiesOnCanvas array as is, to avoid an endless loop
+    const entitiesSnapshot = [...entitiesOnCanvas];
+
+    // Loop through all entities and randomize them
+    for (let i = 0; i < entitiesSnapshot.length; i++) {
+        if (entitiesSnapshot[i] != null) {
+            // Store the entity's position
+            let x = entitiesSnapshot[i].sprite.x();
+            let y = entitiesSnapshot[i].sprite.y();
+            // Destroy the entity
+            entitiesSnapshot[i].destroy();
+            // Create a new entity of a random type
+            let randomEntity = validRandomEntities[Math.floor(Math.random() * validRandomEntities.length)];
+            let newEntity = new randomEntity(x, y);
+        }
+    }
+}
 
 
 // Save (temp name)
