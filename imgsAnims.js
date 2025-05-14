@@ -25,13 +25,16 @@ const bubbleAnims = {
 
 // World freeze indicator
 const worldFrozenImage = new Image();
-worldFrozenImage.src = "./sprites/paused.png"
+worldFrozenImage.src = "./sprites/paused.png";
 
 // ENTITIES:
 
 // Dog
 const dogImage = new Image();
 dogImage.src = "./sprites/entities/dog.png";
+
+const dogImagePainted = new Image();
+dogImagePainted.src = "./sprites/entities/dog-painted.png";
 
 const dogAnims = {
     idle: [
@@ -44,11 +47,20 @@ const dogAnims = {
 const personImage = new Image();  // Person 0 - Clyde
 personImage.src = "./sprites/entities/person.png";
 
+const personImagePainted = new Image();  // Person 0 - Clyde (painted)
+personImagePainted.src = "./sprites/entities/person-painted.png";
+
 const personImage1 = new Image(); // Person 1 - Manny
 personImage1.src = "./sprites/entities/person-1.png";
 
+const personImage1Painted = new Image();  // Person 1 - Manny (painted)
+personImage1Painted.src = "./sprites/entities/person-1-painted.png";
+
 const personImage2 = new Image(); // Person 2 - Suzanne
 personImage2.src = "./sprites/entities/person-2.png";
+
+const personImage2Painted = new Image();  // Person 2 - Suzanne (painted)
+personImage2Painted.src = "./sprites/entities/person-2-painted.png";
 
 const personImages = [personImage, personImage1, personImage2];
 
@@ -74,6 +86,9 @@ const birdAnims = {
 const brushImage = new Image();
 brushImage.src = "./sprites/entities/brush.png";
 
+const brushImagePainted = new Image();
+brushImagePainted.src = "./sprites/entities/brush-painted.png";
+
 const brushAnims = {
     idle: [
       0, 0, 16, 16,   // frame 1
@@ -87,6 +102,15 @@ const brushAnims = {
       0, 32, 16, 16,   // frame 1
     ],
 };
+
+// Map for painted equivalents of images
+const paintedImages = new Map([
+    [personImage, personImagePainted],
+    [personImage1, personImage1Painted],
+    [personImage2, personImage2Painted],
+    [dogImage, dogImagePainted],
+    [brushImage, brushImagePainted],
+]);
 
 // TOOLS:
 

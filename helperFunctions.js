@@ -83,7 +83,6 @@ function moveKonvaSprite(sprite, speed, endX, endY, onComplete) {
     }
 }
 
-
 // Choose a random spawn point for Beings, just outside the canvas
 function chooseSpawnPoint() {
     const edge = Math.floor(Math.random() * 4); // 0 = top, 1 = right, 2 = bottom, 3 = left
@@ -109,4 +108,16 @@ function chooseSpawnPoint() {
     }
   
     return [x, y];
-  }
+}
+
+function hexColorToRGB(hex) {
+    // Remove the '#' character if present
+    hex = hex.replace('#', '');
+
+    // Parse the hex color string into RGB components
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    return { r, g, b };
+}

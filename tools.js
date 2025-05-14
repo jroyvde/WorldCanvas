@@ -78,7 +78,7 @@ function extractTool(target) {
 }
 
 
-// Brush - Allows the user to paint. Colour-tints certain objects
+// Brush - Allows the user to paint. Can change the colour of Entities
 const brushTool = new Tool({
     displayName: 'Brush',
     cursorImage: brushToolImage,
@@ -99,7 +99,13 @@ const brushTool = new Tool({
     },
 });
 
-function brushPaint() {
+function brushPaint(target) {
+    // If the target is an Entity, paint it
+    if (getParentEntity(target)) {
+        paintEntity(target);
+        return;
+    }
+
     let isPainting = false; // Flag to check if painting is in progress
     let lastPointerPosition; // Store the last pointer position
 
@@ -172,6 +178,32 @@ function brushNextColor() {
     }
     // Play sound
     sound.brushColorChange.cloneNode().play();
+}
+
+function paintEntity(target) {
+    // Get the target entity
+    let targetEntity = getParentEntity(target);
+    if (targetEntity) {
+        let brushColorRGB = hexColorToRGB(brushTool.colors[brushTool.colorIndex].color);
+
+        // Set the image to the painted version, using our paintedImages lookup table
+        if (paintedImages.has(targetEntity.sprite.image())) {
+            targetEntity.sprite.image(paintedImages.get(targetEntity.sprite.image()));
+        }
+
+        targetEntity.sprite.cache({ imageSmoothingEnabled: false });
+        targetEntity.sprite.filters([Konva.Filters.RGB]);
+        targetEntity.sprite.red(brushColorRGB.r);
+        targetEntity.sprite.green(brushColorRGB.g);
+        targetEntity.sprite.blue(brushColorRGB.b);
+
+        // Work-around to keep the animation going (Needs optimization)
+        let paintedAnimInterval = setInterval(() => {
+            targetEntity.sprite.cache({ imageSmoothingEnabled: false });
+        }, 1000 / targetEntity.sprite.frameRate());
+
+        sound.brushPaint.play(); // Play sound
+    }
 }
 
 

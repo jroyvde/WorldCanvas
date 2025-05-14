@@ -12,6 +12,8 @@ class Entity {
         this.sprite = new Konva.Sprite({
             x: spawnX,
             y: spawnY,
+            width: 16,
+            height: 16,
             frameRate: 2, // Default frame rate
             frameIndex: 0,
             draggable: true,
@@ -191,6 +193,8 @@ class Person extends Being {
         super(spawnX, spawnY);
 
         // Set Person image and animations
+        this.sprite.width(16);
+        this.sprite.height(32);
         this.sprite.image(chooseVariant(personImages));
         this.sprite.animations(personAnims);
         this.sprite.animation('idle');
