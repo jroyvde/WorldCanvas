@@ -29,7 +29,7 @@ const grabTool = new Tool({
     cursorImage: grabToolImage,
     cursorAnims: grabToolAnims,
     bubblePositionX: 120, 
-    bubblePositionY: 150,
+    bubblePositionY: 160,
     leftClickAction: extractTool,
 
     onSwitchTo() {
@@ -83,8 +83,8 @@ const brushTool = new Tool({
     displayName: 'Brush',
     cursorImage: brushToolImage,
     cursorAnims: brushToolAnims,
-    bubblePositionX: 142, 
-    bubblePositionY: 150,
+    bubblePositionX: 95, 
+    bubblePositionY: 160,
     leftClickAction: brushPaint,
     rightClickAction: brushNextColor,
     onSwitchTo() {
@@ -207,13 +207,31 @@ function paintEntity(target) {
 }
 
 
+// Foliage
+const foliageTool = new Tool({
+    displayName: 'Foliage',
+    cursorImage: foliageToolImage,
+    cursorAnims: foliageToolAnims,
+    bubblePositionX: 170, 
+    bubblePositionY: 160,
+    leftClickAction: noAction,
+    rightClickAction: noAction,
+    onSwitchTo() {
+        
+    },
+    onSwitchFrom() {
+
+    },
+});
+
+
 // Dog
 const dogTool = new Tool({
     displayName: 'Dog',
     cursorImage: dogToolImage,
     cursorAnims: dogToolAnims,
-    bubblePositionX: 164, 
-    bubblePositionY: 150,
+    bubblePositionX: 70, 
+    bubblePositionY: 160,
     leftClickAction: dogDecide,
     rightClickAction: noAction,
 });
@@ -291,8 +309,8 @@ const personTool = new Tool({
     displayName: 'Person',
     cursorImage: personToolImage,
     cursorAnims: personToolAnims,
-    bubblePositionX: 98,
-    bubblePositionY: 150,
+    bubblePositionX: 45,
+    bubblePositionY: 160,
     leftClickAction: personRandomize,
     rightClickAction: noAction,
 });
@@ -353,8 +371,8 @@ const saveTool = new Tool({
     displayName: 'Save',
     cursorImage: saveToolImage,
     cursorAnims: saveToolAnims,
-    bubblePositionX: 186, 
-    bubblePositionY: 150,
+    bubblePositionX: 145, 
+    bubblePositionY: 160,
     leftClickAction: saveImage,
     rightClickAction: noAction,
 });
@@ -385,7 +403,7 @@ const loveTool = new Tool({
     cursorImage: toolImage,
     cursorAnims: toolAnims,
     bubblePositionX: 208, 
-    bubblePositionY: 150,
+    bubblePositionY: 160,
     leftClickAction: null,
 });
 
@@ -395,8 +413,8 @@ const timeTool = new Tool({
     displayName: 'Time',
     cursorImage: timeToolImage,
     cursorAnims: timeToolAnims,
-    bubblePositionX: 230, 
-    bubblePositionY: 150,
+    bubblePositionX: 195, 
+    bubblePositionY: 160,
     leftClickAction: timeAccelerate,
     rightClickAction: timeFreeze,
 });

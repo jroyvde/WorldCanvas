@@ -239,6 +239,11 @@ class Person extends Being {
 
         this.roam();
     }
+
+    // Create the thought bubble that gives the Time tool
+    thinkAboutTime() {
+
+    }
 }
 
 

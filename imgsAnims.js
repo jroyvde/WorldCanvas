@@ -166,6 +166,16 @@ const brushToolAnims = {
   ],
 }
 
+// Foliage tool
+const foliageToolImage = new Image();
+foliageToolImage.src = "./sprites/tools/foliage.png";
+
+const foliageToolAnims = {
+  idle: [
+    0, 0, 16, 16, // frame 1
+  ],
+}
+
 // Dog tool
 const dogToolImage = new Image();
 dogToolImage.src = "./sprites/tools/dog.png";
