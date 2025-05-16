@@ -162,7 +162,7 @@ let brushDropped = false;
 
 // Have the brush entity drop from the top of the screen
 function dropBrush() {  
-    if (!brushDropped) {
+    if (!brushDropped && navigator.userActivation.isActive) {
         brushDropped = true;
 
         newBrush = new Brush((baseWidth / 2), -20);
