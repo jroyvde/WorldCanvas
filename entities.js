@@ -60,7 +60,7 @@ class Entity {
 
     // Destroy / remove the Entity
     destroy() {
-        this.sprite.destroy();
+        this.sprite.remove();
         entitiesOnCanvas[this.entityIndex] = null; // Replace its spot in the array with null
         this.destroyed = true; // Set destroyed flag
 
