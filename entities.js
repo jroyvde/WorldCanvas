@@ -393,7 +393,7 @@ class Poo extends Inanimate {
                     let foliageX = entitiesSnapshot[i].sprite.x();
                     let foliageY = entitiesSnapshot[i].sprite.y();
                     // Compare the Foliage's position to the Poo's position
-                    if ((foliageX >= this.sprite.x() - 5 && foliageX <= this.sprite.x() + 5) && (foliageY >= this.sprite.y() - 5 && foliageY <= this.sprite.y() + 5)) {
+                    if ((foliageX >= this.sprite.x() - 8 && foliageX <= this.sprite.x() + 8) && (foliageY >= this.sprite.y() - 8 && foliageY <= this.sprite.y() + 8)) {
                         entitiesSnapshot[i].grow();  // Grow the Foliage
                         setTimeout(() => this.destroy(), 100);  // Wait a moment before destroying - things break if something is destroyed while it's still being grabbed
                     }
