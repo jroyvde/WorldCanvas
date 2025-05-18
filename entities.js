@@ -370,6 +370,36 @@ class Poo extends Inanimate {
 
         // Set Mapped Tool
         this.mappedTool = dogTool;
+
+        // Event reactions
+        this.sprite.on('dragend', (e) => {
+            this.fertilize();
+        });
+    }
+
+    // Poo-specific functions
+
+    // Fertilize
+    fertilize() {
+        // Use the entitiesOnCanvas array as is, to avoid the possibility of an endless loop
+        const entitiesSnapshot = [...entitiesOnCanvas];
+
+        // Loop through all entities
+        for (let i = 0; i < entitiesSnapshot.length; i++) {
+            if (entitiesSnapshot[i] != null) {
+                // Check if the entity is a Foliage
+                if (entitiesSnapshot[i].growthStage != null) {
+                    // Store the Foliage's position
+                    let foliageX = entitiesSnapshot[i].sprite.x();
+                    let foliageY = entitiesSnapshot[i].sprite.y();
+                    // Compare the Foliage's position to the Poo's position
+                    if ((foliageX >= this.sprite.x() - 5 && foliageX <= this.sprite.x() + 5) && (foliageY >= this.sprite.y() - 5 && foliageY <= this.sprite.y() + 5)) {
+                        entitiesSnapshot[i].grow();  // Grow the Foliage
+                        setTimeout(() => this.destroy(), 100);  // Wait a moment before destroying - things break if something is destroyed while it's still being grabbed
+                    }
+                }
+            }
+        }
     }
 }
 
@@ -392,6 +422,20 @@ class Foliage extends Inanimate {
 
         // Any Foliage-specific properties
         this.growthStage = 0;  // Growth stage
+    }
+
+    grow() {
+        if (this.growthStage >= 2) {
+            return;
+        }
+        this.growthStage++;
+        if (this.growthStage == 1) {
+            this.sprite.animation('stage1');
+        } else if (this.growthStage == 2) {
+            this.sprite.animation('stage2');
+            this.sprite.offsetY(24);
+            this.sprite.height(32);
+        }
     }
 }
 

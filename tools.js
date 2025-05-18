@@ -213,7 +213,7 @@ function foliageDecide(target) {
 
 function foliageCreate(target) {
     newFoliage = new Foliage(cursor.sprite.x(), cursor.sprite.y());
-    console.log('Foliage created');
+    sound.foliagePlant.cloneNode().play();
 }
 
 
@@ -273,22 +273,18 @@ function dogLick(targetEntity) {
     sound.dogLick.cloneNode().play();  // Play sound
 }
 
-function dogPoop(target) {
-    // Get target parent Entity
-    targetEntity = getParentEntity(target);
+function dogPoop() {
 
     sound.dogPoop.cloneNode().play();  // Play sound
 
-    // If target is Foliage, fertilize it
-
-    // Otherwise, create a poop
+    // Create a poop
     const cursorPos = cursor.sprite.position();
-    // Make sure the poop is offset from the cursor
     const pooPos = {
         x: cursorPos.x + 16,
         y: cursorPos.y + 8,
     };
     let newPoo = new Poo(pooPos.x, pooPos.y);
+    newPoo.fertilize();  // Trigger the fertilize check on the new Poo
 }
 
 
