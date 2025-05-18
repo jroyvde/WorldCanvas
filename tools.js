@@ -228,8 +228,8 @@ const dogTool = new Tool({
     rightClickAction: dogPoop,
 });
 
-let dogTasty = [ brushImage ];  // Dog Entities will pursue and eat entities with these images
-let dogSortOfTasty = [ pooImage, foliageImage ];  // Only the Dog Tool will eat these
+let dogTasty = [ brushImage, brushImagePainted ];  // Dog Entities will pursue and eat entities with these images
+let dogSortOfTasty = [ pooImage, pooImagePainted, foliageImage, foliageImagePainted ];  // Only the Dog Tool will eat these
 
 function dogDecide(target) {
     // Get target parent Entity

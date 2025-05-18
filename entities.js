@@ -70,6 +70,7 @@ class Entity {
         }
     }
 
+    // Set the color of the entity
     setColor({r, g, b}) {
         // Set the image to the painted version, using our paintedImages lookup table
         if (paintedImages.has(this.sprite.image())) {
@@ -91,6 +92,7 @@ class Entity {
         }, 1000 / this.sprite.frameRate());
     }
 
+    // Clear the color of the entity
     clearColor() {
         if (![...paintedImages.values()].includes(this.sprite.image())) {
             return;  // If the entity is not painted, do nothing
