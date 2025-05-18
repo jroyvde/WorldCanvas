@@ -440,6 +440,20 @@ class Foliage extends Inanimate {
             this.sprite.height(32);
         }
     }
+
+    prune() {
+        if (this.growthStage <= 0) {
+            return;
+        }
+        this.growthStage--;
+        if (this.growthStage == 1) {
+            this.sprite.animation('stage1');
+            this.sprite.offsetX(8);
+            this.sprite.offsetY(16);
+        } else if (this.growthStage == 0) {
+            this.sprite.animation('idle');
+        }
+    }
 }
 
 

@@ -216,6 +216,10 @@ function foliageCreate(target) {
     sound.foliagePlant.cloneNode().play();
 }
 
+function foliageChangeEnvironment(target) {
+
+}
+
 
 // Dog
 const dogTool = new Tool({
@@ -264,8 +268,13 @@ function dogBark() {
 }
 
 function dogEat(targetEntity) {
-    sound.dogEat.cloneNode().play();
-    targetEntity.destroy(); // Remove the target entity
+    sound.dogEat.cloneNode().play();  // Play sound
+    // If the entity is a Foliage with a growthStage of 1 or higher, prune it instead of destroying it
+    if (targetEntity.growthStage > 0) {
+        targetEntity.prune();
+    } else {
+        targetEntity.destroy();  // Remove the target entity
+    }
 }
 
 function dogLick(targetEntity) {
@@ -363,7 +372,7 @@ function personRandomizeStep(targetEntity) {
 }
 
 
-// Save (temp name)
+// Save
 const saveTool = new Tool({
     displayName: 'Save',
     cursorImage: saveToolImage,
@@ -374,6 +383,7 @@ const saveTool = new Tool({
     rightClickAction: noAction,
 });
 
+// Save the canvas as an image to the user's computer
 function saveImage() {
     cursorLayer.visible(false);
     bubbleLayer.visible(false);
@@ -391,6 +401,11 @@ function saveImage() {
     link.click();
 
     sound.save.cloneNode().play();
+}
+
+// Let the user upload their own image as the background
+function saveUploadBackground() {
+
 }
 
 
