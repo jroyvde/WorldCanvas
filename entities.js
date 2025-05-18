@@ -197,6 +197,16 @@ class Dog extends Being {
         }
         spawnY -= 8;
         let newPoo = new Poo(spawnX, spawnY); // Create a new Poo entity
+        // If the dog is painted, paint the Poo the same color
+        if ([...paintedImages.values()].includes(this.sprite.image())) {
+            newPoo.sprite.image(paintedImages.get(newPoo.sprite.image()));
+
+            newPoo.sprite.cache({ imageSmoothingEnabled: false });
+            newPoo.sprite.filters([Konva.Filters.RGB]);
+            newPoo.sprite.red(this.sprite.red());
+            newPoo.sprite.green(this.sprite.green());
+            newPoo.sprite.blue(this.sprite.blue());
+        }
         setTimeout(() => this.assess(), (3000 / timeFactor));  // Assess again
     }
 
@@ -284,7 +294,7 @@ class Brush extends Inanimate {
         this.sprite.animation('landed');
         this.sprite.frameRate(2);
         this.sprite.offsetX(8);
-        this.sprite.offsetY(8);
+        this.sprite.offsetY(16);
 
         // Set Mapped Tool
         this.mappedTool = brushTool;
@@ -322,4 +332,26 @@ class Poo extends Inanimate {
 }
 
 
-let validRandomEntities = [ Dog, Person, Brush, Poo ]; // List of valid entities to randomize to with the Person Tool
+// Foliage
+class Foliage extends Inanimate {
+    constructor(spawnX, spawnY) {
+        super(spawnX, spawnY);
+
+        // Set Foliage image and animations
+        this.sprite.image(foliageImage);
+        this.sprite.animations(foliageAnims);
+        this.sprite.animation('idle');
+        this.sprite.frameRate(2);
+        this.sprite.offsetX(8);
+        this.sprite.offsetY(8);
+
+        // Set Mapped Tool
+        this.mappedTool = foliageTool;
+
+        // Any Foliage-specific properties
+        this.growthStage = 0;  // Growth stage
+    }
+}
+
+
+let validRandomEntities = [ Dog, Person, Brush, Poo, Foliage ]; // List of valid entities to randomize to with the Person Tool

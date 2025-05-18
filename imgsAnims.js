@@ -116,6 +116,20 @@ const pooAnims = {
     ],
 };
 
+// Foliage
+const foliageImage = new Image();
+foliageImage.src = "./sprites/entities/foliage.png";
+
+const foliageImagePainted = new Image();
+foliageImagePainted.src = "./sprites/entities/foliage-painted.png";
+
+const foliageAnims = {
+    idle: [
+      0, 0, 16, 16,   // frame 1
+      16, 0, 16, 16,  // frame 2
+    ],
+};
+
 // Map for painted equivalents of images
 const paintedImages = new Map([
     [personImage, personImagePainted],
@@ -124,6 +138,7 @@ const paintedImages = new Map([
     [dogImage, dogImagePainted],
     [brushImage, brushImagePainted],
     [pooImage, pooImagePainted],
+    [foliageImage, foliageImagePainted],
 ]);
 
 // TOOLS:

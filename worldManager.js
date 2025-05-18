@@ -75,8 +75,8 @@ let state0Actions = [
 ];
 
 let state1Actions = [
-    () => {  },
-    () => {  },
+    () => { bloomFlower() },
+    () => { bloomFlower() },
     () => {  },
     () => {  },
     () => {  },
@@ -88,7 +88,7 @@ let state1Actions = [
 let state2Actions = [
     () => { spawnBeing("dog") },
     () => { spawnBeing("person") },
-    () => {  },
+    () => { bloomFlower() },
     () => {  },
     () => {  },
     () => {  },
@@ -99,8 +99,8 @@ let state2Actions = [
 let state3Actions = [
     () => { spawnBeing("dog") },
     () => { spawnBeing("person") },
-    () => {  },
-    () => {  },
+    () => { makePersonThink() },
+    () => { bloomFlower() },
     () => {  },
     () => {  },
     () => {  },
@@ -168,4 +168,14 @@ function dropBrush() {
         newBrush = new Brush((baseWidth / 2), -20);
         newBrush.fallFromTop();
     }
+}
+
+// Create a Foliage entity at a random location
+function bloomFlower() {  
+
+}
+
+// Find a Person entity and run the 'think' function on it
+function makePersonThink() {
+
 }

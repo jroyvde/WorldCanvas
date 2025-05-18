@@ -214,7 +214,7 @@ const foliageTool = new Tool({
     cursorAnims: foliageToolAnims,
     bubblePositionX: 170, 
     bubblePositionY: 160,
-    leftClickAction: noAction,
+    leftClickAction: foliageDecide,
     rightClickAction: noAction,
     onSwitchTo() {
         
@@ -223,6 +223,15 @@ const foliageTool = new Tool({
 
     },
 });
+
+function foliageDecide(target) {
+    foliageCreate(target);
+}
+
+function foliageCreate(target) {
+    newFoliage = new Foliage(cursor.sprite.x(), cursor.sprite.y());
+    console.log('Foliage created');
+}
 
 
 // Dog
@@ -237,7 +246,7 @@ const dogTool = new Tool({
 });
 
 let dogTasty = [ brushImage ];  // Dog Entities will pursue and eat entities with these images
-let dogSortOfTasty = [ pooImage ];  // Only the Dog Tool will eat these
+let dogSortOfTasty = [ pooImage, foliageImage ];  // Only the Dog Tool will eat these
 
 function dogDecide(target) {
     // Get target parent Entity
@@ -371,11 +380,34 @@ function personRandomizeStep(targetEntity) {
             // Store the entity's position
             let x = entitiesSnapshot[i].sprite.x();
             let y = entitiesSnapshot[i].sprite.y();
+            // Check if the entity is painted, store its color information if so
+            let colorInfo = null;
+            if ([...paintedImages.values()].includes(entitiesSnapshot[i].sprite.image())) {
+                colorInfo = {
+                    r: entitiesSnapshot[i].sprite.red(),
+                    g: entitiesSnapshot[i].sprite.green(),
+                    b: entitiesSnapshot[i].sprite.blue(),
+                };
+            }
             // Destroy the entity
             entitiesSnapshot[i].destroy();
             // Create a new entity of a random type
             let randomEntity = validRandomEntities[Math.floor(Math.random() * validRandomEntities.length)];
             let newEntity = new randomEntity(x, y);
+            // If the entity was painted, paint the new entity with the same color
+            if (colorInfo) {
+                newEntity.sprite.image(paintedImages.get(newEntity.sprite.image()));
+                newEntity.sprite.cache({ imageSmoothingEnabled: false });
+                newEntity.sprite.filters([Konva.Filters.RGB]);
+                newEntity.sprite.red(colorInfo.r);
+                newEntity.sprite.green(colorInfo.g);
+                newEntity.sprite.blue(colorInfo.b);
+
+                // Work-around to keep the animation going (Needs optimization)
+                let paintedAnimInterval = setInterval(() => {
+                    newEntity.sprite.cache({ imageSmoothingEnabled: false });
+                }, 1000 / newEntity.sprite.frameRate());
+            }
         }
     }
 }
