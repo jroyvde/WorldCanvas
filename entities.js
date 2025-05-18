@@ -243,7 +243,6 @@ class Dog extends Being {
         } else {
             spawnX -= 8;
         }
-        spawnY -= 8;
         let newPoo = new Poo(spawnX, spawnY); // Create a new Poo entity
         // If the dog is painted, paint the Poo the same color
         if ([...paintedImages.values()].includes(this.sprite.image())) {
@@ -366,7 +365,7 @@ class Poo extends Inanimate {
         this.sprite.animation('idle');
         this.sprite.frameRate(2);
         this.sprite.offsetX(8);
-        this.sprite.offsetY(8);
+        this.sprite.offsetY(16);
 
         // Set Mapped Tool
         this.mappedTool = dogTool;
@@ -415,7 +414,7 @@ class Foliage extends Inanimate {
         this.sprite.animation('idle');
         this.sprite.frameRate(2);
         this.sprite.offsetX(8);
-        this.sprite.offsetY(8);
+        this.sprite.offsetY(16);
 
         // Set Mapped Tool
         this.mappedTool = foliageTool;
@@ -428,12 +427,13 @@ class Foliage extends Inanimate {
         if (this.growthStage >= 2) {
             return;
         }
+        sound.foliageGrow.cloneNode().play();
         this.growthStage++;
         if (this.growthStage == 1) {
             this.sprite.animation('stage1');
         } else if (this.growthStage == 2) {
             this.sprite.animation('stage2');
-            this.sprite.offsetY(24);
+            this.sprite.offsetY(32);
             this.sprite.height(32);
         }
     }

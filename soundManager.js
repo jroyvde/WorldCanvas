@@ -8,6 +8,7 @@ const sound = {
     dogPoop: new Audio('./sound/dogPoop.ogg'),
     dogShock: new Audio('./sound/dogShock.ogg'),
     error: new Audio('./sound/error.wav'),
+    foliageGrow: new Audio('./sound/foliageGrow.wav'),
     foliagePlant: new Audio('./sound/foliagePlant.wav'),
     select: new Audio('./sound/select.wav'),
     grabPick: new Audio('./sound/grabPick.wav'),

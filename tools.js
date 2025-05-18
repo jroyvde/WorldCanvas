@@ -281,7 +281,7 @@ function dogPoop() {
     const cursorPos = cursor.sprite.position();
     const pooPos = {
         x: cursorPos.x + 16,
-        y: cursorPos.y + 8,
+        y: cursorPos.y + 16,
     };
     let newPoo = new Poo(pooPos.x, pooPos.y);
     newPoo.fertilize();  // Trigger the fertilize check on the new Poo
