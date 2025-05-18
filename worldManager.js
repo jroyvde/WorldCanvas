@@ -87,7 +87,7 @@ let state1Actions = [
 
 let state2Actions = [
     () => { spawnBeing("dog") },
-    () => { spawnBeing("person") },
+    () => { if (dogTool.obtained) { spawnBeing("person") } },
     () => { bloomFlower() },
     () => {  },
     () => {  },

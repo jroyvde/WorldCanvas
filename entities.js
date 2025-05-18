@@ -449,6 +449,8 @@ class ThoughtBubble extends Inanimate {
         super(spawnX, spawnY);
 
         // Set Foliage image and animations
+        this.sprite.width(32);
+        this.sprite.height(24);
         this.sprite.image(thoughtBubbleImage);
         this.sprite.animations(thoughtBubbleAnims);
         this.sprite.animation('idle');
