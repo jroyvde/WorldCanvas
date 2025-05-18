@@ -137,8 +137,11 @@ setInterval(() => {
     }
     // Check if worldState needs to update
     if (worldState < 1 && brushTool.obtained) {
-        //worldState = 1; // Desired behaviour
-        worldState = 2; // USER TESTING: Temporary behaviour
+        worldState = 1;
+    } else if (worldState < 2 && foliageTool.obtained) {
+        worldState = 2;
+    } else if (worldState < 3 && dogTool.obtained && personTool.obtained) {
+        worldState = 3
     }
 }, 5000);
 
@@ -172,7 +175,9 @@ function dropBrush() {
 
 // Create a Foliage entity at a random location
 function bloomFlower() {  
-
+    let randomX = (Math.random() * (baseWidth - 32)) + 16;
+    let randomY = (Math.random() * (baseHeight - 32)) + 16;
+    newFlower = new Foliage(randomX, randomY);
 }
 
 // Find a Person entity and run the 'think' function on it
