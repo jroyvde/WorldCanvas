@@ -233,10 +233,11 @@ const dogTool = new Tool({
     bubblePositionX: 70, 
     bubblePositionY: 160,
     leftClickAction: dogDecide,
-    rightClickAction: noAction,
+    rightClickAction: dogPoop,
 });
 
-let dogTasty = [ brushImage ];
+let dogTasty = [ brushImage ];  // Dog Entities will pursue and eat entities with these images
+let dogSortOfTasty = [ pooImage ];  // Only the Dog Tool will eat these
 
 function dogDecide(target) {
     // Get target parent Entity
@@ -255,7 +256,7 @@ function dogDecide(target) {
     }
 
     // If clicking on 'food', eat
-    if (dogTasty.includes(target.image())) {
+    if (dogTasty.includes(target.image()) || dogSortOfTasty.includes(target.image())) {
         // If the target is tasty, eat it
         dogEat(targetEntity);
         return;
@@ -301,6 +302,24 @@ function dogLick(targetEntity) {
     targetEntity.sprite.filters([]);  // Finally, remove the RGB filter
 
     sound.dogLick.cloneNode().play(); // Play sound
+}
+
+function dogPoop(target) {
+    // Get target parent Entity
+    targetEntity = getParentEntity(target);
+
+    sound.dogPoop.cloneNode().play();  // Play sound
+
+    // If target is Foliage, fertilize it
+
+    // Otherwise, create a poop
+    const cursorPos = cursor.sprite.position();
+    // Make sure the poop is offset from the cursor
+    const pooPos = {
+        x: cursorPos.x + 16,
+        y: cursorPos.y + 8,
+    };
+    let newPoo = new Poo(pooPos.x, pooPos.y);
 }
 
 

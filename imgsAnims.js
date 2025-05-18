@@ -103,6 +103,19 @@ const brushAnims = {
     ],
 };
 
+// Poo
+const pooImage = new Image();
+pooImage.src = "./sprites/entities/poo.png";
+
+const pooImagePainted = new Image();
+pooImagePainted.src = "./sprites/entities/poo-painted.png";
+
+const pooAnims = {
+    idle: [
+      0, 0, 16, 16,   // frame 1
+    ],
+};
+
 // Map for painted equivalents of images
 const paintedImages = new Map([
     [personImage, personImagePainted],
@@ -110,6 +123,7 @@ const paintedImages = new Map([
     [personImage2, personImage2Painted],
     [dogImage, dogImagePainted],
     [brushImage, brushImagePainted],
+    [pooImage, pooImagePainted],
 ]);
 
 // TOOLS:

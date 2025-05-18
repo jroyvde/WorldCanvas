@@ -165,7 +165,11 @@ class Dog extends Being {
                 return;
             }
         }
-        // Otherwise, bark with a random chance
+        // Otherwise, bark/poop with a random chance
+        if (Math.random() < 0.05) {
+            this.poop();
+            return;
+        }
         if (Math.random() < 0.2) {
             this.bark();
             return;
@@ -177,6 +181,22 @@ class Dog extends Being {
     // Bark
     bark() {
         sound.dogBark.cloneNode().play(); // Play a sound
+        setTimeout(() => this.assess(), (3000 / timeFactor));  // Assess again
+    }
+
+    // Poop
+    poop() {
+        sound.dogPoop.cloneNode().play(); // Play a sound
+        let spawnX = this.sprite.x();
+        let spawnY = this.sprite.y();
+        // Offset the spawn point a bit from this.sprite
+        if (this.sprite.scaleX() < 0) {
+            spawnX += 8;
+        } else {
+            spawnX -= 8;
+        }
+        spawnY -= 8;
+        let newPoo = new Poo(spawnX, spawnY); // Create a new Poo entity
         setTimeout(() => this.assess(), (3000 / timeFactor));  // Assess again
     }
 
@@ -282,4 +302,24 @@ class Brush extends Inanimate {
     }
 }
 
-let validRandomEntities = [ Dog, Person, Brush ]; // List of valid entities to randomize to with the Person Tool
+
+// Poo
+class Poo extends Inanimate {
+    constructor(spawnX, spawnY) {
+        super(spawnX, spawnY);
+
+        // Set Brush image and animations
+        this.sprite.image(pooImage);
+        this.sprite.animations(pooAnims);
+        this.sprite.animation('idle');
+        this.sprite.frameRate(2);
+        this.sprite.offsetX(8);
+        this.sprite.offsetY(8);
+
+        // Set Mapped Tool
+        this.mappedTool = dogTool;
+    }
+}
+
+
+let validRandomEntities = [ Dog, Person, Brush, Poo ]; // List of valid entities to randomize to with the Person Tool
