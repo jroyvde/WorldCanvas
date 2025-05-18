@@ -180,7 +180,27 @@ function bloomFlower() {
     newFlower = new Foliage(randomX, randomY);
 }
 
+let existingThoughtBubble;
+
 // Find a Person entity and run the 'think' function on it
 function makePersonThink() {
-
+    // If the Time Tool has been obtained by now, take the opportunity to get rid of the Thought Bubble
+    if (timeTool.obtained) {
+        if (existingThoughtBubble) {
+            existingThoughtBubble.destroy();
+        }
+        return;
+    }
+    // Use the entitiesOnCanvas array as is, to avoid the possibility of an endless loop
+    const entitiesSnapshot = [...entitiesOnCanvas];
+    // Loop through the Entity list until we find a Person
+    for (let i = 0; i < entitiesSnapshot.length; i++) {
+        if (entitiesSnapshot[i] != null) {
+            // Check if the entity is a Person
+            if (entitiesSnapshot[i].thinkAboutTime != null) {
+                existingThoughtBubble = entitiesSnapshot[i].thinkAboutTime();   // Make them think about time
+                return;  // Return so that this only happens to one person
+            }
+        }
+    }
 }

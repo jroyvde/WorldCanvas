@@ -138,6 +138,20 @@ const foliageAnims = {
     ],
 };
 
+// Thought Bubble
+const thoughtBubbleImage = new Image();
+thoughtBubbleImage.src = "./sprites/entities/thoughtBubble.png"
+
+const thoughtBubbleImagePainted = new Image();
+thoughtBubbleImagePainted.src = "./sprites/entities/thoughtBubble-painted.png";
+
+const thoughtBubbleAnims = {
+    idle: [
+      0, 0, 32, 24,   // frame 1
+      32, 0, 32, 24,  // frame 2
+    ],
+};
+
 // Map for painted equivalents of images
 const paintedImages = new Map([
     [personImage, personImagePainted],

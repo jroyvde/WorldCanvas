@@ -313,7 +313,10 @@ class Person extends Being {
 
     // Create the thought bubble that gives the Time tool
     thinkAboutTime() {
+        let newThoughtBubble = new ThoughtBubble(this.sprite.x(), this.sprite.y());
+        newThoughtBubble.trackPerson(this);
 
+        return newThoughtBubble;
     }
 }
 
@@ -436,6 +439,35 @@ class Foliage extends Inanimate {
             this.sprite.offsetY(32);
             this.sprite.height(32);
         }
+    }
+}
+
+
+// Thought Bubble
+class ThoughtBubble extends Inanimate {
+    constructor(spawnX, spawnY) {
+        super(spawnX, spawnY);
+
+        // Set Foliage image and animations
+        this.sprite.image(thoughtBubbleImage);
+        this.sprite.animations(thoughtBubbleAnims);
+        this.sprite.animation('idle');
+        this.sprite.frameRate(2);
+        this.sprite.offsetX(16);
+        this.sprite.offsetY(16);
+
+        // Set Mapped Tool
+        this.mappedTool = timeTool;
+
+        // Any Thought Bubble-specific properties
+
+    }
+
+    trackPerson(person) {
+        let trackInterval = setInterval(() => {
+            this.sprite.x(person.sprite.x() - 4);
+            this.sprite.y(person.sprite.y() - 32);
+        }, 10);
     }
 }
 
