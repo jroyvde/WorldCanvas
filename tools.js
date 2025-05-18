@@ -277,7 +277,6 @@ function dogEat(targetEntity) {
 }
 
 function dogLick(targetEntity) {
-    console.log('Lick');
     // Get the unpainted version of the painted image
     const paintedImage = targetEntity.sprite.image();
     let unpaintedImage = null;
@@ -293,9 +292,6 @@ function dogLick(targetEntity) {
     // If an unpainted version is found, update the entity's sprite
     if (unpaintedImage) {
         targetEntity.sprite.image(unpaintedImage);
-        console.log('Reverted to unpainted version');
-    } else {
-        console.error('Unpainted version not found for the painted image');
     }
 
     targetEntity.sprite.cache({ imageSmoothingEnabled: false });  // Cache immediately to avoid seeing a flicker of the white painted sprite
