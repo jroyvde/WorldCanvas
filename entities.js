@@ -69,6 +69,52 @@ class Entity {
             activeBeings--;
         }
     }
+
+    setColor({r, g, b}) {
+        // Set the image to the painted version, using our paintedImages lookup table
+        if (paintedImages.has(this.sprite.image())) {
+            this.sprite.image(paintedImages.get(this.sprite.image()));
+        }
+
+        // Set the new color for the entity
+        this.sprite.red(r);
+        this.sprite.green(g);
+        this.sprite.blue(b);
+
+        // Cache the sprite with the new color
+        this.sprite.cache({ imageSmoothingEnabled: false });
+        this.sprite.filters([Konva.Filters.RGB]);
+
+        // Work-around to keep the animation going (Needs optimization)
+        let paintedAnimInterval = setInterval(() => {
+            this.sprite.cache({ imageSmoothingEnabled: false });
+        }, 1000 / this.sprite.frameRate());
+    }
+
+    clearColor() {
+        if (![...paintedImages.values()].includes(this.sprite.image())) {
+            return;  // If the entity is not painted, do nothing
+        }
+
+        const paintedImage = this.sprite.image();
+        let unpaintedImage = null;
+
+        // Find the key (unpainted image) for the given value (painted image)
+        for (const [key, value] of paintedImages.entries()) {
+            if (value === paintedImage) {
+                unpaintedImage = key;
+                break;
+            }
+        }
+
+        // If an unpainted version is found, update the entity's sprite
+        if (unpaintedImage) {
+            this.sprite.image(unpaintedImage);
+        }
+
+        this.sprite.cache({ imageSmoothingEnabled: false });  // Cache immediately to avoid seeing a flicker of the white painted sprite
+        this.sprite.filters([]);  // Finally, remove the RGB filter
+    }
 }
 
 
@@ -199,13 +245,7 @@ class Dog extends Being {
         let newPoo = new Poo(spawnX, spawnY); // Create a new Poo entity
         // If the dog is painted, paint the Poo the same color
         if ([...paintedImages.values()].includes(this.sprite.image())) {
-            newPoo.sprite.image(paintedImages.get(newPoo.sprite.image()));
-
-            newPoo.sprite.cache({ imageSmoothingEnabled: false });
-            newPoo.sprite.filters([Konva.Filters.RGB]);
-            newPoo.sprite.red(this.sprite.red());
-            newPoo.sprite.green(this.sprite.green());
-            newPoo.sprite.blue(this.sprite.blue());
+            newPoo.setColor({r: this.sprite.red(), g: this.sprite.green(), b: this.sprite.blue()});
         }
         setTimeout(() => this.assess(), (3000 / timeFactor));  // Assess again
     }

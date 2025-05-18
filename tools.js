@@ -184,24 +184,7 @@ function paintEntity(target) {
     // Get the target entity
     let targetEntity = getParentEntity(target);
     if (targetEntity) {
-        let brushColorRGB = hexColorToRGB(brushTool.colors[brushTool.colorIndex].color);
-
-        // Set the image to the painted version, using our paintedImages lookup table
-        if (paintedImages.has(targetEntity.sprite.image())) {
-            targetEntity.sprite.image(paintedImages.get(targetEntity.sprite.image()));
-        }
-
-        targetEntity.sprite.cache({ imageSmoothingEnabled: false });
-        targetEntity.sprite.filters([Konva.Filters.RGB]);
-        targetEntity.sprite.red(brushColorRGB.r);
-        targetEntity.sprite.green(brushColorRGB.g);
-        targetEntity.sprite.blue(brushColorRGB.b);
-
-        // Work-around to keep the animation going (Needs optimization)
-        let paintedAnimInterval = setInterval(() => {
-            targetEntity.sprite.cache({ imageSmoothingEnabled: false });
-        }, 1000 / targetEntity.sprite.frameRate());
-
+        targetEntity.setColor(hexColorToRGB(brushTool.colors[brushTool.colorIndex].color));
         sound.brushPaint.play(); // Play sound
     }
 }
@@ -286,27 +269,8 @@ function dogEat(targetEntity) {
 }
 
 function dogLick(targetEntity) {
-    // Get the unpainted version of the painted image
-    const paintedImage = targetEntity.sprite.image();
-    let unpaintedImage = null;
-
-    // Find the key (unpainted image) for the given value (painted image)
-    for (const [key, value] of paintedImages.entries()) {
-        if (value === paintedImage) {
-            unpaintedImage = key;
-            break;
-        }
-    }
-
-    // If an unpainted version is found, update the entity's sprite
-    if (unpaintedImage) {
-        targetEntity.sprite.image(unpaintedImage);
-    }
-
-    targetEntity.sprite.cache({ imageSmoothingEnabled: false });  // Cache immediately to avoid seeing a flicker of the white painted sprite
-    targetEntity.sprite.filters([]);  // Finally, remove the RGB filter
-
-    sound.dogLick.cloneNode().play(); // Play sound
+    targetEntity.clearColor();  // Clear the color of the target entity
+    sound.dogLick.cloneNode().play();  // Play sound
 }
 
 function dogPoop(target) {
@@ -396,17 +360,7 @@ function personRandomizeStep(targetEntity) {
             let newEntity = new randomEntity(x, y);
             // If the entity was painted, paint the new entity with the same color
             if (colorInfo) {
-                newEntity.sprite.image(paintedImages.get(newEntity.sprite.image()));
-                newEntity.sprite.cache({ imageSmoothingEnabled: false });
-                newEntity.sprite.filters([Konva.Filters.RGB]);
-                newEntity.sprite.red(colorInfo.r);
-                newEntity.sprite.green(colorInfo.g);
-                newEntity.sprite.blue(colorInfo.b);
-
-                // Work-around to keep the animation going (Needs optimization)
-                let paintedAnimInterval = setInterval(() => {
-                    newEntity.sprite.cache({ imageSmoothingEnabled: false });
-                }, 1000 / newEntity.sprite.frameRate());
+                newEntity.setColor(colorInfo);
             }
         }
     }
