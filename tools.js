@@ -579,7 +579,7 @@ function timeFreezeEntity(target) {  // Freeze an entity in time
         }, 500);
         
         sound.timeUnfreeze.play();
-    } else if (targetEntity.grabbable) {  // (For now,) Use the Entity's grabbable variable to decide if we can freeze it
+    } else if (targetEntity) {  // Can add any conditions for Entities being freezable or not here
         targetEntity.freeze();
 
         cursor.changeAnim('freeze');
