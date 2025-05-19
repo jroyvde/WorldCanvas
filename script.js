@@ -68,5 +68,6 @@ addEventListener("keydown", (e) => {
     // Any other keyboard commands go below
     if (e.key == "`" || e.key == "~") { // Press ~ to toggle Debug Mode
             debugMode = !debugMode;
+            sound.debugMode.cloneNode().play();
     }
 })

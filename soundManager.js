@@ -3,6 +3,7 @@ const sound = {
     brushPaint: new Audio('./sound/brushPaint.wav'),
     brushSplat: new Audio('./sound/brushSplat.wav'),
     climateChange: new Audio('./sound/climateChange.wav'),
+    debugMode: new Audio('./sound/debugMode.wav'),
     dogBark: new Audio('./sound/dogBark.ogg'),
     dogEat: new Audio('./sound/dogEat.ogg'),
     dogLick: new Audio('./sound/dogLick.ogg'),
