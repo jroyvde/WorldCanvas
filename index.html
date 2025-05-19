@@ -5,6 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>WorldCanvas</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Tiny5&display=swap" rel="stylesheet">
+
     <link rel="Stylesheet" href="./style.css">
 
     <script src="https://unpkg.com/konva@9/konva.min.js"></script>
@@ -23,6 +27,17 @@
     <script src="./script.js" defer></script>
 </head>
 <body>
+    <dialog open>
+        <div>
+            <h2>Welcome to WorldCanvas!</h2>
+            <p>Every tool has a different action on left and right click. Don't forget to try both!</p>
+            <p>For example, your Hand Tool can select other tools with left click, and pick things up by holding right click.</p>
+            <p>Try making something cool, and then use the Save Tool to save an image to your computer!</p>
+            <form method="dialog">
+                <button>Cool!</button>
+            </form>
+        </div>
+    </dialog>
     <div id="header">
 
     </div>
