@@ -282,7 +282,7 @@ const dogTool = new Tool({
 });
 
 let dogTasty = [ brushImage, brushImagePainted ];  // Dog Entities will pursue and eat entities with these images
-let dogSortOfTasty = [ pooImage, pooImagePainted, foliageImage, foliageImagePainted ];  // Only the Dog Tool will eat these
+let dogSortOfTasty = [ pooImage, pooImagePainted, foliageImage, foliageImagePainted, foliageImageDesert, foliageImageDesertPainted, foliageImageSnow, foliageImageSnowPainted ];  // Only the Dog Tool will eat these
 
 function dogDecide(target) {
     // Get target parent Entity
@@ -515,7 +515,7 @@ function saveUploadBackground() {
         };
         reader.readAsDataURL(file);
     });
-    
+
     // Play sound
     sound.saveUploadDialog.cloneNode().play();
     // Trigger the file input
