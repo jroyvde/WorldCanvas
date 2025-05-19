@@ -46,6 +46,21 @@ dogImage.src = "./sprites/entities/dog.png";
 const dogImagePainted = new Image();
 dogImagePainted.src = "./sprites/entities/dog-painted.png";
 
+const dogImage1 = new Image();
+dogImage1.src = "./sprites/entities/dog-1.png";
+
+const dogImage1Painted = new Image();
+dogImage1Painted.src = "./sprites/entities/dog-1-painted.png";
+
+const dogImage2 = new Image();
+dogImage2.src = "./sprites/entities/dog-2.png";
+
+const dogImage2Painted = new Image();
+dogImage2Painted.src = "./sprites/entities/dog-2-painted.png";
+
+const dogImages = [dogImage, dogImage1, dogImage2];
+const dogImagesPainted = [dogImagePainted, dogImage1Painted, dogImage2Painted];
+
 const dogAnims = {
     idle: [
       0, 0, 16-c, 16,   // frame 1
@@ -181,6 +196,8 @@ const paintedImages = new Map([
     [personImage1, personImage1Painted],
     [personImage2, personImage2Painted],
     [dogImage, dogImagePainted],
+    [dogImage1, dogImage1Painted],
+    [dogImage2, dogImage2Painted],
     [brushImage, brushImagePainted],
     [pooImage, pooImagePainted],
     [foliageImage, foliageImagePainted],

@@ -405,6 +405,12 @@ function personRandomizeStep(targetEntity) {
                 entitiesSnapshot[i].changeClimateType('Random');
             }
             // If the Entity has Variants, change to a random one
+            if (dogImages.includes(entitiesSnapshot[i].sprite.image())) {
+                entitiesSnapshot[i].sprite.image(chooseVariant(dogImages));
+            }
+            if (dogImagesPainted.includes(entitiesSnapshot[i].sprite.image())) {
+                entitiesSnapshot[i].sprite.image(chooseVariant(dogImagesPainted));
+            }
             if (personImages.includes(entitiesSnapshot[i].sprite.image())) {
                 entitiesSnapshot[i].sprite.image(chooseVariant(personImages));
             }

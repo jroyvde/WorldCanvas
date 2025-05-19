@@ -174,7 +174,7 @@ class Dog extends Being {
         super(spawnX, spawnY);
 
         // Set Dog image and animations
-        this.sprite.image(dogImage);
+        this.sprite.image(chooseVariant(dogImages));
         this.sprite.animations(dogAnims);
         this.sprite.animation('idle');
         this.sprite.offsetX(8);
