@@ -69,6 +69,7 @@ const personImage2Painted = new Image();  // Person 2 - Suzanne (painted)
 personImage2Painted.src = "./sprites/entities/person-2-painted.png";
 
 const personImages = [personImage, personImage1, personImage2];
+const personImagesPainted = [personImagePainted, personImage1Painted, personImage2Painted];
 
 const personAnims = {
     idle: [

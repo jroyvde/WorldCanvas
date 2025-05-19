@@ -13,6 +13,7 @@ const sound = {
     foliagePlant: new Audio('./sound/foliagePlant.wav'),
     select: new Audio('./sound/select.wav'),
     grabPick: new Audio('./sound/grabPick.wav'),
+    personClear: new Audio('./sound/personClear.wav'),
     personHappy: new Audio('./sound/personHappy.ogg'),
     personRandomize: new Audio('./sound/personRandomize.wav'),
     personShock: new Audio('./sound/personShock.ogg'),

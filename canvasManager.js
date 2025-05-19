@@ -101,3 +101,32 @@ const paintContext = paintCanvas.getContext('2d');
 paintContext.strokeStyle = '#9614cc';
 paintContext.lineJoin = 'round';
 paintContext.lineWidth = 3;
+
+// Play the Clear animation
+function playClearAnim(x, y) {
+    // Create a circle in the center with radius 0
+    const circle = new Konva.Circle({
+        x: x,
+        y: y,
+        radius: 0,
+        fill: 'white',
+        listening: false,
+    });
+
+    castLayer.add(circle);
+    castLayer.draw();
+
+    circle.to({
+        radius: 300,
+        duration: 1,
+        easing: Konva.Easings.EaseInOut,
+        onFinish: () => {
+            circle.to({
+                opacity: 0,
+                duration: 0.1,
+                easing: Konva.Easings.EaseInOut,
+                onFinish: () => { circle.destroy() }
+            });
+        }
+    });
+}

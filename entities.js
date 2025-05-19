@@ -3,7 +3,7 @@ console.log('entities.js loaded');
 // Library for our Entities
 
 // Array containing all Entities
-let entitiesOnCanvas = [  ];
+let entitiesOnCanvas = [];
 
 // Entity - For both Beings and Inanimate Entities
 class Entity {

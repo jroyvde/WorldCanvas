@@ -354,7 +354,7 @@ const personTool = new Tool({
     bubblePositionX: 45,
     bubblePositionY: 160,
     leftClickAction: personRandomize,
-    rightClickAction: noAction,
+    rightClickAction: personClear,
 });
 
 let randomizeInterval = null; // Store the interval ID
@@ -404,9 +404,12 @@ function personRandomizeStep(targetEntity) {
             if (entitiesSnapshot[i].climateType != null) {
                 entitiesSnapshot[i].changeClimateType('Random');
             }
-            // If the Entity has Variants, change to a random one (Not working for painted Entities yet...)
+            // If the Entity has Variants, change to a random one
             if (personImages.includes(entitiesSnapshot[i].sprite.image())) {
                 entitiesSnapshot[i].sprite.image(chooseVariant(personImages));
+            }
+            if (personImagesPainted.includes(entitiesSnapshot[i].sprite.image())) {
+                entitiesSnapshot[i].sprite.image(chooseVariant(personImagesPainted));
             }
             // If the Entity is painted, change the paint to a random color
             if ([...paintedImages.values()].includes(entitiesSnapshot[i].sprite.image())) {
@@ -417,46 +420,25 @@ function personRandomizeStep(targetEntity) {
     }
 }
 
-function personRandomizeStepOld(targetEntity) {
-    // Use the entitiesOnCanvas array as is, to avoid an endless loop
-    const entitiesSnapshot = [...entitiesOnCanvas];
+function personClear(target) {
+    sound.personClear.cloneNode().play();
 
-    // Loop through all entities and randomize them
-    for (let i = 0; i < entitiesSnapshot.length; i++) {
-        if (entitiesSnapshot[i] != null) {
-            // Store the entity's position
-            let x = entitiesSnapshot[i].sprite.x();
-            let y = entitiesSnapshot[i].sprite.y();
-            // Check if the entity is frozen, remember if so
-            let frozenInfo = false;
-            if (entitiesSnapshot[i].frozen) {
-                frozenInfo = true;
-            }
-            // Check if the entity is painted, store its color information if so
-            let colorInfo = null;
-            if ([...paintedImages.values()].includes(entitiesSnapshot[i].sprite.image())) {
-                colorInfo = {
-                    r: entitiesSnapshot[i].sprite.red(),
-                    g: entitiesSnapshot[i].sprite.green(),
-                    b: entitiesSnapshot[i].sprite.blue(),
-                };
-            }
-            // Destroy the entity
-            entitiesSnapshot[i].destroy();
-            // Create a new entity of a random type
-            let randomEntity = validRandomEntities[Math.floor(Math.random() * validRandomEntities.length)];
-            let newEntity = new randomEntity(x, y);
-            // If the entity was frozen, also freeze the new entity
-            if (frozenInfo) { newEntity.freeze() }
-            // If the entity was painted, paint the new entity with the same color
-            if (colorInfo) {
-                newEntity.setColor(colorInfo);
+    playClearAnim(cursor.sprite.x() + 8, cursor.sprite.y() + 8);
+
+    setTimeout(() => {
+        paintContext.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
+        paintLayer.batchDraw();
+
+        const entitiesSnapshot = [...entitiesOnCanvas];
+
+        entitiesOnCanvas = [];
+
+        for (let i = 0; i < entitiesSnapshot.length; i++) {
+            if (entitiesSnapshot[i] != null) {
+                entitiesSnapshot[i].destroy();
             }
         }
-    }
-
-    // Randomize the Climate
-    changeClimate('Random');
+    }, 1000);
 }
 
 
