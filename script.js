@@ -32,29 +32,37 @@ addEventListener("keydown", (e) => {
                 timeFactor--;
             }
         }
-        if (e.key == "=") { // Press + to speed up time
+        if (e.key == "=" || e.key == "+") { // Press + to speed up time
             timeFactor++;
         }
-        if (e.key == "p") { // Press P to spawn a Person
-            // spawn a person
+        if (e.key == "t" || e.key == "T") { // Press T to make a person Think about Time
+            makePersonThink();
+        }
+        if (e.key == "p" || e.key == "P") { // Press P to spawn a Person
             spawnBeing("person");
         }
-        if (e.key == "s") { // Press S to Save a .png of the canvas
+        if (e.key == "s" || e.key == "S") { // Press S to Save a .png of the canvas
             saveImage();
         }
-        if (e.key == "d") { // Press D to spawn a Dog
-            // spawn a dog
+        if (e.key == "d" || e.key == "D") { // Press D to spawn a Dog
             spawnBeing("dog");
         }
-        if (e.key == "g") { // Press G to Give all tools
+        if (e.key == "g" || e.key == "G") { // Press G to Give all tools (and set all World Flags to true)
             addTool(brushTool);
             addTool(foliageTool);
             addTool(dogTool);
             addTool(personTool);
             addTool(timeTool);
+            worldFlags.brushColorChanged = true;
+            worldFlags.climateChanged = true;
+            worldFlags.foliageFertilized = true;
+            worldFlags.personToolUsed =  true;
         }
-        if (e.key == "c") { // Press C to increment the Climate
+        if (e.key == "c" || e.key == "C") { // Press C to increment the Climate
             changeClimate();
+        }
+        if (e.key == "b" || e.key == "B") { // Press B to Bloom a foliage somewhere
+            bloomFoliage();
         }
     }
     // Any other keyboard commands go below

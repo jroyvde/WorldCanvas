@@ -123,8 +123,8 @@ let state0Actions = [
 ];
 
 let state1Actions = [
-    () => { bloomFlower() },
-    () => { bloomFlower() },
+    () => { bloomFoliage() },
+    () => { bloomFoliage() },
     () => {  },
     () => {  },
     () => {  },
@@ -136,7 +136,7 @@ let state1Actions = [
 let state2Actions = [
     () => { spawnBeing("dog") },
     () => { if (dogTool.obtained && worldFlags.foliageFertilized) { spawnBeing("person") } },
-    () => { bloomFlower() },
+    () => { bloomFoliage() },
     () => {  },
     () => {  },
     () => {  },
@@ -148,7 +148,7 @@ let state3Actions = [
     () => { spawnBeing("dog") },
     () => { spawnBeing("person") },
     () => { makePersonThink() },
-    () => { bloomFlower() },
+    () => { bloomFoliage() },
     () => {  },
     () => {  },
     () => {  },
@@ -222,10 +222,10 @@ function dropBrush() {
 }
 
 // Create a Foliage entity at a random location
-function bloomFlower() {  
+function bloomFoliage() {  
     let randomX = (Math.random() * (baseWidth - 32)) + 16;
     let randomY = (Math.random() * (baseHeight - 32)) + 16;
-    newFlower = new Foliage(randomX, randomY);
+    newFoliage = new Foliage(randomX, randomY);
 }
 
 let existingThoughtBubble;
