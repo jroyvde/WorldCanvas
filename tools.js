@@ -399,6 +399,11 @@ function personRandomizeStep(targetEntity) {
             // Store the entity's position
             let x = entitiesSnapshot[i].sprite.x();
             let y = entitiesSnapshot[i].sprite.y();
+            // Check if the entity is frozen, remember if so
+            let frozenInfo = false;
+            if (entitiesSnapshot[i].frozen) {
+                frozenInfo = true;
+            }
             // Check if the entity is painted, store its color information if so
             let colorInfo = null;
             if ([...paintedImages.values()].includes(entitiesSnapshot[i].sprite.image())) {
@@ -413,6 +418,8 @@ function personRandomizeStep(targetEntity) {
             // Create a new entity of a random type
             let randomEntity = validRandomEntities[Math.floor(Math.random() * validRandomEntities.length)];
             let newEntity = new randomEntity(x, y);
+            // If the entity was frozen, also freeze the new entity
+            if (frozenInfo) { newEntity.freeze() }
             // If the entity was painted, paint the new entity with the same color
             if (colorInfo) {
                 newEntity.setColor(colorInfo);
