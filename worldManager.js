@@ -62,6 +62,10 @@ function changeWorldState(int) {
     }
 }
 
+function changeEnvironment(int) {
+    
+}
+
 // Array of 8 function references (possible actions each 5 seconds when in worldState 0)
 let state0Actions = [
     () => { dropBrush() },

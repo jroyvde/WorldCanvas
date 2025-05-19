@@ -93,9 +93,9 @@ const brushTool = new Tool({
     },
     onSwitchFrom() {
         // Remove all painting-related event listeners
-        mainCanvas.off('pointerdown.brushPaint');
-        mainCanvas.off('pointerup.brushPaint');
-        mainCanvas.off('pointermove.brushPaint');  
+        mainCanvas.off('pointerdown.paintPDown');
+        mainCanvas.off('pointerup.paintPUp');
+        mainCanvas.off('pointermove.paintPMove');  
     },
 });
 
@@ -109,7 +109,7 @@ function brushPaint(target) {
     let isPainting = false; // Flag to check if painting is in progress
     let lastPointerPosition; // Store the last pointer position
 
-    mainCanvas.on('pointerdown.brushPaint', (e) => {
+    mainCanvas.on('pointerdown.paintPDown', (e) => {
         // Start painting when the pointer is pressed
         isPainting = true;
         lastPointerPosition = cursor.sprite.position();
@@ -118,6 +118,9 @@ function brushPaint(target) {
     mainCanvas.on('pointerup.paintPUp', (e) => {
         // Stop painting when the pointer is released
         isPainting = false;
+        mainCanvas.off('pointerdown.paintPDown');
+        mainCanvas.off('pointerup.paintPUp');
+        mainCanvas.off('pointermove.paintPMove');
     });
 
     mainCanvas.on('pointermove.paintPMove', (e) => {
@@ -203,17 +206,47 @@ const foliageTool = new Tool({
         
     },
     onSwitchFrom() {
-
+        // Remove all planting-related event listeners
+        mainCanvas.off('pointerdown.plantPDown');
+        mainCanvas.off('pointerup.plantPUp');
+        mainCanvas.off('pointermove.plantPMove');
     },
 });
 
 function foliageDecide(target) {
-    foliageCreate(target);
+    foliagePlant(target);
 }
 
-function foliageCreate(target) {
-    newFoliage = new Foliage(cursor.sprite.x(), cursor.sprite.y());
-    sound.foliagePlant.cloneNode().play();
+function foliagePlant(target) {
+    let isPlanting = false; // Flag to check if planting is in progress
+    let lastPointerPosition; // Store the last pointer position
+
+    mainCanvas.on('pointerdown.plantPDown', (e) => {
+        // Plant one Foliage right away on pointer down
+        newFoliage = new Foliage(cursor.sprite.x(), cursor.sprite.y());
+        sound.foliagePlant.cloneNode().play();
+        // Start painting
+        isPlanting = true;
+        lastPointerPosition = cursor.sprite.position();
+    });
+
+    mainCanvas.on('pointerup.plantPUp', (e) => {
+        // Stop painting when the pointer is released
+        mainCanvas.off('pointerdown.plantPDown');
+        mainCanvas.off('pointerup.plantPUp');
+        mainCanvas.off('pointermove.plantPMove');
+        isPlanting = false;
+    });
+
+    mainCanvas.on('pointermove.plantPMove', (e) => {
+        if (!isPlanting) return;  // Only paint if the pointer is pressed
+        if (((Math.abs(cursor.sprite.x() - lastPointerPosition.x)) + (Math.abs(cursor.sprite.y() - lastPointerPosition.y))) < 20) return;  // Only plant if the distance from the previous plant is great enough
+
+        newFoliage = new Foliage(cursor.sprite.x(), cursor.sprite.y());
+        sound.foliagePlant.cloneNode().play();
+    
+        lastPointerPosition = cursor.sprite.position();
+    });
 }
 
 function foliageChangeEnvironment(target) {
