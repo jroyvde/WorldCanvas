@@ -239,6 +239,10 @@ function makePersonThink() {
         }
         return;
     }
+    // If there is already an existing Thought Bubble, don't make a new one
+    if (existingThoughtBubble) {
+        return;
+    }
     // Use the entitiesOnCanvas array as is, to avoid the possibility of an endless loop
     const entitiesSnapshot = [...entitiesOnCanvas];
     // Loop through the Entity list until we find a Person
