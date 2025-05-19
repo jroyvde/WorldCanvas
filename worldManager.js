@@ -11,11 +11,11 @@ let worldFlags = {
 
 // Climates
 let climates = [
-    { name: 'Field', backgroundImage: backgroundImage, },
-    { name: 'Desert', backgroundImage: backgroundImageDesert, },
-    { name: 'Snow', backgroundImage: backgroundImageSnow, },
-    { name: 'Japan', backgroundImage: backgroundImageJapan, },
-    { name: 'Autumn', backgroundImage: backgroundImageAutumn, },
+    { name: 'Field', backgroundImage: backgroundImage, foliageImage: foliageImage },
+    { name: 'Desert', backgroundImage: backgroundImageDesert, foliageImage: foliageImageDesert },
+    { name: 'Snow', backgroundImage: backgroundImageSnow, foliageImage: foliageImageSnow },
+    //{ name: 'Japan', backgroundImage: backgroundImageJapan, },
+    //{ name: 'Autumn', backgroundImage: backgroundImageAutumn, },
 ];
 let currentClimate = climates[0];  // Set default Climate to 'Field'
 
@@ -82,26 +82,7 @@ function changeWorldState(int) {
 
 // Change the Climate. Can take an integer, string, or no argument.
 function changeClimate(input) {
-    let newClimate = null;
-
-    if (typeof input === 'number' && input >= 0 && input < climates.length) {
-        newClimate = climates[input];
-    } else if (typeof input === 'string') {
-        if (input == 'Random') {
-            newClimate = climates[Math.floor(Math.random() * climates.length)];
-            if (newClimate === currentClimate) { return changeClimate('Random') }
-        } else {
-            newClimate = climates.find(climate => climate.name === input);
-            if (!newClimate) {
-                console.warn(`No climate found with name "${input}"`);
-                return;
-            }
-        }
-    } else {
-        const currentIndex = climates.indexOf(currentClimate);
-        const nextIndex = (currentIndex + 1) % climates.length;
-        newClimate = climates[nextIndex];
-    }
+    const newClimate = parseClimate(input);
 
     if (newClimate === currentClimate) {
         console.log(`Climate is already ${currentClimate.name}, no change made.`);
@@ -113,6 +94,16 @@ function changeClimate(input) {
     currentClimate = newClimate;
     backgroundImageNode.image(newClimate.backgroundImage);
     console.log(`New Climate is ${currentClimate.name}`);
+
+    // Loop through all Foliage Entities and change their climateType to match
+    const entitiesSnapshot = [...entitiesOnCanvas];
+    for (let i = 0; i < entitiesSnapshot.length; i++) {
+        if (entitiesSnapshot[i] != null) {
+            if (entitiesSnapshot[i].climateType) {  // Check if the entity is Foliage
+                entitiesSnapshot[i].changeClimateType(currentClimate);
+            }
+        }
+    }
 }
 
 // Array of 8 function references (possible actions each 5 seconds when in worldState 0)

@@ -412,7 +412,7 @@ class Foliage extends Inanimate {
         super(spawnX, spawnY);
 
         // Set Foliage image and animations
-        this.sprite.image(foliageImage);
+        this.sprite.image(currentClimate.foliageImage);
         this.sprite.animations(foliageAnims);
         this.sprite.animation('idle');
         this.sprite.frameRate(2);
@@ -427,6 +427,7 @@ class Foliage extends Inanimate {
 
         // Any Foliage-specific properties
         this.growthStage = 0;  // Growth stage
+        this.climateType = currentClimate;  // Climate type
     }
 
     grow() {
@@ -457,6 +458,17 @@ class Foliage extends Inanimate {
         } else if (this.growthStage == 0) {
             this.sprite.animation('idle');
         }
+    }
+
+    changeClimateType(input) {
+        const newClimateType = parseClimate(input, this.climateType);
+
+        if (newClimateType === this.climateType) {
+            return;
+        }
+
+        this.climateType = newClimateType;
+        this.sprite.image(this.climateType.foliageImage);
     }
 }
 

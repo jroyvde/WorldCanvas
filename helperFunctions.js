@@ -121,3 +121,45 @@ function hexColorToRGB(hex) {
 
     return { r, g, b };
 }
+
+function parseClimate(input, referenceClimate) {
+    // If no reference climate is provided, assume it should be the world's current climate
+    if (!referenceClimate) {
+        referenceClimate = currentClimate;
+    }
+
+    let parsedClimate;
+
+    // 1. If the input is a direct object reference, simply use that
+    if (climates.includes(input)) {
+        parsedClimate = input;
+    }
+    // 2. If input is a number, use the climate at that index
+    else if (typeof input === 'number' && input >= 0 && input < climates.length) {
+        parsedClimate = climates[input];
+    }
+    // 3. Otherwise, if the input is a string...
+    else if (typeof input === 'string') {  
+        // Check if the string reads 'Random', and choose a random climate if so
+        if (input == 'Random') {
+            parsedClimate = climates[Math.floor(Math.random() * climates.length)];
+            if (parsedClimate === referenceClimate) { return parseClimate('Random') }
+        }
+        // Otherwise, find the climate with the name matching the string
+        else {
+            parsedClimate = climates.find(climate => climate.name === input);
+            if (!parsedClimate) {
+                console.warn(`No climate found with name "${input}"`);
+                return;
+            }
+        }
+    }
+    // 4. If the input is blank, simply use the climate with the index after the current one
+    else {  
+        const currentIndex = climates.indexOf(referenceClimate);
+        const nextIndex = (currentIndex + 1) % climates.length;
+        parsedClimate = climates[nextIndex];
+    }
+
+    return parsedClimate;
+}

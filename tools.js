@@ -254,11 +254,11 @@ function foliagePlant(target) {
 }
 
 function foliageChangeClimate(target) {
-    
     if (getParentEntity(target)) {
         const targetEntity = getParentEntity(target);
         
         if (targetEntity.growthStage != null) {  // If the entity is a Foliage, change its climate type
+            targetEntity.changeClimateType();
             sound.foliageGrow.cloneNode().play();
         } else {  // Otherwise, do nothing
             sound.error.cloneNode().play();

@@ -12,12 +12,6 @@ backgroundImageDesert.src = "./sprites/background-desert.png"
 const backgroundImageSnow = new Image();
 backgroundImageSnow.src = "./sprites/background-snow.png"
 
-const backgroundImageJapan = new Image();
-backgroundImageJapan.src = "./sprites/background-japan.png"
-
-const backgroundImageAutumn = new Image();
-backgroundImageAutumn.src = "./sprites/background-autumn.png"
-
 // Night cast
 const nightCastImage = new Image();
 nightCastImage.src = "./sprites/nightCast.png"
@@ -134,6 +128,18 @@ foliageImage.src = "./sprites/entities/foliage.png";
 
 const foliageImagePainted = new Image();
 foliageImagePainted.src = "./sprites/entities/foliage-painted.png";
+
+const foliageImageDesert = new Image();
+foliageImageDesert.src = "./sprites/entities/foliage-desert.png";
+
+const foliageImageDesertPainted = new Image();
+foliageImageDesertPainted.src = "./sprites/entities/foliage-desert-painted.png";
+
+const foliageImageSnow = new Image();
+foliageImageSnow.src = "./sprites/entities/foliage-snow.png";
+
+const foliageImageSnowPainted = new Image();
+foliageImageSnowPainted.src = "./sprites/entities/foliage-snow-painted.png";
 
 const foliageAnims = {
     idle: [
