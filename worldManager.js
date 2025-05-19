@@ -135,7 +135,7 @@ let state1Actions = [
 
 let state2Actions = [
     () => { spawnBeing("dog") },
-    () => { if (worldFlags.foliageFertilized) { spawnBeing("person") } },
+    () => { if (dogTool.obtained && worldFlags.foliageFertilized) { spawnBeing("person") } },
     () => { bloomFlower() },
     () => {  },
     () => {  },
@@ -188,7 +188,7 @@ setInterval(() => {
         worldState = 1;
     } else if (worldState < 2 && foliageTool.obtained && worldFlags.climateChanged) {
         worldState = 2;
-    } else if (worldState < 3 && dogTool.obtained && personTool.obtained && worldFlags.personToolUsed) {
+    } else if (worldState < 3 && dogTool.obtained && personTool.obtained && worldFlags.foliageFertilized && worldFlags.personToolUsed) {
         worldState = 3
     }
 }, 5000);
