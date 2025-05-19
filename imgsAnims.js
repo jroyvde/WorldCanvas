@@ -6,6 +6,18 @@
 const backgroundImage = new Image();
 backgroundImage.src = "./sprites/background.png"
 
+const backgroundImageDesert = new Image();
+backgroundImageDesert.src = "./sprites/background-desert.png"
+
+const backgroundImageSnow = new Image();
+backgroundImageSnow.src = "./sprites/background-snow.png"
+
+const backgroundImageJapan = new Image();
+backgroundImageJapan.src = "./sprites/background-japan.png"
+
+const backgroundImageAutumn = new Image();
+backgroundImageAutumn.src = "./sprites/background-autumn.png"
+
 // Night cast
 const nightCastImage = new Image();
 nightCastImage.src = "./sprites/nightCast.png"

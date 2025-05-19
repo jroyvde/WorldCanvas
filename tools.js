@@ -200,8 +200,8 @@ const foliageTool = new Tool({
     cursorAnims: foliageToolAnims,
     bubblePositionX: 170, 
     bubblePositionY: 160,
-    leftClickAction: foliageDecide,
-    rightClickAction: noAction,
+    leftClickAction: foliagePlant,
+    rightClickAction: foliageChangeClimate,
     onSwitchTo() {
         
     },
@@ -212,10 +212,6 @@ const foliageTool = new Tool({
         mainCanvas.off('pointermove.plantPMove');
     },
 });
-
-function foliageDecide(target) {
-    foliagePlant(target);
-}
 
 function foliagePlant(target) {
     let isPlanting = false; // Flag to check if planting is in progress
@@ -249,8 +245,19 @@ function foliagePlant(target) {
     });
 }
 
-function foliageChangeEnvironment(target) {
-
+function foliageChangeClimate(target) {
+    
+    if (getParentEntity(target)) {
+        const targetEntity = getParentEntity(target);
+        
+        if (targetEntity.growthStage != null) {  // If the entity is a Foliage, change its climate type
+            sound.foliageGrow.cloneNode().play();
+        } else {  // Otherwise, do nothing
+            sound.error.cloneNode().play();
+        }
+    } else {
+        changeClimate();  // Change the world's climate
+    }
 }
 
 

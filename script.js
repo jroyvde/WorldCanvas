@@ -53,6 +53,9 @@ addEventListener("keydown", (e) => {
             addTool(personTool);
             addTool(timeTool);
         }
+        if (e.key == "c") { // Press C to increment the Climate
+            changeClimate();
+        }
     }
     // Any other keyboard commands go below
     
