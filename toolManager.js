@@ -19,7 +19,7 @@ function switchTool(tool) {
             activeTool.onSwitchTo();
         }
         // Play sound
-        sound.select.play();
+        sound.select.cloneNode().play();
     }
 }
 
