@@ -92,7 +92,14 @@ function changeClimate(input) {
     worldFlags.climateChanged = true;  // Update World Flags
 
     currentClimate = newClimate;
+    // Change background image
     backgroundImageNode.image(newClimate.backgroundImage);
+    // Reset background image properties incase they have been tampered with by a custom background
+    backgroundImageNode.width(baseWidth);
+    backgroundImageNode.height(baseHeight);
+    backgroundImageNode.x(0);
+    backgroundImageNode.y(0);
+
     console.log(`New Climate is ${currentClimate.name}`);
 
     // Loop through all Foliage Entities and change their climateType to match

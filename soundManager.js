@@ -18,6 +18,8 @@ const sound = {
     personRandomize: new Audio('./sound/personRandomize.wav'),
     personShock: new Audio('./sound/personShock.ogg'),
     save: new Audio('./sound/save.ogg'),
+    saveUpload: new Audio('./sound/saveUpload.wav'),
+    saveUploadDialog: new Audio('./sound/saveUploadDialog.wav'),
     timeAccel: new Audio('./sound/timeAccel.wav'),
     timeFreeze: new Audio('./sound/timeFreeze.wav'),
     timeUnfreeze: new Audio('./sound/timeUnfreeze.wav'),

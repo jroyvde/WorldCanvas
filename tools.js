@@ -450,7 +450,7 @@ const saveTool = new Tool({
     bubblePositionX: 145, 
     bubblePositionY: 160,
     leftClickAction: saveImage,
-    rightClickAction: noAction,
+    rightClickAction: saveUploadBackground,
 });
 
 // Save the canvas as an image to the user's computer
@@ -475,7 +475,51 @@ function saveImage() {
 
 // Let the user upload their own image as the background
 function saveUploadBackground() {
+    // Create hidden file input
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'image/*';
+    fileInput.style.display = 'none';
 
+    // Handle file input change
+    fileInput.addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function (e) {
+            const img = new Image();
+            img.onload = function () {
+                // Calculate scale to cover the canvas
+                const scale = Math.max(baseWidth / img.width, baseHeight / img.height);
+
+                const newWidth = img.width * scale;
+                const newHeight = img.height * scale;
+
+                // Calculate offset to center the image
+                const offsetX = (baseWidth - newWidth) / 2;
+                const offsetY = (baseHeight - newHeight) / 2;
+
+                backgroundImageNode.image(img);
+                backgroundImageNode.width(newWidth);
+                backgroundImageNode.height(newHeight);
+                backgroundImageNode.x(offsetX);
+                backgroundImageNode.y(offsetY);
+
+                backgroundLayer.draw();
+
+                sound.saveUpload.cloneNode().play();
+            };
+            img.src = e.target.result;
+        };
+        reader.readAsDataURL(file);
+    });
+    
+    // Play sound
+    sound.saveUploadDialog.cloneNode().play();
+    // Trigger the file input
+    fileInput.click();
 }
 
 
