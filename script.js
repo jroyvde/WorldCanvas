@@ -1,5 +1,5 @@
 // Enable (or not) debug mode keyboard shortcuts
-let debugMode = 1;
+let debugMode = 0;
 
 // Switch to and give the default Tool
 switchTool(defaultTool);
@@ -66,5 +66,7 @@ addEventListener("keydown", (e) => {
         }
     }
     // Any other keyboard commands go below
-    
+    if (e.key == "`" || e.key == "~") { // Press ~ to toggle Debug Mode
+            debugMode = !debugMode;
+    }
 })
