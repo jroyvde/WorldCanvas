@@ -85,6 +85,29 @@ mainCanvas.on('pointerdown', (e) => {
     }
 });
 
+// Re-order shapes based on Y position
+function updateZIndices() {
+  const shapes = mainLayer.getChildren();
+
+  // Sort shapes by their y position
+  const sorted = shapes.slice().sort((a, b) => a.y() - b.y());
+
+  // Reorder them by moving each to top in sorted order
+  sorted.forEach(shape => {
+    shape.moveToTop();
+  });
+}
+
+let zOrderUpdateTimer;
+// Function to initiate Z-sorting interval
+function scheduleZIndexUpdate() {
+  clearInterval(zOrderUpdateTimer);
+  zOrderUpdateTimer = setInterval(() => {
+    updateZIndices();
+  }, 200);
+}
+scheduleZIndexUpdate();  // Run right away
+
 // Painting
 const paintCanvas = document.createElement('canvas');
 paintCanvas.width = baseWidth;
