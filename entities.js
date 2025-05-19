@@ -419,6 +419,9 @@ class Foliage extends Inanimate {
         this.sprite.offsetX(8);
         this.sprite.offsetY(16);
 
+        // Not grabbable
+        this.grabbable = false;
+
         // Set Mapped Tool
         this.mappedTool = foliageTool;
 
@@ -472,6 +475,9 @@ class ThoughtBubble extends Inanimate {
         this.sprite.frameRate(2);
         this.sprite.offsetX(16);
         this.sprite.offsetY(16);
+
+        // Not grabbable
+        this.grabbable = false;
 
         // Set Mapped Tool
         this.mappedTool = timeTool;
