@@ -421,6 +421,8 @@ function personRandomizeStep(targetEntity) {
 }
 
 function personClear(target) {
+    worldFlags.personToolUsed = true;  // Update World Flags
+    
     sound.personClear.cloneNode().play();
 
     playClearAnim(cursor.sprite.x() + 8, cursor.sprite.y() + 8);
