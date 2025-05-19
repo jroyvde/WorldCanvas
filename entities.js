@@ -430,6 +430,7 @@ class Foliage extends Inanimate {
         if (this.growthStage >= 2) {
             return;
         }
+        worldFlags.foliageFertilized = true;  // Update World Flags
         sound.foliageGrow.cloneNode().play();
         this.growthStage++;
         if (this.growthStage == 1) {

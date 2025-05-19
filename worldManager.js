@@ -1,6 +1,14 @@
 // World State: 0 = Start, 1 = Environmental Tools Unlocked, 2 = Living Being Tools Unlocked, 3 = Concept Tools Unlocked, 4 = Void
 let worldState = 0;
 
+// World Flags
+let worldFlags = {
+    brushColorChanged: false,
+    climateChanged: false,
+    foliageFertilized: false,
+    personToolUsed: false,
+};
+
 // Climates
 let climates = [
     { name: 'Field', backgroundImage: backgroundImage, },
@@ -93,6 +101,9 @@ function changeClimate(input) {
         console.log(`Climate is already ${currentClimate.name}, no change made.`);
         return;
     }
+
+    worldFlags.climateChanged = true;  // Update World Flags
+
     sound.climateChange.cloneNode().play();
     currentClimate = newClimate;
     backgroundImageNode.image(newClimate.backgroundImage);
@@ -124,7 +135,7 @@ let state1Actions = [
 
 let state2Actions = [
     () => { spawnBeing("dog") },
-    () => { if (dogTool.obtained) { spawnBeing("person") } },
+    () => { if (worldFlags.foliageFertilized) { spawnBeing("person") } },
     () => { bloomFlower() },
     () => {  },
     () => {  },
@@ -173,11 +184,11 @@ setInterval(() => {
         stateActions[worldState][randomInt]();
     }
     // Check if worldState needs to update
-    if (worldState < 1 && brushTool.obtained) {
+    if (worldState < 1 && brushTool.obtained && worldFlags.brushColorChanged) {
         worldState = 1;
-    } else if (worldState < 2 && foliageTool.obtained) {
+    } else if (worldState < 2 && foliageTool.obtained && worldFlags.climateChanged) {
         worldState = 2;
-    } else if (worldState < 3 && dogTool.obtained && personTool.obtained) {
+    } else if (worldState < 3 && dogTool.obtained && personTool.obtained && worldFlags.personToolUsed) {
         worldState = 3
     }
 }, 5000);

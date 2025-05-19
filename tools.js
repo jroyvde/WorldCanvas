@@ -164,6 +164,8 @@ brushTool.colors = [
 brushTool.colorIndex = 0; // Start with purple
 
 function brushNextColor() {
+    worldFlags.brushColorChanged = true;  // Update World Flags
+
     // Remove all painting-related event listeners
     mainCanvas.off('pointerdown.brushPaint');
     mainCanvas.off('pointermove.brushPaint');
@@ -355,6 +357,8 @@ function personRandomize(target) {
     if (randomizeInterval) {
         return;
     }
+
+    worldFlags.personToolUsed = true;  // Update World Flags
 
     sound.personRandomize.cloneNode().play();  // Play sound
 
