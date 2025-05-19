@@ -440,6 +440,7 @@ function personClear(target) {
         const entitiesSnapshot = [...entitiesOnCanvas];
 
         entitiesOnCanvas = [];
+        activeBeings = 0;
 
         for (let i = 0; i < entitiesSnapshot.length; i++) {
             if (entitiesSnapshot[i] != null) {
