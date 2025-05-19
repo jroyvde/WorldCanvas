@@ -35,7 +35,7 @@ addEventListener("keydown", (e) => {
         if (e.key == "=" || e.key == "+") { // Press + to speed up time
             timeFactor++;
         }
-        if (e.key == "t" || e.key == "T") { // Press T to make a person Think about Time
+        if (e.key == "t" || e.key == "T") { // Press T to make a person Think about Time (won't work if Time Tool is already obtained)
             makePersonThink();
         }
         if (e.key == "p" || e.key == "P") { // Press P to spawn a Person

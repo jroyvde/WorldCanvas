@@ -35,23 +35,27 @@ const grabTool = new Tool({
     onSwitchTo() {
         // Animate the hand based on what it's doing
         let dragging = false;
-        mainCanvas.on('dragstart', (e) => {
+        mainCanvas.on('dragstart.grabTool', (e) => {
             dragging = true;
             cursor.changeAnim('picking');
             cursor.changeOffset(6, 12);
-            // Play sound
-            sound.grabPick.play();
+            sound.grabPick.play();  // Play sound
         })
-        mainCanvas.on('dragend', (e) => {
+        mainCanvas.on('dragend.grabTool', (e) => {
             dragging = false;
             cursor.changeAnim('grabby');
             cursor.changeOffset(0, 0);
         })
-        mainCanvas.on('pointerenter', (e) => {
-            if (!dragging && e.target.draggable()) {
-                cursor.changeAnim('grabby');
-            }
-            else {
+        mainCanvas.on('pointerenter.grabTool', (e) => {
+            if (getParentEntity(e.target)) {
+                const targetEntity = getParentEntity(e.target);
+                if (!dragging && (targetEntity.grabbable || targetEntity.mappedTool)) {
+                    cursor.changeAnim('grabby');
+                }
+                else {
+                    cursor.changeAnim('idle');
+                }
+            } else {
                 cursor.changeAnim('idle');
             }
         });
@@ -59,7 +63,9 @@ const grabTool = new Tool({
 
     onSwitchFrom() {
         // Stop animating the hand
-        mainCanvas.off('pointerenter');
+        mainCanvas.off('dragstart.grabTool');
+        mainCanvas.off('dragend.grabTool');
+        mainCanvas.off('pointerenter.grabTool');
     },
 });
 
