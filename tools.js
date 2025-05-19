@@ -391,6 +391,33 @@ function personRandomize(target) {
 }
 
 function personRandomizeStep(targetEntity) {
+    // Randomize the Climate
+    changeClimate('Random');
+
+    // Use the entitiesOnCanvas array as is, to avoid an endless loop
+    const entitiesSnapshot = [...entitiesOnCanvas];
+
+    // Loop through all entities and randomize them
+    for (let i = 0; i < entitiesSnapshot.length; i++) {
+        if (entitiesSnapshot[i] != null) {
+            // If the Entity is Foliage, randomize its Climate Type
+            if (entitiesSnapshot[i].climateType != null) {
+                entitiesSnapshot[i].changeClimateType('Random');
+            }
+            // If the Entity has Variants, change to a random one (Not working for painted Entities yet...)
+            if (personImages.includes(entitiesSnapshot[i].sprite.image())) {
+                entitiesSnapshot[i].sprite.image(chooseVariant(personImages));
+            }
+            // If the Entity is painted, change the paint to a random color
+            if ([...paintedImages.values()].includes(entitiesSnapshot[i].sprite.image())) {
+                randomColor = brushTool.colors[Math.floor(Math.random() * brushTool.colors.length)];
+                entitiesSnapshot[i].setColor(hexColorToRGB(randomColor.color));
+            }
+        }
+    }
+}
+
+function personRandomizeStepOld(targetEntity) {
     // Use the entitiesOnCanvas array as is, to avoid an endless loop
     const entitiesSnapshot = [...entitiesOnCanvas];
 

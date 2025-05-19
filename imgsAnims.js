@@ -179,6 +179,8 @@ const paintedImages = new Map([
     [brushImage, brushImagePainted],
     [pooImage, pooImagePainted],
     [foliageImage, foliageImagePainted],
+    [foliageImageDesert, foliageImageDesertPainted],
+    [foliageImageSnow, foliageImageSnowPainted],
     [thoughtBubbleImage, thoughtBubbleImagePainted],
 ]);
 

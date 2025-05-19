@@ -143,7 +143,7 @@ function parseClimate(input, referenceClimate) {
         // Check if the string reads 'Random', and choose a random climate if so
         if (input == 'Random') {
             parsedClimate = climates[Math.floor(Math.random() * climates.length)];
-            if (parsedClimate === referenceClimate) { return parseClimate('Random') }
+            //if (parsedClimate === referenceClimate) { return parseClimate('Random') }
         }
         // Otherwise, find the climate with the name matching the string
         else {

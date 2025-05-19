@@ -468,7 +468,12 @@ class Foliage extends Inanimate {
         }
 
         this.climateType = newClimateType;
-        this.sprite.image(this.climateType.foliageImage);
+
+        if ([...paintedImages.values()].includes(this.sprite.image())) {
+            this.sprite.image(paintedImages.get(this.climateType.foliageImage));
+        } else {
+            this.sprite.image(this.climateType.foliageImage);
+        }
     }
 }
 
