@@ -1,4 +1,8 @@
+console.log('imgsAnims.js loaded');
+
 // Library for Images and their associated Animations
+
+const c = 0.1;  // Using this as a quick-and-dirty fix for stray pixel parts on sprites. Subtract it from frame boundary sizes to cut off just a little bit.
 
 // UI:
 
@@ -44,8 +48,8 @@ dogImagePainted.src = "./sprites/entities/dog-painted.png";
 
 const dogAnims = {
     idle: [
-      0, 0, 16, 16,   // frame 1
-      16, 0, 16, 16,  // frame 2
+      0, 0, 16-c, 16,   // frame 1
+      16, 0, 16-c, 16,  // frame 2
     ],
 };
 
@@ -203,11 +207,11 @@ grabToolImage.src = "./sprites/tools/grab.png";
 
 const grabToolAnims = {
   idle: [
-    0, 0, 16, 16,   // frame 1
+    0, 0, 16, 16-c,   // frame 1
   ],
   grabby: [
-    0, 16, 16, 16,  // frame 1
-    16, 16, 16, 16, // frame 2
+    0, 16, 16, 16-c,  // frame 1
+    16, 16, 16, 16-c, // frame 2
   ],
   picking: [
     0, 32, 16, 16,  // frame 1
@@ -220,19 +224,19 @@ brushToolImage.src = "./sprites/tools/brush.png";
 
 const brushToolAnims = {
   idle: [
-    0, 0, 16, 16, // frame 1
+    0, 0, 16, 16-c, // frame 1
   ],
   red: [
-    0, 16, 16, 16, // frame 1
+    0, 16, 16, 16-c, // frame 1
   ],
   orange: [
-    0, 32, 16, 16, // frame 1
+    0, 32, 16, 16-c, // frame 1
   ],
   yellow: [
-    0, 48, 16, 16, // frame 1
+    0, 48, 16, 16-c, // frame 1
   ],
   green: [
-    0, 64, 16, 16, // frame 1
+    0, 64, 16, 16-c, // frame 1
   ],
   blue: [
     0, 80, 16, 16, // frame 1
@@ -285,25 +289,25 @@ timeToolImage.src = "./sprites/tools/time.png";
 
 const timeToolAnims = {
   idle: [
-    0, 0, 16, 16, // frame 1
+    0, 0, 16, 16-c, // frame 1
   ],
   accel: [
-    0, 16, 16, 16, // frame 1
-    16, 16, 16, 16, // frame 2
-    32, 16, 16, 16, // frame 3
-    48, 16, 16, 16, // frame 4
+    0, 16, 16, 16-c, // frame 1
+    16, 16, 16, 16-c, // frame 2
+    32, 16, 16, 16-c, // frame 3
+    48, 16, 16, 16-c, // frame 4
   ],
   freeze: [
-    0, 32, 16, 16, // frame 1
-    16, 32, 16, 16, // frame 2
+    0, 32, 16, 16-c, // frame 1
+    16, 32, 16, 16-c, // frame 2
   ],
   unfreeze: [
-    0, 48, 16, 16, // frame 1
-    16, 48, 16, 16, // frame 2
+    0, 48, 16, 16-c, // frame 1
+    16, 48, 16, 16-c, // frame 2
   ],
   freezeWorld: [
-    0, 64, 16, 16, // frame 1
-    16, 64, 16, 16, // frame 2
+    0, 64, 16, 16-c, // frame 1
+    16, 64, 16, 16-c, // frame 2
   ],
   unfreezeWorld: [
     0, 80, 16, 16, // frame 1
