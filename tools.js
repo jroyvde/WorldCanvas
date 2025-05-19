@@ -264,6 +264,7 @@ function foliageChangeClimate(target) {
             sound.error.cloneNode().play();
         }
     } else {
+        sound.climateChange.cloneNode().play();  // Play sound
         changeClimate();  // Change the world's climate
     }
 }
@@ -426,6 +427,9 @@ function personRandomizeStep(targetEntity) {
             }
         }
     }
+
+    // Randomize the Climate
+    changeClimate('Random');
 }
 
 

@@ -80,16 +80,22 @@ function changeWorldState(int) {
     }
 }
 
+// Change the Climate. Can take an integer, string, or no argument.
 function changeClimate(input) {
     let newClimate = null;
 
     if (typeof input === 'number' && input >= 0 && input < climates.length) {
         newClimate = climates[input];
     } else if (typeof input === 'string') {
-        newClimate = climates.find(climate => climate.name === input);
-        if (!newClimate) {
-            console.warn(`No climate found with name "${input}"`);
-            return;
+        if (input == 'Random') {
+            newClimate = climates[Math.floor(Math.random() * climates.length)];
+            if (newClimate === currentClimate) { return changeClimate('Random') }
+        } else {
+            newClimate = climates.find(climate => climate.name === input);
+            if (!newClimate) {
+                console.warn(`No climate found with name "${input}"`);
+                return;
+            }
         }
     } else {
         const currentIndex = climates.indexOf(currentClimate);
@@ -104,7 +110,6 @@ function changeClimate(input) {
 
     worldFlags.climateChanged = true;  // Update World Flags
 
-    sound.climateChange.cloneNode().play();
     currentClimate = newClimate;
     backgroundImageNode.image(newClimate.backgroundImage);
     console.log(`New Climate is ${currentClimate.name}`);
