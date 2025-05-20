@@ -1,5 +1,5 @@
 body {
-    background-color: #F0ECE6;
+    background-color: beige;
     margin: 0;
     font-family: "Tiny5", sans-serif;
     font-weight: 400;
@@ -42,7 +42,7 @@ dialog div button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #F0ECE6;
+    background-color: beige;
     height: 100vh;
 }
 
