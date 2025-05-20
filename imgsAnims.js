@@ -163,8 +163,8 @@ foliageImageSnowPainted.src = "./sprites/entities/foliage-snow-painted.png";
 
 const foliageAnims = {
     idle: [
-      0, 0, 16, 16,   // frame 1
-      16, 0, 16, 16,  // frame 2
+      0, 0+c, 16-c, 16,   // frame 1
+      16, 0+c, 16-c, 16,  // frame 2
     ],
     stage1: [
       0, 16, 16, 16,   // frame 1
