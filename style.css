@@ -1,5 +1,5 @@
 body {
-    background-color: darkslateblue;
+    background-color: #F0ECE6;
     margin: 0;
     font-family: "Tiny5", sans-serif;
     font-weight: 400;
@@ -42,12 +42,12 @@ dialog div button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: darkslateblue;
+    background-color: #F0ECE6;
     height: 100vh;
 }
 
 #mainCanvas {
-    background-color: lightgray;
+    background-color: white;
     cursor: none;
     margin: 4rem;
     width: 1200px;
