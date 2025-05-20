@@ -14,6 +14,11 @@ p {
     font-size: 20px;
 }
 
+p.small {
+    font-size: 10px;
+    text-align: center;
+}
+
 dialog {
     margin: auto;
     padding: 50px 100px 50px 100px;
