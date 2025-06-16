@@ -4,7 +4,7 @@ console.log('canvasManager.js loaded');
 Konva.dragButtons = [2];
 
 // Factor for scaling up our small, pixelly canvas
-const scaleFactor = 5;
+const scaleFactor = 4;
 
 // Base width and height for our canvas
 const baseWidth = 240;
