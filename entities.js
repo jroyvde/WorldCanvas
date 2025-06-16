@@ -262,9 +262,13 @@ class Dog extends Being {
     // Go to a tasty thing and eat it
     goToAndEat(food) {
         this.turnToFace(food.sprite.x()); // Turn to face the food
-        moveKonvaSprite(this.sprite, this.speed*3, food.sprite.x(), food.sprite.y(), () => {
+
+        const expectedX = food.sprite.x();
+        const expectedY = food.sprite.y();
+
+        moveKonvaSprite(this.sprite, this.speed*3, expectedX, expectedY, () => {
             // If the food is still there when we get there, eat it
-            if (entitiesOnCanvas[food.entityIndex] != null) {
+            if ((entitiesOnCanvas[food.entityIndex] != null) && (food.sprite.x() === expectedX) && (food.sprite.y() === expectedY)) {
                 this.eat(food);
             }
             setTimeout(() => this.assess(), (3000 / timeFactor));  // Assess again
