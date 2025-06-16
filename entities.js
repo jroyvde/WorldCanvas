@@ -87,6 +87,12 @@ class Entity {
         this.sprite.filters([Konva.Filters.RGB]);
 
         // Work-around to keep the animation going
+        // Get rid of any existing interval to avoid multiple intervals running at once
+        if (this.paintedAnimInterval) {
+            clearInterval(this.paintedAnimInterval);  // Clear any existing interval
+            this.paintedAnimInterval = null;  // Reset the interval variable
+        }
+        // Set a new interval to keep the sprite caching
         this.paintedAnimInterval = setInterval(() => {
             this.sprite.cache({ imageSmoothingEnabled: false });
         }, 1000 / this.sprite.frameRate());
@@ -114,9 +120,10 @@ class Entity {
             this.sprite.image(unpaintedImage);
         }
 
-        this.sprite.cache({ imageSmoothingEnabled: false });  // Cache immediately to avoid seeing a flicker of the white painted sprite
+        this.sprite.clearCache();  // Clear the cache to restore normal rendering
         this.sprite.filters([]);  // Remove the RGB filter
         clearInterval(this.paintedAnimInterval);  // Stop the painted animation interval
+        this.paintedAnimInterval = null;  // Reset the interval variable
     }
 }
 
@@ -440,10 +447,15 @@ class Foliage extends Inanimate {
         this.growthStage++;
         if (this.growthStage == 1) {
             this.sprite.animation('stage1');
+
         } else if (this.growthStage == 2) {
             this.sprite.animation('stage2');
             this.sprite.offsetY(32);
             this.sprite.height(32);
+        }
+        // If the Foliage is painted, cache it right away to avoid issues with animations
+        if (this.paintedAnimInterval) {
+            this.sprite.cache({ imageSmoothingEnabled: false });
         }
     }
 
