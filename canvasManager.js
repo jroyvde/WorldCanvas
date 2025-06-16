@@ -69,19 +69,32 @@ const modalImageNode = new Konva.Image({
 cursorLayer.add(modalImageNode);
 
 // Add in introductory modal button
-const modalButtonImageNode = new Konva.Image({
+const modalButtonSprite = new Konva.Sprite({
     x: 104,
     y: 112,
     image: modalButtonImage,
+    animations: modalButtonAnims,
+    animation: 'idle',
+    framerate: 2,
 })
-modalButtonImageNode.on('click', () => {
+
+modalButtonSprite.on('click', () => {
     // Hide the modal and button
     modalImageNode.opacity(0);
     modalImageNode.listening(false);
-    modalButtonImageNode.opacity(0);
-    modalButtonImageNode.listening(false);
+    modalButtonSprite.opacity(0);
+    modalButtonSprite.listening(false);
 });
-cursorLayer.add(modalButtonImageNode);
+
+modalButtonSprite.on('mouseover', () => {
+    modalButtonSprite.animation('hover');
+});
+
+modalButtonSprite.on('mouseout', () => {
+    modalButtonSprite.animation('idle');
+});
+
+cursorLayer.add(modalButtonSprite);
 
 // Add in cursor
 cursorLayer.add(cursor.sprite);

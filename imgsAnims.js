@@ -41,6 +41,15 @@ modalImage.src = "./sprites/modal.png";
 const modalButtonImage = new Image();
 modalButtonImage.src = "./sprites/modalButton.png";
 
+const modalButtonAnims = {
+  idle: [
+    0, 0, 32, 16,   // frame 1
+  ],
+  hover: [
+    0, 16, 32, 16,   // frame 1
+  ],
+}
+
 // World freeze indicator
 const worldFrozenImage = new Image();
 worldFrozenImage.src = "./sprites/paused.png";
