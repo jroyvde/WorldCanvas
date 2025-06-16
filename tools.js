@@ -467,17 +467,18 @@ function saveImage() {
     cursorLayer.visible(false);
     bubbleLayer.visible(false);
 
-    const canvasCapture = mainCanvas.toDataURL({
-        mimeType: 'image/png',
+    html2canvas(document.getElementById('mainCanvas')).then(function(canvas) {
+        const canvasCapture = canvas.toDataURL({
+            mimeType: 'image/png',
+        });
+        let link = document.createElement('a');
+        link.href = canvasCapture;
+        link.download = 'WorldCanvas.png';
+        link.click();
     });
 
     cursorLayer.visible(true);
     bubbleLayer.visible(true);
-
-    let link = document.createElement('a');
-    link.href = canvasCapture;
-    link.download = 'WorldCanvas.png';
-    link.click();
 
     sound.save.cloneNode().play();
 }
