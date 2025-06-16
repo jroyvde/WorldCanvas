@@ -80,8 +80,6 @@ modalButtonImageNode.on('click', () => {
     modalImageNode.listening(false);
     modalButtonImageNode.opacity(0);
     modalButtonImageNode.listening(false);
-    // Play sound
-    sound.start.cloneNode().play();
 });
 cursorLayer.add(modalButtonImageNode);
 
