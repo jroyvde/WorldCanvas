@@ -74,6 +74,7 @@ function moveKonvaSprite(sprite, speed, endX, endY, onComplete) {
     function handleDragEnd() {
         if (moveAnim) moveAnim.stop(); // Stop old one just in case
         startMovement(); // Recreate and start fresh animation
+        getParentEntity(sprite).turnToFace(endX); // Re-calculate facing direction
     }
 
     // Cleanup function to remove these specific event listeners
