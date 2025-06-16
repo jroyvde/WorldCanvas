@@ -71,7 +71,7 @@ cursorLayer.add(modalImageNode);
 // Add in introductory modal button
 const modalButtonImageNode = new Konva.Image({
     x: 104,
-    y: 126,
+    y: 112,
     image: modalButtonImage,
 })
 modalButtonImageNode.on('click', () => {
