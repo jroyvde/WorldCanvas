@@ -18,6 +18,11 @@ const mainCanvas = new Konva.Stage({
     imageSmoothingEnabled: false,
 });
 
+// Listen for pointerup events on the window and fire them on the mainCanvas.
+window.addEventListener('pointerup', (e) => {
+    mainCanvas.fire('pointerup');
+});
+
 // Function for creating a layer, ensuring proper scaling, and adding to mainCanvas
 function makeScaledLayer(scaleSetting) {
     const newLayer = new Konva.Layer();
