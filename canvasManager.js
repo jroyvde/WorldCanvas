@@ -60,6 +60,31 @@ const worldFrozenImageNode = new Konva.Image({
 })
 bubbleLayer.add(worldFrozenImageNode);
 
+// Add in introductory modal
+const modalImageNode = new Konva.Image({
+    x: 0,
+    y: 0,
+    image: modalImage,
+})
+cursorLayer.add(modalImageNode);
+
+// Add in introductory modal button
+const modalButtonImageNode = new Konva.Image({
+    x: 104,
+    y: 126,
+    image: modalButtonImage,
+})
+modalButtonImageNode.on('click', () => {
+    // Hide the modal and button
+    modalImageNode.opacity(0);
+    modalImageNode.listening(false);
+    modalButtonImageNode.opacity(0);
+    modalButtonImageNode.listening(false);
+    // Play sound
+    sound.start.cloneNode().play();
+});
+cursorLayer.add(modalButtonImageNode);
+
 // Add in cursor
 cursorLayer.add(cursor.sprite);
 cursor.trackMouse(mainCanvas);

@@ -21,6 +21,7 @@ const sound = {
     save: new Audio('./sound/save.ogg'),
     saveUpload: new Audio('./sound/saveUpload.wav'),
     saveUploadDialog: new Audio('./sound/saveUploadDialog.wav'),
+    start: new Audio('./sound/start.wav'),
     timeAccel: new Audio('./sound/timeAccel.wav'),
     timeFreeze: new Audio('./sound/timeFreeze.wav'),
     timeUnfreeze: new Audio('./sound/timeUnfreeze.wav'),

@@ -33,6 +33,14 @@ const bubbleAnims = {
   ],
 };
 
+// Modal
+const modalImage = new Image();
+modalImage.src = "./sprites/modal.png";
+
+// Modal button
+const modalButtonImage = new Image();
+modalButtonImage.src = "./sprites/modalButton.png";
+
 // World freeze indicator
 const worldFrozenImage = new Image();
 worldFrozenImage.src = "./sprites/paused.png";
