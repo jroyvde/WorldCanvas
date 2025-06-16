@@ -86,8 +86,8 @@ class Entity {
         this.sprite.cache({ imageSmoothingEnabled: false });
         this.sprite.filters([Konva.Filters.RGB]);
 
-        // Work-around to keep the animation going (Needs optimization)
-        let paintedAnimInterval = setInterval(() => {
+        // Work-around to keep the animation going
+        this.paintedAnimInterval = setInterval(() => {
             this.sprite.cache({ imageSmoothingEnabled: false });
         }, 1000 / this.sprite.frameRate());
     }
@@ -115,7 +115,8 @@ class Entity {
         }
 
         this.sprite.cache({ imageSmoothingEnabled: false });  // Cache immediately to avoid seeing a flicker of the white painted sprite
-        this.sprite.filters([]);  // Finally, remove the RGB filter
+        this.sprite.filters([]);  // Remove the RGB filter
+        clearInterval(this.paintedAnimInterval);  // Stop the painted animation interval
     }
 }
 
