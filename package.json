@@ -1,0 +1,8 @@
+{
+    "name": "worldcanvas",
+    "main": "index.html",
+    "window": {
+        "width": 960,
+        "height": 720
+    }
+}

@@ -1,5 +1,11 @@
 console.log('canvasManager.js loaded');
 
+// Identify context (browser or desktop)
+let desktopMode = false;
+if (typeof process !== 'undefined' && process.versions && Boolean(process.versions.nw)) {
+    desktopMode = true;
+}
+
 // Use only right mouse button for dragging. Might change this, or not.
 Konva.dragButtons = [2];
 
@@ -112,6 +118,64 @@ const worldFrozenImageNode = new Konva.Image({
     listening: false,  // Don't want to interact with the time freeze image
 })
 bubbleLayer.add(worldFrozenImageNode);
+
+// Add fullscreen button
+const fullscreenButtonSprite = new Konva.Sprite({
+    x: desktopMode ? 204 : 220,
+    y: 4,
+    image: cornerButtonsImage,
+    animations: cornerButtonsAnims,
+    animation: 'fullscreenIdle',
+    framerate: '2',
+})
+
+fullscreenButtonSprite.on('click', () => {
+    if (document.fullscreenElement === null) {
+        sound.fullscreen.cloneNode().play();
+        document.body.requestFullscreen();
+    } else {
+        sound.fullscreen.cloneNode().play();
+        document.exitFullscreen();
+    }
+});
+
+fullscreenButtonSprite.on('mouseover', () => {
+    fullscreenButtonSprite.animation('fullscreenHover');
+});
+
+fullscreenButtonSprite.on('mouseout', () => {
+    fullscreenButtonSprite.animation('fullscreenIdle');
+});
+
+bubbleLayer.add(fullscreenButtonSprite);
+
+// Add exit button
+const exitButtonSprite = new Konva.Sprite({
+    x: 220,
+    y: 4,
+    image: cornerButtonsImage,
+    animations: cornerButtonsAnims,
+    animation: 'exitIdle',
+    framerate: '2',
+})
+
+exitButtonSprite.on('click', () => {
+    if (!desktopMode) {
+        return;
+    }
+    sound.exit.cloneNode().play();
+    setTimeout(() => { nw.Window.get().close(true) }, 500);
+});
+
+exitButtonSprite.on('mouseover', () => {
+    exitButtonSprite.animation('exitHover');
+});
+
+exitButtonSprite.on('mouseout', () => {
+    exitButtonSprite.animation('exitIdle');
+});
+
+if (desktopMode) bubbleLayer.add(exitButtonSprite);
 
 // Add in introductory modal
 const modalImageNode = new Konva.Image({

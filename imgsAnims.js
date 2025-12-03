@@ -4,7 +4,24 @@ console.log('imgsAnims.js loaded');
 
 const c = 0.1;  // Using this as a quick-and-dirty fix for stray pixel parts on sprites. Subtract it from frame boundary sizes to cut off just a little bit.
 
-// UI:
+// UI
+const cornerButtonsImage = new Image();
+cornerButtonsImage.src = "./sprites/cornerButtons.png";
+
+const cornerButtonsAnims = {
+  fullscreenIdle: [
+    0, 0, 16, 16,
+  ],
+  fullscreenHover: [
+    0, 16, 16, 16,
+  ],
+  exitIdle: [
+    16, 0, 16, 16,
+  ],
+  exitHover: [
+    16, 16, 16, 16,
+  ]
+}
 
 // Background
 const backgroundImage = new Image();
