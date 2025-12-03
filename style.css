@@ -55,6 +55,6 @@ dialog div button {
     background-color: white;
     cursor: none;
     margin: 4rem;
-    width: 960px;
-    height: 720px;
+    height: round(down, 100vh, 180px);
+    width: calc(round(down, 100vh, 180px) * 4/3);
 }

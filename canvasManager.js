@@ -3,12 +3,16 @@ console.log('canvasManager.js loaded');
 // Use only right mouse button for dragging. Might change this, or not.
 Konva.dragButtons = [2];
 
-// Factor for scaling up our small, pixelly canvas
-const scaleFactor = 4;
+// Get the mainCanvas element's style so we can keep an eye on it and update things accordingly
+const canvasElement = document.getElementById("mainCanvas");
+const canvasElemStyle = getComputedStyle(canvasElement);
 
-// Base width and height for our canvas
+// Base width and height for our canvas (static)
 const baseWidth = 240;
 const baseHeight = 180;
+
+// Calculate and set the initial factor for scaling up our small, pixelly canvas
+let scaleFactor = Math.floor(parseInt(canvasElemStyle.height) / baseHeight);
 
 // Establish our main canvas
 const mainCanvas = new Konva.Stage({
@@ -22,6 +26,37 @@ const mainCanvas = new Konva.Stage({
 window.addEventListener('pointerup', (e) => {
     mainCanvas.fire('pointerup');
 });
+
+// Function to update the scaleFactor, and the scale of our Stage and Layers
+function updateScaleFactor() {
+    // Calculate the new scaleFactor
+    let targetFactor = Math.floor(parseInt(canvasElemStyle.height) / baseHeight);
+
+    // Return if the new scaleFactor would be the same as the current one
+    if (targetFactor === scaleFactor) {
+        console.log("no update needed")
+        return;
+    }
+
+    // Otherwise, set scaleFactor to the new value
+    console.log(`updating scale factor to ${targetFactor}`)
+    scaleFactor = targetFactor;
+
+    // Then update the main Stage
+    mainCanvas.width(baseWidth * scaleFactor);
+    mainCanvas.height(baseHeight * scaleFactor);
+
+    // Then iterate through layers and update their scales
+    mainCanvas.getLayers().forEach((layer) => {
+        layer.scale({
+            x: scaleFactor,
+            y: scaleFactor
+        });
+    });
+}
+
+// Listen for window resize events and run the updateScaleFactor function
+window.addEventListener('resize', updateScaleFactor);
 
 // Function for creating a layer, ensuring proper scaling, and adding to mainCanvas
 function makeScaledLayer(scaleSetting) {
