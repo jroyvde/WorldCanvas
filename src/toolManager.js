@@ -4,7 +4,7 @@ const bubbleRiseSpeed = 0.5;
 let activeTool = null;
 let defaultTool = grabTool;
 
-function switchTool(tool) {
+function switchTool(tool, mute) {
     if (tool != activeTool) {
         // Perform 'onSwitchFrom' tasks for the previous tool
         if (activeTool && activeTool.onSwitchFrom) {
@@ -19,16 +19,16 @@ function switchTool(tool) {
             activeTool.onSwitchTo();
         }
         // Play sound
-        sound.select.cloneNode().play();
+        if (!mute) sound.select.cloneNode().play();
     }
 }
 
 // Add a tool to the user's screen
-function addTool(tool) {
+function addTool(tool, mute) {
     if (!tool.obtained) {
         tool.obtained = true;               // mark the tool as obtained
         newBubble = new toolBubble(tool);   // add a new tool to the user's collection by having it appear
-        sound.toolUnlock.play();            // play the unlock sound
+        if (!mute) sound.toolUnlock.play();            // play the unlock sound
     }
 }
 

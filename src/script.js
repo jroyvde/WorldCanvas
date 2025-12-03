@@ -2,11 +2,11 @@
 let debugMode = 0;
 
 // Switch to and give the default Tool
-switchTool(defaultTool);
-addTool(defaultTool);
+switchTool(defaultTool, true);
+addTool(defaultTool, true);
 
 // Give the Save Tool
-addTool(saveTool);
+addTool(saveTool, true);
 
 // Handle key presses
 addEventListener("keydown", (e) => {
