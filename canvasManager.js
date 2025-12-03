@@ -3,16 +3,20 @@ console.log('canvasManager.js loaded');
 // Use only right mouse button for dragging. Might change this, or not.
 Konva.dragButtons = [2];
 
-// Get the mainCanvas element's style so we can keep an eye on it and update things accordingly
-const canvasElement = document.getElementById("mainCanvas");
-const canvasElemStyle = getComputedStyle(canvasElement);
-
 // Base width and height for our canvas (static)
 const baseWidth = 240;
 const baseHeight = 180;
 
 // Calculate and set the initial factor for scaling up our small, pixelly canvas
-let scaleFactor = Math.floor(parseInt(canvasElemStyle.height) / baseHeight);
+let scaleFactor = Math.floor(parseInt(window.innerHeight) / baseHeight);
+
+// Get the mainCanvas element's style so we can keep an eye on it and update things accordingly
+const canvasElement = document.getElementById("mainCanvas");
+const canvasElemStyle = getComputedStyle(canvasElement);
+
+// Set initial container element dimensions
+canvasElement.style.width = `${baseWidth * scaleFactor}px`;
+canvasElement.style.height = `${baseHeight * scaleFactor}px`;
 
 // Establish our main canvas
 const mainCanvas = new Konva.Stage({
@@ -30,17 +34,24 @@ window.addEventListener('pointerup', (e) => {
 // Function to update the scaleFactor, and the scale of our Stage and Layers
 function updateScaleFactor() {
     // Calculate the new scaleFactor
-    let targetFactor = Math.floor(parseInt(canvasElemStyle.height) / baseHeight);
+    let targetFactor = Math.max(1, Math.floor(parseInt(window.innerHeight) / baseHeight));
+
+    // Decrease the new scaleFactor if it's too wide for the current window size
+    while (baseWidth * targetFactor > window.innerWidth && targetFactor > 1) {
+        targetFactor--;
+    }
 
     // Return if the new scaleFactor would be the same as the current one
     if (targetFactor === scaleFactor) {
-        console.log("no update needed")
         return;
     }
 
     // Otherwise, set scaleFactor to the new value
-    console.log(`updating scale factor to ${targetFactor}`)
     scaleFactor = targetFactor;
+
+    // Update the container element
+    canvasElement.style.width = `${baseWidth * scaleFactor}px`;
+    canvasElement.style.height = `${baseHeight * scaleFactor}px`;
 
     // Then update the main Stage
     mainCanvas.width(baseWidth * scaleFactor);
@@ -54,6 +65,8 @@ function updateScaleFactor() {
         });
     });
 }
+
+updateScaleFactor();  // Run once to set everything right
 
 // Listen for window resize events and run the updateScaleFactor function
 window.addEventListener('resize', updateScaleFactor);
