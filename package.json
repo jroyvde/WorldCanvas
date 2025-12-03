@@ -1,7 +1,9 @@
 {
-    "name": "worldcanvas",
+    "name": "WorldCanvas",
     "main": "index.html",
+    "version": "1.1",
     "window": {
+        "icon": "./src/favicon.ico",
         "width": 960,
         "height": 720
     }
