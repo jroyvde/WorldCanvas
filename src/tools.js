@@ -46,7 +46,7 @@ const grabTool = new Tool({
             cursor.changeAnim('grabby');
             cursor.changeOffset(0, 0);
         })
-        mainCanvas.on('pointerenter.grabTool', (e) => {
+        mainCanvas.on('pointerover.grabTool', (e) => {
             if (getParentEntity(e.target)) {
                 const targetEntity = getParentEntity(e.target);
                 if (!dragging && (targetEntity.grabbable || targetEntity.mappedTool)) {
@@ -65,7 +65,7 @@ const grabTool = new Tool({
         // Stop animating the hand
         mainCanvas.off('dragstart.grabTool');
         mainCanvas.off('dragend.grabTool');
-        mainCanvas.off('pointerenter.grabTool');
+        mainCanvas.off('pointerover.grabTool');
     },
 });
 
