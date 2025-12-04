@@ -129,7 +129,9 @@ const fullscreenButtonSprite = new Konva.Sprite({
     framerate: '2',
 })
 
-fullscreenButtonSprite.on('click', () => {
+fullscreenButtonSprite.on('click', (e) => {
+    if (e.evt.button !== 0) return;  // Do nothing unless it's a left click
+    
     if (document.fullscreenElement === null) {
         sound.fullscreen.cloneNode().play();
         document.body.requestFullscreen();
@@ -159,8 +161,8 @@ const exitButtonSprite = new Konva.Sprite({
     framerate: '2',
 })
 
-exitButtonSprite.on('click', () => {
-    if (!desktopMode) {
+exitButtonSprite.on('click', (e) => {
+    if (!desktopMode || e.evt.button !== 0) {  // Do nothing unless it's a left click, and in desktop mode
         return;
     }
     sound.exit.cloneNode().play();
