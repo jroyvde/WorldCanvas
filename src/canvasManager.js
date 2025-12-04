@@ -88,18 +88,36 @@ function makeScaledLayer(scaleSetting) {
     return newLayer;
 }
 
+const worldLayer = makeScaledLayer();
+const UILayer = makeScaledLayer();
+
+const backgroundGroup = new Konva.Group();
+const paintGroup = new Konva.Group();
+const entitiesGroup = new Konva.Group();
+const castGroup = new Konva.Group();
+worldLayer.add(backgroundGroup, paintGroup, entitiesGroup, castGroup);
+
+const bubbleGroup = new Konva.Group();
+const modalGroup = new Konva.Group();
+const modalBtnGroup = new Konva.Group();
+const winCtrlGroup = new Konva.Group();
+const cursorGroup = new Konva.Group();
+UILayer.add(bubbleGroup, modalGroup, modalBtnGroup, winCtrlGroup, cursorGroup);
+
+/*
 const backgroundLayer = makeScaledLayer();
 const paintLayer = makeScaledLayer();  // Layer for paint
 const mainLayer = makeScaledLayer();    // Layer for background and entities inside the canvas
 const castLayer = makeScaledLayer();  // Layer for night cast, any other casts
 const bubbleLayer = makeScaledLayer();  // Layer for tool bubbles and any other UI
 const cursorLayer = makeScaledLayer();  // Layer for the cursor
+*/
 
 // Add in background image
 const backgroundImageNode = new Konva.Image({
     image: backgroundImage,
 })
-backgroundLayer.add(backgroundImageNode);
+backgroundGroup.add(backgroundImageNode);
 
 // Add in night cast image
 const nightCastImageNode = new Konva.Image({
@@ -107,7 +125,7 @@ const nightCastImageNode = new Konva.Image({
     opacity: 0,
     listening: false,  // Don't want to interact with the night cast image
 })
-castLayer.add(nightCastImageNode);
+castGroup.add(nightCastImageNode);
 
 // Add time freeze indicator
 const worldFrozenImageNode = new Konva.Image({
@@ -117,7 +135,7 @@ const worldFrozenImageNode = new Konva.Image({
     opacity: 0,
     listening: false,  // Don't want to interact with the time freeze image
 })
-bubbleLayer.add(worldFrozenImageNode);
+bubbleGroup.add(worldFrozenImageNode);
 
 // Add fullscreen button
 const fullscreenButtonSprite = new Konva.Sprite({
@@ -149,7 +167,7 @@ fullscreenButtonSprite.on('mouseout', () => {
     fullscreenButtonSprite.animation('fullscreenIdle');
 });
 
-bubbleLayer.add(fullscreenButtonSprite);
+winCtrlGroup.add(fullscreenButtonSprite);
 
 // Add exit button
 const exitButtonSprite = new Konva.Sprite({
@@ -177,7 +195,7 @@ exitButtonSprite.on('mouseout', () => {
     exitButtonSprite.animation('exitIdle');
 });
 
-if (desktopMode) bubbleLayer.add(exitButtonSprite);
+if (desktopMode) UILayer.add(exitButtonSprite);
 
 // Add in introductory modal
 const modalImageNode = new Konva.Image({
@@ -185,7 +203,7 @@ const modalImageNode = new Konva.Image({
     y: 0,
     image: modalImage,
 })
-cursorLayer.add(modalImageNode);
+modalGroup.add(modalImageNode);
 
 // Add in introductory modal button
 const modalButtonSprite = new Konva.Sprite({
@@ -213,10 +231,10 @@ modalButtonSprite.on('mouseout', () => {
     modalButtonSprite.animation('idle');
 });
 
-cursorLayer.add(modalButtonSprite);
+modalBtnGroup.add(modalButtonSprite);
 
 // Add in cursor
-cursorLayer.add(cursor.sprite);
+cursorGroup.add(cursor.sprite);
 cursor.trackMouse(mainCanvas);
 
 // Do not open browser context menu on right click
@@ -242,7 +260,7 @@ mainCanvas.on('pointerdown', (e) => {
 
 // Re-order shapes based on Y position
 function updateZIndices() {
-  const shapes = mainLayer.getChildren();
+  const shapes = entitiesGroup.getChildren();
 
   // Sort shapes by their y position
   const sorted = shapes.slice().sort((a, b) => a.y() - b.y());
@@ -273,7 +291,7 @@ const paintImage = new Konva.Image({
     width: baseWidth,
     height: baseHeight,
 });
-paintLayer.add(paintImage);
+paintGroup.add(paintImage);
 
 const paintContext = paintCanvas.getContext('2d');
 paintContext.strokeStyle = '#9614cc';
@@ -291,8 +309,8 @@ function playClearAnim(x, y) {
         listening: false,
     });
 
-    castLayer.add(circle);
-    castLayer.draw();
+    castGroup.add(circle);
+    castGroup.draw();
 
     circle.to({
         radius: 300,

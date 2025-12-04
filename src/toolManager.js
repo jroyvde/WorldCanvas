@@ -48,7 +48,7 @@ class toolBubble {
             frameRate: 2,
             frameIndex: 0,
         });
-        bubbleLayer.add(this.innerSprite);
+        bubbleGroup.add(this.innerSprite);
         this.innerSprite.start();
 
         // Create Konva sprite for the bubble itself
@@ -64,7 +64,7 @@ class toolBubble {
             frameIndex: 0,
         });
 
-        bubbleLayer.add(this.sprite);
+        bubbleGroup.add(this.sprite);
         this.sprite.start();
 
         // Animate rising up to the destination coordinates

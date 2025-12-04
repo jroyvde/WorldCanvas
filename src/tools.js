@@ -154,7 +154,7 @@ function brushPaint(target) {
     
         lastPointerPosition = pos;
         // redraw manually
-        paintLayer.batchDraw();
+        worldLayer.batchDraw();
     });
 }
 
@@ -435,7 +435,7 @@ function personClear(target) {
 
     setTimeout(() => {
         paintContext.clearRect(0, 0, paintCanvas.width, paintCanvas.height);
-        paintLayer.batchDraw();
+        worldLayer.batchDraw();
 
         const entitiesSnapshot = [...entitiesOnCanvas];
 
@@ -464,8 +464,7 @@ const saveTool = new Tool({
 
 // Save the canvas as an image to the user's computer
 function saveImage() {
-    cursorLayer.visible(false);
-    bubbleLayer.visible(false);
+    UILayer.visible(false);
 
     html2canvas(document.getElementById('mainCanvas')).then(function(canvas) {
         const canvasCapture = canvas.toDataURL({
@@ -477,8 +476,7 @@ function saveImage() {
         link.click();
     });
 
-    cursorLayer.visible(true);
-    bubbleLayer.visible(true);
+    UILayer.visible(true);
 
     sound.save.cloneNode().play();
 }
@@ -517,7 +515,7 @@ function saveUploadBackground() {
                 backgroundImageNode.x(offsetX);
                 backgroundImageNode.y(offsetY);
 
-                backgroundLayer.draw();
+                backgroundGroup.draw();
 
                 sound.saveUpload.cloneNode().play();
             };

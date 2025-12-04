@@ -18,7 +18,7 @@ class Entity {
             draggable: true,
         });
 
-        mainLayer.add(this.sprite);
+        entitiesGroup.add(this.sprite);
         this.sprite.start();
 
         // Add object to the entitiesOnCanvas array, and remember unique entityIndex
@@ -146,8 +146,8 @@ class Being extends Entity {
     // Functions that can be used by all Beings
 
     roam() {
-        let destinationX = Math.random() * mainLayer.width() / scaleFactor;
-        let destinationY = Math.random() * mainLayer.height() / scaleFactor;
+        let destinationX = Math.random() * worldLayer.width() / scaleFactor;
+        let destinationY = Math.random() * worldLayer.height() / scaleFactor;
 
         this.turnToFace(destinationX);
 
