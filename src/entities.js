@@ -491,6 +491,11 @@ class Foliage extends Inanimate {
         } else {
             this.sprite.image(this.climateType.foliageImage);
         }
+
+        // If the Foliage is painted, cache it right away to avoid issues with animations
+        if (this.paintedAnimInterval) {
+            this.sprite.cache({ imageSmoothingEnabled: false });
+        }
     }
 }
 
