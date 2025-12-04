@@ -226,7 +226,7 @@ mainCanvas.on('contextmenu', (e) => {
 
 // Handle click events
 mainCanvas.on('pointerdown', (e) => {
-    if (e.target.image() != bubbleImage) {  // Make sure we're not clicking on a Tool Bubble
+    if ((e.target.image() != bubbleImage) && (e.target.image() != cornerButtonsImage)) {  // Make sure we're not clicking on a Tool Bubble, or the corner buttons
         if (e.evt.button === 2) {  // Right click
             if (activeTool.rightClickAction) {  // Make sure the active tool has a rightClickAction before trying to execute it
                 activeTool.rightClickAction(e.target);
