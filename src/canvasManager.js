@@ -187,7 +187,7 @@ exitButtonSprite.on('mouseout', () => {
     exitButtonSprite.animation('exitIdle');
 });
 
-if (desktopMode) layer.add(exitButtonSprite);
+if (desktopMode) winCtrlGroup.add(exitButtonSprite);
 
 // Add in introductory modal
 const modalImageNode = new Konva.Image({
