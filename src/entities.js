@@ -146,8 +146,8 @@ class Being extends Entity {
     // Functions that can be used by all Beings
 
     roam() {
-        let destinationX = Math.random() * worldLayer.width() / scaleFactor;
-        let destinationY = Math.random() * worldLayer.height() / scaleFactor;
+        let destinationX = Math.random() * layer.width() / scaleFactor;
+        let destinationY = Math.random() * layer.height() / scaleFactor;
 
         this.turnToFace(destinationX);
 

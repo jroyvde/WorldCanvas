@@ -14,7 +14,8 @@ const baseWidth = 240;
 const baseHeight = 180;
 
 // Calculate and set the initial factor for scaling up our small, pixelly canvas
-let scaleFactor = Math.floor(parseInt(window.innerHeight) / baseHeight);
+let maxScale = 8;  // This is a necessary evil for now - mouse movement currently causes significant slowdown at high resolutions
+let scaleFactor = Math.min(Math.floor(parseInt(window.innerHeight) / baseHeight), maxScale);
 
 // Get the mainCanvas element's style so we can keep an eye on it and update things accordingly
 const canvasElement = document.getElementById("mainCanvas");
@@ -48,9 +49,10 @@ function updateScaleFactor() {
     }
 
     // Return if the new scaleFactor would be the same as the current one
-    if (targetFactor === scaleFactor) {
-        return;
-    }
+    if (targetFactor === scaleFactor) return;
+
+    // Cap to prevent runaway performance issues
+    if (targetFactor > maxScale) targetFactor = maxScale;
 
     // Otherwise, set scaleFactor to the new value
     scaleFactor = targetFactor;
@@ -88,30 +90,20 @@ function makeScaledLayer(scaleSetting) {
     return newLayer;
 }
 
-const worldLayer = makeScaledLayer();
-const UILayer = makeScaledLayer();
+const layer = makeScaledLayer();
 
 const backgroundGroup = new Konva.Group();
 const paintGroup = new Konva.Group();
 const entitiesGroup = new Konva.Group();
 const castGroup = new Konva.Group();
-worldLayer.add(backgroundGroup, paintGroup, entitiesGroup, castGroup);
+layer.add(backgroundGroup, paintGroup, entitiesGroup, castGroup);
 
 const bubbleGroup = new Konva.Group();
 const modalGroup = new Konva.Group();
 const modalBtnGroup = new Konva.Group();
 const winCtrlGroup = new Konva.Group();
 const cursorGroup = new Konva.Group();
-UILayer.add(bubbleGroup, modalGroup, modalBtnGroup, winCtrlGroup, cursorGroup);
-
-/*
-const backgroundLayer = makeScaledLayer();
-const paintLayer = makeScaledLayer();  // Layer for paint
-const mainLayer = makeScaledLayer();    // Layer for background and entities inside the canvas
-const castLayer = makeScaledLayer();  // Layer for night cast, any other casts
-const bubbleLayer = makeScaledLayer();  // Layer for tool bubbles and any other UI
-const cursorLayer = makeScaledLayer();  // Layer for the cursor
-*/
+layer.add(bubbleGroup, modalGroup, modalBtnGroup, winCtrlGroup, cursorGroup);
 
 // Add in background image
 const backgroundImageNode = new Konva.Image({
@@ -195,7 +187,7 @@ exitButtonSprite.on('mouseout', () => {
     exitButtonSprite.animation('exitIdle');
 });
 
-if (desktopMode) UILayer.add(exitButtonSprite);
+if (desktopMode) layer.add(exitButtonSprite);
 
 // Add in introductory modal
 const modalImageNode = new Konva.Image({

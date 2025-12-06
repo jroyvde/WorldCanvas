@@ -53,7 +53,7 @@ function moveKonvaSprite(sprite, speed, endX, endY, onComplete) {
                     onComplete();
                 }
             }
-        }, worldLayer);
+        }, layer);
 
         moveAnim.start();
     }
