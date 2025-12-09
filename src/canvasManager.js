@@ -25,6 +25,9 @@ const containerElemStyle = getComputedStyle(containerElement)
 containerElement.style.width = `${baseWidth * scaleFactor}px`
 containerElement.style.height = `${baseHeight * scaleFactor}px`
 
+// Set initial background image scaling
+document.getElementById('content').style.backgroundSize = `${144 * scaleFactor}px ${128 * scaleFactor}px`
+
 // Establish our main Stage
 const mainStage = new Konva.Stage({
     container: containerElement,
@@ -40,6 +43,13 @@ window.addEventListener('pointerup', (e) => {
 
 // Function to update the scaleFactor, stage dimensions, and layer scaling
 const updateScaleFactor = () => {
+    // Decide whether to round the corners with our mask or not
+    if (parseInt(window.innerHeight) % baseHeight) {
+        containerElement.style.maskImage = 'url("./cornerMask.svg")'
+    } else {
+        containerElement.style.maskImage = ''
+    }
+
     // Calculate the new scaleFactor
     let targetFactor = Math.max(1, Math.floor(parseInt(window.innerHeight) / baseHeight))
 
@@ -60,6 +70,9 @@ const updateScaleFactor = () => {
     // Update the container element
     containerElement.style.width = `${baseWidth * scaleFactor}px`
     containerElement.style.height = `${baseHeight * scaleFactor}px`
+
+    // Update background image scaling
+    document.getElementById('content').style.backgroundSize = `${144 * scaleFactor}px ${128 * scaleFactor}px`
 
     // Then update the main Stage
     mainStage.width(baseWidth * scaleFactor)

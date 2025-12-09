@@ -1,5 +1,4 @@
 body {
-    background-color: beige;
     margin: 0;
     font-family: "Tiny5", sans-serif;
     font-weight: 400;
@@ -47,12 +46,13 @@ dialog div button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: beige;
+    background-image: url("./bg.png");
+    image-rendering: pixelated;
     height: 100vh;
 }
 
 #stage-container {
-    background-color: white;
+    background-color: transparent;
     cursor: none;
     margin: 4rem;
 }
