@@ -460,6 +460,8 @@ function saveImage() {
     bubbleGroup.visible(false)
     winCtrlGroup.visible(false)
     cursorGroup.visible(false)
+    
+    mainStage.draw()
 
     html2canvas(document.getElementById('stage-container')).then((canvas) => {
         const canvasCapture = canvas.toDataURL({
