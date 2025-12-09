@@ -113,6 +113,12 @@ class Entity {
         clearInterval(this.paintedAnimInterval) // Stop the painted animation interval
         this.paintedAnimInterval = null         // Reset the interval variable
     }
+
+    // Display the entity on top of other entities
+    displayOnTop () {
+        this.sprite.moveTo(bubbleGroup) // Move to Bubble Group so it appears above all other entities
+        this.sprite.moveToBottom()      // Move to bottom so it doesn't appear above the bubbles
+    }
 }
 
 // Being (for people and animals)
@@ -460,7 +466,7 @@ class ThoughtBubble extends Inanimate {
     constructor(spawnX, spawnY) {
         super(spawnX, spawnY)
 
-        // Set Foliage image and animations
+        // Set Thought Bubble image and animations
         this.sprite.width(32)
         this.sprite.height(24)
         this.sprite.image(thoughtBubbleImage)
@@ -475,6 +481,8 @@ class ThoughtBubble extends Inanimate {
 
         // Any Thought Bubble-specific properties
 
+        // Display on top
+        this.displayOnTop()
     }
 
     // Stay above a Person's head
