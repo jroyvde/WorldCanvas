@@ -461,7 +461,7 @@ function saveImage() {
     winCtrlGroup.visible(false)
     cursorGroup.visible(false)
 
-    html2canvas(document.getElementById('mainStage')).then(function(canvas) {
+    html2canvas(document.getElementById('stage-container')).then((canvas) => {
         const canvasCapture = canvas.toDataURL({
             mimeType: 'image/png',
         })
