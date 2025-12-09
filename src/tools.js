@@ -324,7 +324,7 @@ function dogBark() {
 function dogEat(targetEntity) {
     sound.dogEat.cloneNode().play() // Play sound
     // If the entity is a Foliage with a growthStage of 1 or higher, prune it instead of destroying it
-    (targetEntity.growthStage > 0) ? targetEntity.prune() : targetEntity.destroy()
+    targetEntity.growthStage > 0 ? targetEntity.prune() : targetEntity.destroy()
 }
 
 // Function: Licks and removes paint from the target entity
@@ -601,7 +601,7 @@ function timeAccelerate() {
 
 // Function: Time Freeze - Determine whether targeting an entity or the world
 function timeFreeze(target) {
-    (getParentEntity(target)) ? timeFreezeEntity(target) : timeFreezeWorld()
+    getParentEntity(target) ? timeFreezeEntity(target) : timeFreezeWorld()
 }
 
 // Function: Freeze a specific entity in time

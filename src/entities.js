@@ -32,7 +32,7 @@ class Entity {
 
         // Only allow dragging if Grab Tool is active
         this.sprite.on('pointerover', (e) => {
-            (activeTool === grabTool && this.grabbable) ? e.target.draggable(true) : e.target.draggable(false)
+            activeTool === grabTool && this.grabbable ? e.target.draggable(true) : e.target.draggable(false)
         })
     }
 
@@ -147,7 +147,7 @@ class Being extends Entity {
 
     // Turn to face the direction of a specific target
     turnToFace(targetX) {
-        (targetX < this.sprite.x()) ? this.sprite.scaleX(-1) : this.sprite.scaleX(1)
+        targetX < this.sprite.x() ? this.sprite.scaleX(-1) : this.sprite.scaleX(1)
     }
 }
 
@@ -224,11 +224,7 @@ class Dog extends Being {
         let spawnX = this.sprite.x()
         let spawnY = this.sprite.y()
         // Offset the spawn point a bit from this.sprite
-        if (this.sprite.scaleX() < 0) {
-            spawnX += 8
-        } else {
-            spawnX -= 8
-        }
+        this.sprite.scaleX() < 0 ? spawnX += 8 : spawnX -= 8
         // Create a new Poo entity
         let newPoo = new Poo(spawnX, spawnY)
         // If the dog is painted, paint the Poo the same color
