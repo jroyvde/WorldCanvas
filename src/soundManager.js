@@ -27,4 +27,4 @@ const sound = {
     timeFreeze: new Audio('./sound/timeFreeze.wav'),
     timeUnfreeze: new Audio('./sound/timeUnfreeze.wav'),
     toolUnlock: new Audio('./sound/toolUnlock.wav'),
-};
+}
