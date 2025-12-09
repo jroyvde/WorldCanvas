@@ -51,7 +51,7 @@ dialog div button {
     height: 100vh;
 }
 
-#mainCanvas {
+#stage-container {
     background-color: white;
     cursor: none;
     margin: 4rem;

@@ -1,40 +1,43 @@
-const bubbleSpawnOffset = 50;
-const bubbleRiseSpeed = 0.5;
+console.log('toolManager.js loaded')
 
-let activeTool = null;
-let defaultTool = grabTool;
+const bubbleSpawnOffset = 50
+const bubbleRiseSpeed = 0.5
 
-function switchTool(tool, mute) {
+let activeTool = null
+let defaultTool = grabTool
+
+// Function: Switch to another tool
+const switchTool = (tool, mute) => {
     if (tool != activeTool) {
         // Perform 'onSwitchFrom' tasks for the previous tool
         if (activeTool && activeTool.onSwitchFrom) {
-            activeTool.onSwitchFrom();
+            activeTool.onSwitchFrom()
         }
         // Change the cursor
-        cursor.changeTool(tool);
+        cursor.changeTool(tool)
         // Change the activeTool value
-        activeTool = tool;
+        activeTool = tool
         // Perform 'onSwitchTo' tasks for the new tool
         if (activeTool.onSwitchTo != null) {
-            activeTool.onSwitchTo();
+            activeTool.onSwitchTo()
         }
         // Play sound
-        if (!mute) sound.select.cloneNode().play();
+        if (!mute) sound.select.cloneNode().play()
     }
 }
 
-// Add a tool to the user's screen
-function addTool(tool, mute) {
+// Function: Add a tool to the user's screen
+const addTool = (tool, mute) => {
     if (!tool.obtained) {
-        tool.obtained = true;               // mark the tool as obtained
-        newBubble = new toolBubble(tool);   // add a new tool to the user's collection by having it appear
-        if (!mute) sound.toolUnlock.play();            // play the unlock sound
+        tool.obtained = true                // mark the tool as obtained
+        newBubble = new toolBubble(tool)    // add a new tool to the user's collection by having it appear
+        if (!mute) sound.toolUnlock.play()  // play the unlock sound
     }
 }
 
 class toolBubble {
     constructor(containedTool) {
-        this.containedTool = containedTool;
+        this.containedTool = containedTool
 
         // Create Konva sprite for the tool inside the bubble
         this.innerSprite = new Konva.Sprite({
@@ -47,9 +50,9 @@ class toolBubble {
             animation: Object.keys(containedTool.cursorAnims)[0],
             frameRate: 2,
             frameIndex: 0,
-        });
-        bubbleGroup.add(this.innerSprite);
-        this.innerSprite.start();
+        })
+        bubbleGroup.add(this.innerSprite)
+        this.innerSprite.start()
 
         // Create Konva sprite for the bubble itself
         this.sprite = new Konva.Sprite({
@@ -62,26 +65,26 @@ class toolBubble {
             animation: 'idle',
             frameRate: 2,
             frameIndex: 0,
-        });
+        })
 
-        bubbleGroup.add(this.sprite);
-        this.sprite.start();
+        bubbleGroup.add(this.sprite)
+        this.sprite.start()
 
         // Animate rising up to the destination coordinates
         moveKonvaSprite(this.sprite, bubbleRiseSpeed, containedTool.bubblePositionX, containedTool.bubblePositionY, () => {
             // Any thing to do after the animation
             
-        });
+        })
 
         // Animate contents rising up to the destination coordinates
-        moveKonvaSprite(this.innerSprite, bubbleRiseSpeed, containedTool.bubblePositionX, containedTool.bubblePositionY);
+        moveKonvaSprite(this.innerSprite, bubbleRiseSpeed, containedTool.bubblePositionX, containedTool.bubblePositionY)
 
         // Change tool when clicked
         this.sprite.on('mousedown', () => {
             if (activeTool != containedTool) {
-                switchTool(this.containedTool);
-                console.log(activeTool);
+                switchTool(this.containedTool)
+                console.log(activeTool)
             }
-        });
+        })
     }
 }

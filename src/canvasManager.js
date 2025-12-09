@@ -1,125 +1,123 @@
-console.log('canvasManager.js loaded');
+console.log('canvasManager.js loaded')
 
 // Identify context (browser or desktop)
-let desktopMode = false;
+let desktopMode = false
 if (typeof process !== 'undefined' && process.versions && Boolean(process.versions.nw)) {
-    desktopMode = true;
+    desktopMode = true
 }
 
-// Use only right mouse button for dragging. Might change this, or not.
-Konva.dragButtons = [2];
+// Use only right mouse button for dragging.
+Konva.dragButtons = [2]
 
-// Base width and height for our canvas (static)
-const baseWidth = 240;
-const baseHeight = 180;
+// Base width and height for our Stage (static)
+const baseWidth = 240
+const baseHeight = 180
 
-// Calculate and set the initial factor for scaling up our small, pixelly canvas
-let maxScale = 8;  // This is a necessary evil for now - mouse movement currently causes significant slowdown at high resolutions
-let scaleFactor = Math.min(Math.floor(parseInt(window.innerHeight) / baseHeight), maxScale);
+// Calculate and set the initial factor for scaling up our small, pixelly Stage
+let maxScale = 8    // This is a necessary evil for now - mouse movement currently causes significant slowdown at high resolutions
+let scaleFactor = Math.min(Math.floor(parseInt(window.innerHeight) / baseHeight), maxScale)
 
-// Get the mainCanvas element's style so we can keep an eye on it and update things accordingly
-const canvasElement = document.getElementById("mainCanvas");
-const canvasElemStyle = getComputedStyle(canvasElement);
+// Get the stage-container element's style so we can keep an eye on it and update things accordingly
+const containerElement = document.getElementById('stage-container')
+const containerElemStyle = getComputedStyle(containerElement)
 
 // Set initial container element dimensions
-canvasElement.style.width = `${baseWidth * scaleFactor}px`;
-canvasElement.style.height = `${baseHeight * scaleFactor}px`;
+containerElement.style.width = `${baseWidth * scaleFactor}px`
+containerElement.style.height = `${baseHeight * scaleFactor}px`
 
-// Establish our main canvas
-const mainCanvas = new Konva.Stage({
-    container: 'mainCanvas',
+// Establish our main Stage
+const mainStage = new Konva.Stage({
+    container: containerElement,
     width: baseWidth * scaleFactor,
     height: baseHeight * scaleFactor,
     imageSmoothingEnabled: false,
-});
+})
 
-// Listen for pointerup events on the window and fire them on the mainCanvas.
+// Listen for pointerup events on the window and fire them on the mainStage
 window.addEventListener('pointerup', (e) => {
-    mainCanvas.fire('pointerup');
-});
+    mainStage.fire('pointerup')
+})
 
-// Function to update the scaleFactor, and the scale of our Stage and Layers
-function updateScaleFactor() {
+// Function to update the scaleFactor, stage dimensions, and layer scaling
+const updateScaleFactor = () => {
     // Calculate the new scaleFactor
-    let targetFactor = Math.max(1, Math.floor(parseInt(window.innerHeight) / baseHeight));
+    let targetFactor = Math.max(1, Math.floor(parseInt(window.innerHeight) / baseHeight))
 
-    // Decrease the new scaleFactor if it's too wide for the current window size
+    // Decrease the new scaleFactor until it fits within the current window size
     while (baseWidth * targetFactor > window.innerWidth && targetFactor > 1) {
-        targetFactor--;
+        targetFactor--
     }
 
     // Return if the new scaleFactor would be the same as the current one
-    if (targetFactor === scaleFactor) return;
+    if (targetFactor === scaleFactor) return
 
-    // Cap to prevent runaway performance issues
-    if (targetFactor > maxScale) targetFactor = maxScale;
+    // Cap the scaleFactor to maxScale to prevent runaway performance issues
+    if (targetFactor > maxScale) targetFactor = maxScale
 
     // Otherwise, set scaleFactor to the new value
-    scaleFactor = targetFactor;
+    scaleFactor = targetFactor
 
     // Update the container element
-    canvasElement.style.width = `${baseWidth * scaleFactor}px`;
-    canvasElement.style.height = `${baseHeight * scaleFactor}px`;
+    containerElement.style.width = `${baseWidth * scaleFactor}px`
+    containerElement.style.height = `${baseHeight * scaleFactor}px`
 
     // Then update the main Stage
-    mainCanvas.width(baseWidth * scaleFactor);
-    mainCanvas.height(baseHeight * scaleFactor);
+    mainStage.width(baseWidth * scaleFactor)
+    mainStage.height(baseHeight * scaleFactor)
 
     // Then iterate through layers and update their scales
-    mainCanvas.getLayers().forEach((layer) => {
+    mainStage.getLayers().forEach((layer) => {
         layer.scale({
             x: scaleFactor,
             y: scaleFactor
-        });
-    });
+        })
+    })
 }
 
-updateScaleFactor();  // Run once to set everything right
+updateScaleFactor() // Run once to set everything right
 
 // Listen for window resize events and run the updateScaleFactor function
-window.addEventListener('resize', updateScaleFactor);
+window.addEventListener('resize', updateScaleFactor)
 
-// Function for creating a layer, ensuring proper scaling, and adding to mainCanvas
-function makeScaledLayer(scaleSetting) {
-    const newLayer = new Konva.Layer();
-    if (scaleSetting != 'noscale') {
-        newLayer.scale({ x: scaleFactor, y: scaleFactor });
-    }
-    newLayer.imageSmoothingEnabled(false);
-    mainCanvas.add(newLayer);
-    return newLayer;
+// Function for creating a layer, ensuring proper scaling, and adding to mainStage
+const makeScaledLayer = (scaleSetting) => {
+    const newLayer = new Konva.Layer()
+    newLayer.scale({ x: scaleFactor, y: scaleFactor })
+    newLayer.imageSmoothingEnabled(false)
+    mainStage.add(newLayer)
+    return newLayer
 }
 
-const layer = makeScaledLayer();
+const layer = makeScaledLayer() // Create the (currently sole) layer
 
-const backgroundGroup = new Konva.Group();
-const paintGroup = new Konva.Group();
-const entitiesGroup = new Konva.Group();
-const castGroup = new Konva.Group();
-layer.add(backgroundGroup, paintGroup, entitiesGroup, castGroup);
+// Create all the Groups we need
+const backgroundGroup = new Konva.Group()
+const paintGroup = new Konva.Group()
+const entitiesGroup = new Konva.Group()
+const castGroup = new Konva.Group()
+const bubbleGroup = new Konva.Group()
+const modalGroup = new Konva.Group()
+const modalBtnGroup = new Konva.Group()
+const winCtrlGroup = new Konva.Group()
+const cursorGroup = new Konva.Group()
+// Then add them to the layer in the order we want them to display (bottom to top)
+layer.add(backgroundGroup, paintGroup, entitiesGroup, castGroup, bubbleGroup, modalGroup, modalBtnGroup, winCtrlGroup, cursorGroup)
 
-const bubbleGroup = new Konva.Group();
-const modalGroup = new Konva.Group();
-const modalBtnGroup = new Konva.Group();
-const winCtrlGroup = new Konva.Group();
-const cursorGroup = new Konva.Group();
-layer.add(bubbleGroup, modalGroup, modalBtnGroup, winCtrlGroup, cursorGroup);
-
-// Add in background image
+// Create and add background image
 const backgroundImageNode = new Konva.Image({
     image: backgroundImage,
 })
-backgroundGroup.add(backgroundImageNode);
+backgroundGroup.add(backgroundImageNode)
 
-// Add in night cast image
+// Create and add night cast image
 const nightCastImageNode = new Konva.Image({
     image: nightCastImage,
     opacity: 0,
     listening: false,  // Don't want to interact with the night cast image
 })
-castGroup.add(nightCastImageNode);
+castGroup.add(nightCastImageNode)
 
-// Add time freeze indicator
+// Create and add time freeze indicator
 const worldFrozenImageNode = new Konva.Image({
     x: 4,
     y: 4,
@@ -127,9 +125,9 @@ const worldFrozenImageNode = new Konva.Image({
     opacity: 0,
     listening: false,  // Don't want to interact with the time freeze image
 })
-bubbleGroup.add(worldFrozenImageNode);
+bubbleGroup.add(worldFrozenImageNode)
 
-// Add fullscreen button
+// Create and add fullscreen button
 const fullscreenButtonSprite = new Konva.Sprite({
     x: desktopMode ? 204 : 220,
     y: 4,
@@ -138,30 +136,30 @@ const fullscreenButtonSprite = new Konva.Sprite({
     animation: 'fullscreenIdle',
     framerate: '2',
 })
+winCtrlGroup.add(fullscreenButtonSprite)
 
+// Add fullscreen button event handling
 fullscreenButtonSprite.on('click', (e) => {
-    if (e.evt.button !== 0) return;  // Do nothing unless it's a left click
+    if (e.evt.button !== 0) return  // Do nothing unless it's a left click
     
     if (document.fullscreenElement === null) {
-        sound.fullscreen.cloneNode().play();
-        document.body.requestFullscreen();
+        sound.fullscreen.cloneNode().play()
+        document.body.requestFullscreen()
     } else {
-        sound.fullscreen.cloneNode().play();
-        document.exitFullscreen();
+        sound.fullscreen.cloneNode().play()
+        document.exitFullscreen()
     }
-});
+})
 
 fullscreenButtonSprite.on('mouseover', () => {
-    fullscreenButtonSprite.animation('fullscreenHover');
-});
+    fullscreenButtonSprite.animation('fullscreenHover')
+})
 
 fullscreenButtonSprite.on('mouseout', () => {
-    fullscreenButtonSprite.animation('fullscreenIdle');
-});
+    fullscreenButtonSprite.animation('fullscreenIdle')
+})
 
-winCtrlGroup.add(fullscreenButtonSprite);
-
-// Add exit button
+// Create and add exit button
 const exitButtonSprite = new Konva.Sprite({
     x: 220,
     y: 4,
@@ -170,34 +168,33 @@ const exitButtonSprite = new Konva.Sprite({
     animation: 'exitIdle',
     framerate: '2',
 })
+if (desktopMode) winCtrlGroup.add(exitButtonSprite) // Only add to group if running in deskop mode
 
+// Add exit button event handling
 exitButtonSprite.on('click', (e) => {
-    if (!desktopMode || e.evt.button !== 0) {  // Do nothing unless it's a left click, and in desktop mode
-        return;
-    }
-    sound.exit.cloneNode().play();
-    setTimeout(() => { nw.Window.get().close(true) }, 500);
-});
+    if (!desktopMode || e.evt.button !== 0) return  // Do nothing unless it's a left click, and in desktop mode
+
+    sound.exit.cloneNode().play()
+    setTimeout(() => { nw.Window.get().close(true) }, 500)
+})
 
 exitButtonSprite.on('mouseover', () => {
-    exitButtonSprite.animation('exitHover');
-});
+    exitButtonSprite.animation('exitHover')
+})
 
 exitButtonSprite.on('mouseout', () => {
-    exitButtonSprite.animation('exitIdle');
-});
+    exitButtonSprite.animation('exitIdle')
+})
 
-if (desktopMode) winCtrlGroup.add(exitButtonSprite);
-
-// Add in introductory modal
+// Create and add introductory modal
 const modalImageNode = new Konva.Image({
     x: 0,
     y: 0,
     image: modalImage,
 })
-modalGroup.add(modalImageNode);
+modalGroup.add(modalImageNode)
 
-// Add in introductory modal button
+// Create and add modal button
 const modalButtonSprite = new Konva.Sprite({
     x: 104,
     y: 112,
@@ -206,92 +203,89 @@ const modalButtonSprite = new Konva.Sprite({
     animation: 'idle',
     framerate: 2,
 })
+modalBtnGroup.add(modalButtonSprite)
 
+// Add modal button event handling
 modalButtonSprite.on('click', () => {
     // Hide the modal and button
-    modalImageNode.opacity(0);
-    modalImageNode.listening(false);
-    modalButtonSprite.opacity(0);
-    modalButtonSprite.listening(false);
-});
+    modalImageNode.opacity(0)
+    modalImageNode.listening(false)
+    modalButtonSprite.opacity(0)
+    modalButtonSprite.listening(false)
+})
 
 modalButtonSprite.on('mouseover', () => {
-    modalButtonSprite.animation('hover');
-});
+    modalButtonSprite.animation('hover')
+})
 
 modalButtonSprite.on('mouseout', () => {
-    modalButtonSprite.animation('idle');
-});
+    modalButtonSprite.animation('idle')
+})
 
-modalBtnGroup.add(modalButtonSprite);
-
-// Add in cursor
-cursorGroup.add(cursor.sprite);
-cursor.trackMouse(mainCanvas);
+// Add cursor and begin pointer tracking
+cursorGroup.add(cursor.sprite)
+cursor.trackMouse(mainStage)
 
 // Do not open browser context menu on right click
-mainCanvas.on('contextmenu', (e) => {
-    e.evt.preventDefault();
-});
+mainStage.on('contextmenu', (e) => {
+    e.evt.preventDefault()
+})
 
 // Handle click events
-mainCanvas.on('pointerdown', (e) => {
+mainStage.on('pointerdown', (e) => {
     if ((e.target.image() != bubbleImage) && (e.target.image() != cornerButtonsImage)) {  // Make sure we're not clicking on a Tool Bubble, or the corner buttons
         if (e.evt.button === 2) {  // Right click
             if (activeTool.rightClickAction) {  // Make sure the active tool has a rightClickAction before trying to execute it
-                activeTool.rightClickAction(e.target);
+                activeTool.rightClickAction(e.target)
             }
         }
         else {  // Left click
             if (activeTool.leftClickAction) {  // Make sure the active tool has a leftClickAction before trying to execute it
-                activeTool.leftClickAction(e.target);
+                activeTool.leftClickAction(e.target)
             }
         }
     }
-});
+})
 
-// Re-order shapes based on Y position
-function updateZIndices() {
-  const shapes = entitiesGroup.getChildren();
-
-  // Sort shapes by their y position
-  const sorted = shapes.slice().sort((a, b) => a.y() - b.y());
-
-  // Reorder them by moving each to top in sorted order
-  sorted.forEach(shape => {
-    shape.moveToTop();
-  });
+// Function to re-order shapes based on Y position
+const updateZIndices = () => {
+  const shapes = entitiesGroup.getChildren()                    // Get an array of shapes in the entities Group
+  const sorted = shapes.slice().sort((a, b) => a.y() - b.y())   // Sort shapes by their y position
+  sorted.forEach(shape => {                                     // Reorder them by moving each to top in sorted order
+    shape.moveToTop()
+  })
 }
 
-let zOrderUpdateTimer;
+let zOrderUpdateTimer
+
 // Function to initiate Z-sorting interval
-function scheduleZIndexUpdate() {
-  clearInterval(zOrderUpdateTimer);
+const scheduleZIndexUpdate = () => {
+  clearInterval(zOrderUpdateTimer)
   zOrderUpdateTimer = setInterval(() => {
-    updateZIndices();
-  }, 200);
+    updateZIndices()
+  }, 200)
 }
-scheduleZIndexUpdate();  // Run right away
+scheduleZIndexUpdate()  // Run right away
 
 // Painting
-const paintCanvas = document.createElement('canvas');
-paintCanvas.width = baseWidth;
-paintCanvas.height = baseHeight;
+const paintCanvas = document.createElement('canvas')
+paintCanvas.width = baseWidth
+paintCanvas.height = baseHeight
 
 const paintImage = new Konva.Image({
     image: paintCanvas,
     width: baseWidth,
     height: baseHeight,
-});
-paintGroup.add(paintImage);
+})
+paintGroup.add(paintImage)
 
-const paintContext = paintCanvas.getContext('2d');
-paintContext.strokeStyle = '#9614cc';
-paintContext.lineJoin = 'round';
-paintContext.lineWidth = 3;
+const paintContext = paintCanvas.getContext('2d')
+paintContext.strokeStyle = '#9614cc'
+paintContext.lineJoin = 'round'
+paintContext.lineWidth = 3
 
-// Play the Clear animation
-function playClearAnim(x, y) {
+// Function to play the Clear animation (used by the Person Tool)
+const playClearAnim = (x, y) => {
     // Create a circle in the center with radius 0
     const circle = new Konva.Circle({
         x: x,
@@ -299,11 +293,12 @@ function playClearAnim(x, y) {
         radius: 0,
         fill: 'white',
         listening: false,
-    });
+    })
 
-    castGroup.add(circle);
-    castGroup.draw();
+    // Add circle to the Cast Group
+    castGroup.add(circle)
 
+    // Animate the circle to enlarge and disappear
     circle.to({
         radius: 300,
         duration: 1,
@@ -314,7 +309,7 @@ function playClearAnim(x, y) {
                 duration: 0.1,
                 easing: Konva.Easings.EaseInOut,
                 onFinish: () => { circle.destroy() }
-            });
+            })
         }
-    });
+    })
 }
