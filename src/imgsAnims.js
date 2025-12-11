@@ -76,22 +76,22 @@ worldFrozenImage.src = './sprites/paused.png'
 // Entities
 
 // Dog
-const dogImage = new Image()
+const dogImage = new Image()          // Dog 0 - Rover
 dogImage.src = './sprites/entities/dog.png'
 
-const dogImagePainted = new Image()
+const dogImagePainted = new Image()   // Dog 0 - Rover (painted)
 dogImagePainted.src = './sprites/entities/dog-painted.png'
 
-const dogImage1 = new Image()
+const dogImage1 = new Image()         // Dog 1 - Bryan
 dogImage1.src = './sprites/entities/dog-1.png'
 
-const dogImage1Painted = new Image()
+const dogImage1Painted = new Image()  // Dog 1 - Bryan (painted)
 dogImage1Painted.src = './sprites/entities/dog-1-painted.png'
 
-const dogImage2 = new Image()
+const dogImage2 = new Image()         // Dog 2 - Roy
 dogImage2.src = './sprites/entities/dog-2.png'
 
-const dogImage2Painted = new Image()
+const dogImage2Painted = new Image()  // Dog 2 - Roy (painted)
 dogImage2Painted.src = './sprites/entities/dog-2-painted.png'
 
 const dogImages = [dogImage, dogImage1, dogImage2]
