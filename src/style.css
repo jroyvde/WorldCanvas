@@ -46,7 +46,7 @@ dialog div button {
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url("./bg.png");
+    background-color: black;
     image-rendering: pixelated;
     height: 100vh;
 }

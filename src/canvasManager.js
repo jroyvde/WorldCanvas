@@ -25,7 +25,7 @@ const containerElemStyle = getComputedStyle(containerElement)
 containerElement.style.width = `${baseWidth * scaleFactor}px`
 containerElement.style.height = `${baseHeight * scaleFactor}px`
 
-// Set initial background image scaling
+// Set initial background image scaling (Currently not used)
 document.getElementById('content').style.backgroundSize = `${144 * scaleFactor}px ${128 * scaleFactor}px`
 
 // Establish our main Stage
