@@ -435,6 +435,7 @@ function personClear() {
 
         entitiesOnCanvas = []
         activeBeings = 0
+        activeDogs = 0
 
         for (let i = 0; i < entitiesSnapshot.length; i++) {
             if (entitiesSnapshot[i] != null) {

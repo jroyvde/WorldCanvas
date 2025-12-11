@@ -57,9 +57,10 @@ class Entity {
         this.destroyed = true   // Set destroyed flag
 
         // If this is a Being, decrement the activeBeings count
-        if (this.love) {
-            activeBeings--
-        }
+        if (this.love) activeBeings--
+
+        // If it's a Dog, do the same for activeDogs
+        if (this.excitement) activeDogs--
     }
 
     // Set the color of the entity

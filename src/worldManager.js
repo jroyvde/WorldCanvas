@@ -5,11 +5,15 @@ let worldState = 0
 
 // World Flags
 const worldFlags = {
+    modalClosed: false,
     brushColorChanged: false,
     climateChanged: false,
     foliageFertilized: false,
-    personToolUsed: false,
+    personToolUsed: false
 }
+
+// Maximum number of beings that can exist
+const maxBeings = 10
 
 // Climates
 const climates = [
@@ -69,14 +73,14 @@ const changeClimate = (input) => {
 
 // Array of 8 function references (possible actions each 5 seconds when in worldState 0)
 const state0Actions = [
-    () => { dropBrush() },
-    () => { dropBrush() },
-    () => { dropBrush() },
-    () => { dropBrush() },
-    () => { dropBrush() },
-    () => { dropBrush() },
-    () => { dropBrush() },
-    () => { dropBrush() },
+    () => { if (worldFlags.modalClosed) dropBrush() },
+    () => { if (worldFlags.modalClosed) dropBrush() },
+    () => { if (worldFlags.modalClosed) dropBrush() },
+    () => { if (worldFlags.modalClosed) dropBrush() },
+    () => { if (worldFlags.modalClosed) dropBrush() },
+    () => { if (worldFlags.modalClosed) dropBrush() },
+    () => { if (worldFlags.modalClosed) dropBrush() },
+    () => { if (worldFlags.modalClosed) dropBrush() },
 ]
 
 const state1Actions = [
@@ -92,7 +96,7 @@ const state1Actions = [
 
 const state2Actions = [
     () => { spawnBeing('dog') },
-    () => { if (dogTool.obtained && worldFlags.foliageFertilized) { spawnBeing('person') } },
+    () => { if (dogTool.obtained && worldFlags.foliageFertilized) spawnBeing('person') },
     () => { bloomFoliage() },
     () => {  },
     () => {  },
@@ -132,32 +136,76 @@ const stateActions = [
     state4Actions
 ]
 
-// Interval running every 5 seconds, different behaviour depending on worldState
-setInterval(() => {
-    // Generate a random integer between 0 and 7
-    const randomInt = Math.floor(Math.random() * 8)
-    // Unless the world is frozen, call the function at the random index
-    if (!worldFrozen) {
-        stateActions[worldState][randomInt]()
+// Function: Force the event leading to progression if 15 x 8 seconds (2 minutes) pass without it happening
+const forceProgression = (worldState) => {
+    console.log('forcing progression')
+    switch (worldState) {
+        case 0:
+            if (worldFlags.modalClosed) dropBrush()
+            break
+        case 1:
+            bloomFoliage()
+            break
+        case 2:
+            dogTool.obtained && worldFlags.foliageFertilized ? spawnBeing('person') : spawnBeing('dog')
+            break
+        case 3:
+            makePersonThink()
+            break
+        case 4:
+            break
+        default:
+            break
     }
-    // Check if worldState needs to update
+}
+
+let forceCounter = 0
+
+// Interval running every 8 seconds, different behaviour depending on worldState
+setInterval(() => {
+    // First, check if worldState needs to update. If so, do so and return
     if (worldState < 1 && brushTool.obtained && worldFlags.brushColorChanged) {
         worldState = 1
+        forceCounter = 0
+        return
     } else if (worldState < 2 && foliageTool.obtained && worldFlags.climateChanged) {
         worldState = 2
+        forceCounter = 0
+        return
     } else if (worldState < 3 && dogTool.obtained && personTool.obtained && worldFlags.foliageFertilized && worldFlags.personToolUsed) {
         worldState = 3
+        forceCounter = 0
+        return
     }
-}, 5000)
+
+    // Otherwise, increment the force counter
+    forceCounter++
+
+    // Then check if we need to force a progression
+    if (forceCounter >= 15) {
+        // If so, reset the force counter, force progression, then return
+        forceCounter = 0
+        if (!worldFrozen) forceProgression(worldState)
+        return
+    }
+
+    // If not, generate a random integer between 0 and 7
+    const randomInt = Math.floor(Math.random() * 8)
+    // Unless the world is frozen, call the function at the random index
+    if (!worldFrozen) stateActions[worldState][randomInt]()
+}, 8000)
 
 let activeBeings = 0
+let activeDogs = 0
 
 // Function: Spawn a Being of a given type
 const spawnBeing = (type) => {
-    if (activeBeings >= 10) return
+    if (activeBeings >= maxBeings) return
     if (type == 'dog') {
+        if (activeDogs >= (maxBeings - 1)) return   // Make sure there's always room for at least 1 Person to spawn
         new Dog(...chooseSpawnPoint())
         activeBeings++
+        activeDogs++
     }
     else if (type == 'person') {
         new Person(...chooseSpawnPoint())
@@ -169,7 +217,7 @@ let brushDropped = false
 
 // Function: Have the brush entity drop from the top of the screen
 const dropBrush = () => {  
-    if (!brushDropped && navigator.userActivation.isActive) {
+    if (!brushDropped) {
         brushDropped = true
 
         newBrush = new Brush((baseWidth / 2), -20)

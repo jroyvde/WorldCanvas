@@ -225,6 +225,8 @@ modalButtonSprite.on('click', () => {
     modalImageNode.listening(false)
     modalButtonSprite.opacity(0)
     modalButtonSprite.listening(false)
+    // Flip the world flag
+    worldFlags.modalClosed = true
 })
 
 modalButtonSprite.on('mouseover', () => {
