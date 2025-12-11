@@ -14,7 +14,7 @@ const baseWidth = 240
 const baseHeight = 180
 
 // Calculate and set the initial factor for scaling up our small, pixelly Stage
-let maxScale = 8    // This is a necessary evil for now - mouse movement currently causes significant slowdown at high resolutions
+let maxScale = null // Set to an integer to cap the maximum scale factor
 let scaleFactor = Math.min(Math.floor(parseInt(window.innerHeight) / baseHeight), maxScale)
 
 // Get the stage-container element's style so we can keep an eye on it and update things accordingly
@@ -62,7 +62,7 @@ const updateScaleFactor = () => {
     if (targetFactor === scaleFactor) return
 
     // Cap the scaleFactor to maxScale to prevent runaway performance issues
-    if (targetFactor > maxScale) targetFactor = maxScale
+    if (typeof maxScale === 'number' && targetFactor > maxScale) targetFactor = maxScale
 
     // Otherwise, set scaleFactor to the new value
     scaleFactor = targetFactor
