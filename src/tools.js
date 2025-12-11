@@ -568,8 +568,8 @@ const timeTool = new Tool({
     cursorAnims: timeToolAnims,
     bubblePositionX: 195, 
     bubblePositionY: 160,
-    leftClickAction: timeAccelerate,
-    rightClickAction: timeFreeze,
+    leftClickAction: timeFreeze,
+    rightClickAction: timeAccelerate,
 })
 
 let timeAccelState = 0  // 0 = Neutral, 1 = Accelerating, 2 = Decelerating
