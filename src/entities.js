@@ -328,6 +328,7 @@ class Brush extends Inanimate {
 
     // Fall from the top of screen & animate
     fallFromTop() {
+        this.grabbable = false  // Avoid weird behaviour by preventing grabbing while it's falling
         this.sprite.animation('idle')
         moveKonvaSprite(newBrush.sprite, 1, (baseWidth / 2), (baseHeight / 2), () => this.splatOnGround())
     }
@@ -336,6 +337,7 @@ class Brush extends Inanimate {
     splatOnGround() {
         this.sprite.animation('landed')
         sound.brushSplat.play() // Play a sound
+        this.grabbable = true   // Make grabbable again
     }
 }
 
