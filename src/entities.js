@@ -126,8 +126,8 @@ class Entity {
 
     // Display the entity on top of other entities
     displayOnTop () {
-        this.sprite.moveTo(bubbleGroup) // Move to Bubble Group so it appears above all other entities
-        this.sprite.moveToBottom()      // Move to bottom so it doesn't appear above the bubbles
+        this.sprite.moveTo(castGroup)   // Move to Cast Group so it appears above all other entities
+        this.sprite.moveToBottom()      // Move to bottom so it doesn't appear above casts and effects
     }
 }
 
