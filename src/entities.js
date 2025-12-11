@@ -198,6 +198,12 @@ class Dog extends Being {
         // If destroyed, never do anything ever again
         if (this.destroyed) return
 
+        // If frozen, wait and assess again
+        if (this.frozen) {
+            setTimeout(() => this.assess(), (3000 / timeFactor))
+            return
+        }
+
         // Check for tasty things in the entity array
         for (let i = 0; i < entitiesOnCanvas.length; i++) {
             if (entitiesOnCanvas[i] && dogTasty.includes(entitiesOnCanvas[i].sprite.image())) {
@@ -297,6 +303,12 @@ class Person extends Being {
     assess() {
         // If destroyed, never do anything ever again
         if (this.destroyed) return
+
+        // If frozen, wait and assess again
+        if (this.frozen) {
+            setTimeout(() => this.assess(), (3000 / timeFactor))
+            return
+        }
 
         this.roam()
     }
