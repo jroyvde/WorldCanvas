@@ -13,7 +13,7 @@ class Entity {
             y: spawnY,
             width: 16,
             height: 16,
-            frameRate: 2,   // Default frame rate
+            frameRate: timeFactor * 2,   // Default frame rate
             frameIndex: 0,
             draggable: true,
         })
@@ -34,6 +34,15 @@ class Entity {
         this.sprite.on('pointerover', (e) => {
             activeTool === grabTool && this.grabbable ? e.target.draggable(true) : e.target.draggable(false)
         })
+
+        // Interval to sync frameRate with timeFactor
+        const frameRateInterval = setInterval(() => {
+            if (timeFactor !== 1) {
+                this.sprite.frameRate(timeFactor * 2)
+            } else if (timeFactor === 1 && this.sprite.frameRate() !== 2) {
+                this.sprite.frameRate(2)
+            }
+        }, 200)
     }
 
     // Functions that can be used by all Entities:
@@ -331,7 +340,6 @@ class Brush extends Inanimate {
         this.sprite.image(brushImage)
         this.sprite.animations(brushAnims)
         this.sprite.animation('landed')
-        this.sprite.frameRate(2)
         this.sprite.offsetX(8)
         this.sprite.offsetY(16)
 
@@ -363,7 +371,6 @@ class Poo extends Inanimate {
         this.sprite.image(pooImage)
         this.sprite.animations(pooAnims)
         this.sprite.animation('idle')
-        this.sprite.frameRate(2)
         this.sprite.offsetX(8)
         this.sprite.offsetY(16)
 
@@ -411,7 +418,6 @@ class Foliage extends Inanimate {
         this.sprite.image(currentClimate.foliageImage)
         this.sprite.animations(foliageAnims)
         this.sprite.animation('idle')
-        this.sprite.frameRate(2)
         this.sprite.offsetX(8)
         this.sprite.offsetY(16)
 
@@ -487,7 +493,6 @@ class ThoughtBubble extends Inanimate {
         this.sprite.image(thoughtBubbleImage)
         this.sprite.animations(thoughtBubbleAnims)
         this.sprite.animation('idle')
-        this.sprite.frameRate(2)
         this.sprite.offsetX(16)
         this.sprite.offsetY(16)
 
