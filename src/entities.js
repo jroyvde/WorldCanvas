@@ -207,8 +207,8 @@ class Dog extends Being {
         // If destroyed, never do anything ever again
         if (this.destroyed) return
 
-        // If frozen, wait and assess again
-        if (this.frozen) {
+        // If frozen or being dragged, wait and assess again
+        if (this.frozen || this.sprite.isDragging()) {
             setTimeout(() => this.assess(), (3000 / timeFactor))
             return
         }
@@ -313,8 +313,8 @@ class Person extends Being {
         // If destroyed, never do anything ever again
         if (this.destroyed) return
 
-        // If frozen, wait and assess again
-        if (this.frozen) {
+        // If frozen or being dragged, wait and assess again
+        if (this.frozen || this.sprite.isDragging()) {
             setTimeout(() => this.assess(), (3000 / timeFactor))
             return
         }
