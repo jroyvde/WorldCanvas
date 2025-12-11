@@ -313,6 +313,18 @@ const personToolAnims = {
   idle: [
     0, 0, 16, 16, // frame 1
   ],
+  three: [
+    0, 16, 16, 16,
+  ],
+  two: [
+    0, 32, 16, 16,
+  ],
+  one: [
+    0, 48, 16, 16,
+  ],
+  clear: [
+    0, 64, 16, 16,
+  ]
 }
 
 // Save tool

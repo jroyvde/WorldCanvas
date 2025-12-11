@@ -355,7 +355,7 @@ const personTool = new Tool({
     bubblePositionX: 45,
     bubblePositionY: 160,
     leftClickAction: personRandomize,
-    rightClickAction: personClear,
+    rightClickAction: personClearCountdown,
 })
 
 let randomizeInterval = null    // Store the interval ID
@@ -419,29 +419,60 @@ function personRandomizeStep() {
     }
 }
 
+// Function: Require holding the mouse button for 3 seconds before running personClear()
+function personClearCountdown() {
+    let countdown = null
+
+    mainStage.on('pointerdown.clearPDown', (e) => {
+        // Start countdown when the pointer is pressed
+        sound.exit.cloneNode().play()
+        let counter = 3
+        cursor.changeAnim('three')
+
+        countdown = setInterval(() => {
+            if (counter <= 1) {
+                personClear()
+                clearInterval(countdown)
+                mainStage.off('pointerdown.clearPDown')
+                mainStage.off('pointerup.clearPUp')
+                cursor.changeAnim('clear')
+                return
+            }
+            sound.exit.cloneNode().play()
+            counter--
+            counter === 2 ? cursor.changeAnim('two') : cursor.changeAnim('one')
+        }, 1000)
+    })
+
+    mainStage.on('pointerup.clearPUp', (e) => {
+        // Stop countdown when the pointer is released
+        clearInterval(countdown)
+        mainStage.off('pointerdown.clearPDown')
+        mainStage.off('pointerup.clearPUp')
+        cursor.changeAnim('idle')
+    })
+}
+
 // Function: Clears the canvas of all entities and paint
 function personClear() {
     worldFlags.personToolUsed = true    // Update World Flags
-    
     sound.personClear.cloneNode().play()
-
-    playClearAnim(cursor.sprite.x() + 8, cursor.sprite.y() + 8)
+    playClearAnim(cursor.sprite.x() + 7, cursor.sprite.y() + 8)
 
     setTimeout(() => {
         paintContext.clearRect(0, 0, paintCanvas.width, paintCanvas.height)
         layer.batchDraw()
-
         const entitiesSnapshot = [...entitiesOnCanvas]
-
         entitiesOnCanvas = []
         activeBeings = 0
         activeDogs = 0
-
         for (let i = 0; i < entitiesSnapshot.length; i++) {
             if (entitiesSnapshot[i] != null) {
                 entitiesSnapshot[i].destroy()
             }
         }
+
+        cursor.changeAnim('idle')
     }, 1000)
 }
 
