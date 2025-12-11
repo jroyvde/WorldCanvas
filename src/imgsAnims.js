@@ -123,8 +123,20 @@ personImage2.src = './sprites/entities/person-2.png'
 const personImage2Painted = new Image() // Person 2 - Suzanne (painted)
 personImage2Painted.src = './sprites/entities/person-2-painted.png'
 
-const personImages = [personImage, personImage1, personImage2]
-const personImagesPainted = [personImagePainted, personImage1Painted, personImage2Painted]
+const personImage3 = new Image()        // Person 3 - Yoyo
+personImage3.src = './sprites/entities/person-3.png'
+
+const personImage3Painted = new Image() // Person 3 - Yoyo (painted)
+personImage3Painted.src = './sprites/entities/person-3-painted.png'
+
+const personImage4 = new Image()        // Person 4 - Lucia
+personImage4.src = './sprites/entities/person-4.png'
+
+const personImage4Painted = new Image() // Person 4 - Lucia (painted)
+personImage4Painted.src = './sprites/entities/person-4-painted.png'
+
+const personImages = [personImage, personImage1, personImage2, personImage3, personImage4]
+const personImagesPainted = [personImagePainted, personImage1Painted, personImage2Painted, personImage3Painted, personImage4Painted]
 
 const personAnims = {
     idle: [
@@ -220,6 +232,8 @@ const paintedImages = new Map([
     [personImage, personImagePainted],
     [personImage1, personImage1Painted],
     [personImage2, personImage2Painted],
+    [personImage3, personImage3Painted],
+    [personImage4, personImage4Painted],
     [dogImage, dogImagePainted],
     [dogImage1, dogImage1Painted],
     [dogImage2, dogImage2Painted],
