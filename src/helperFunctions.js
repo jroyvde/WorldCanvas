@@ -14,69 +14,81 @@ const chooseVariant = (images) => {
 
 // Move a Konva sprite from one point to another
 const moveKonvaSprite = (sprite, speed, endX, endY, onComplete) => {
-    let paused = false
-    let savedSpeed = null
-    let moveAnim
+    // Declare the variables locally
+    let moveTween = null
+    let stoppedBecauseFrozen = false
 
-    // Create animation logic in a function to allow re-creation
-    function startMovement() {
-        moveAnim = new Konva.Animation(() => {
-            // Respond to freezing and un-freezing of parent Entities
-            if (getParentEntity(sprite)) {  // Check if the sprite actually belongs to an Entity
-                if (getParentEntity(sprite).frozen && !paused) {  // Check if the parent Entity has been frozen
-                    paused = true
-                    savedSpeed = speed
-                    speed = 0
-                } else if (!getParentEntity(sprite).frozen && paused) {
-                    paused = false
-                    speed = savedSpeed
-                    handleDragEnd()
-                }
-            }
+    // Function: Create a new Tween and play it
+    const startNewTween = () => {
+        // Update start coordinates
+        const startX = sprite.x()
+        const startY = sprite.y()
 
-            let dx = endX - sprite.x()
-            let dy = endY - sprite.y()
-            let distance = Math.sqrt(dx * dx + dy * dy)
-            let moveStep = speed * timeFactor
+        // Calclute the duration for the tween based on distance and speed
+        const distance = (Math.abs(startX - endX) + Math.abs(startY - endY)) / 2
+        const tweenDuration = (distance / (speed * 50)) / timeFactor
 
-            if (distance > moveStep) {
-                sprite.x(sprite.x() + (dx / distance) * moveStep)
-                sprite.y(sprite.y() + (dy / distance) * moveStep)
-            } else {
-                sprite.x(endX)
-                sprite.y(endY)
-                moveAnim.stop()
-                cleanup()       // Remove event listeners
-                if (typeof onComplete === 'function') onComplete()
-            }
-        }, layer)
+        // Declare the new Tween
+        moveTween = new Konva.Tween({
+            node: sprite,
+            duration: tweenDuration,
+            x: endX,
+            y: endY,
+            easing: Konva.Easings.Linear,
+            onFinish: handleMoveEnd
+        })
 
-        moveAnim.start()
+        // Play the new Tween
+        moveTween.play()
     }
 
-    // Start the initial movement
-    startMovement()
+    startNewTween() // Start the initial Tween
+
+    // Function: Runs on start of a drag
+    const handleDragStart = () => {
+        if (moveTween) moveTween.destroy(); moveTween = null
+    }
+
+    // Function: Runs at the end of a drag
+    const handleDragEnd = () => {
+        if (stoppedBecauseFrozen) return
+        if (typeof getParentEntity(sprite).turnToFace === 'function') getParentEntity(sprite).turnToFace(endX)    // Re-calculate facing direction
+        startNewTween()
+    }
 
     // Listen for drag events, and run relevant functions
-    sprite.on('dragmove.move', handleDragMove)
+    sprite.on('dragstart.move', handleDragStart)
     sprite.on('dragend.move', handleDragEnd)
 
-    // Stop movement on drag
-    function handleDragMove() {
-        if (moveAnim) moveAnim.stop()
-    }
+    // Interval to run periodically while the movement is active
+    let moveInterval = setInterval(() => {
+        // Check if an Entity has been frozen or unfrozen and respond accordingly
+        if (getParentEntity(sprite)) {  // Check if the sprite actually belongs to an Entity
+            if (getParentEntity(sprite).frozen && !stoppedBecauseFrozen) {  // Check if the parent Entity has been frozen
+                stoppedBecauseFrozen = true
+                handleDragStart()
+            } else if (!getParentEntity(sprite).frozen && stoppedBecauseFrozen) {   // Check if the parent Entity has been un-frozen
+                stoppedBecauseFrozen = false
+                handleDragEnd()
+            }
+        }
+        // If the timeFactor is being altered, continously re-start the Tween to keep its speed in sync
+        if (timeFactor != 1 && !stoppedBecauseFrozen && !sprite.isDragging()) {
+            if (moveTween) moveTween.destroy(); moveTween = null
+            startNewTween()
+        }
+    }, 100)
 
-    // Resume movement after drag ends
-    function handleDragEnd() {
-        if (moveAnim) moveAnim.stop()               // Stop old one just in case
-        startMovement()                             // Recreate and start fresh animation
-        getParentEntity(sprite).turnToFace(endX)    // Re-calculate facing direction
-    }
-
-    // Cleanup function to remove these specific event listeners
-    function cleanup() {
-        sprite.off('dragmove.move')
+    // Function: To run once the movement completes
+    function handleMoveEnd() {
+        // Destoy the running Tween
+        if (moveTween) moveTween.destroy(); moveTween = null
+        // Clean-up
+        clearInterval(moveInterval)
+        sprite.off('dragstart.move')
         sprite.off('dragend.move')
+        // Run onComplete function if it exists
+        if (typeof onComplete === 'function') onComplete()
     }
 }
 
