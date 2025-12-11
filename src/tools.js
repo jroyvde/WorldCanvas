@@ -604,6 +604,13 @@ function timeAccelerate() {
     let initialTimeFactor
 
     function decelerate(accelInterval) {
+        // Reset timeFactor immediately if the world is frozen while decelerating
+        if (worldFrozen) {
+            timeAccelState = 0
+            timeFactor = 1
+            return
+        }
+
         timeAccelState = 2
         
         if (initialAccelInterval === undefined) {
