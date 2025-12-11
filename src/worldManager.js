@@ -238,11 +238,15 @@ let existingThoughtBubble
 const makePersonThink = () => {
     // If the Time Tool has been obtained by now, take the opportunity to get rid of the Thought Bubble
     if (timeTool.obtained) {
-        if (existingThoughtBubble) existingThoughtBubble.destroy()
+        if (existingThoughtBubble && !existingThoughtBubble.destroyed) {
+            existingThoughtBubble.destroy()
+        }
         return
     }
-    // If there is already an existing Thought Bubble, don't make a new one
-    if (existingThoughtBubble) return
+
+    // If there is already an existing Thought Bubble, don't make a new one (unless it was destroyed, e.g. by the Person Tool)
+    if (existingThoughtBubble && !existingThoughtBubble.destroyed) return
+
     // Use the entitiesOnCanvas array as is, to avoid the possibility of an endless loop
     const entitiesSnapshot = [...entitiesOnCanvas]
     // Loop through the Entity list until we find a Person
