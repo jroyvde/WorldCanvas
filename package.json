@@ -9,6 +9,7 @@
         "app:dir": "electron-builder --dir",
         "app:dist": "electron-builder"
     },
+    "productName": "WorldCanvas",
     "author": "CyanLime Studios",
     "license": "UNLICENSED",
     "build": {
@@ -17,6 +18,7 @@
         },
         "linux": {
             "target": "AppImage",
+            "executableName": "WorldCanvas",
             "category": "Game"
         }
     },
