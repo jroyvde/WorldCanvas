@@ -2,8 +2,6 @@ console.log('imgsAnims.js loaded')
 
 // Library for Images and their associated Animations
 
-const c = 0.1 // Using this as a quick-and-dirty fix for stray pixel parts on sprites. Subtract it from frame boundary sizes to cut off just a little bit.
-
 // UI
 
 // Corner buttons
@@ -46,9 +44,9 @@ bubbleImage.src = './sprites/bubble.png'
 const bubbleAnims = {
   idle: [
     0, 0, 24, 24,   // frame 1
-    24, 0, 24, 24,  // frame 2
-    48, 0, 24, 24,  // frame 3
-    72, 0, 24, 24,  // frame 4
+    25, 0, 24, 24,  // frame 2
+    50, 0, 24, 24,  // frame 3
+    75, 0, 24, 24,  // frame 4
   ],
 }
 
@@ -99,8 +97,8 @@ const dogImagesPainted = [dogImagePainted, dogImage1Painted, dogImage2Painted]
 
 const dogAnims = {
     idle: [
-      0, 0, 16-c, 16,   // frame 1
-      16, 0, 16-c, 16,  // frame 2
+      0, 0, 16, 16,   // frame 1
+      17, 0, 16, 16,  // frame 2
     ],
 }
 
@@ -201,15 +199,15 @@ foliageImageSnowPainted.src = './sprites/entities/foliage-snow-painted.png'
 const foliageAnims = {
     idle: [
       0, 0, 16, 16,   // frame 1
-      16, 0, 16, 16,  // frame 2
+      17, 0, 16, 16,  // frame 2
     ],
     stage1: [
       0, 16, 16, 16,   // frame 1
-      16, 16, 16, 16,  // frame 2
+      17, 16, 16, 16,  // frame 2
     ],
     stage2: [
-      0, 32+c, 16-c, 32,   // frame 1
-      16, 32+c, 16-c, 32,  // frame 2
+      0, 32, 16, 32,   // frame 1
+      17, 32, 16, 32,  // frame 2
     ],
 }
 
@@ -263,14 +261,14 @@ grabToolImage.src = './sprites/tools/grab.png'
 
 const grabToolAnims = {
   idle: [
-    0, 0, 16, 16-c,   // frame 1
+    0, 0, 16, 16,   // frame 1
   ],
   grabby: [
-    0, 16, 16, 16-c,  // frame 1
-    16, 16, 16, 16-c, // frame 2
+    0, 17, 16, 16,  // frame 1
+    17, 17, 16, 16, // frame 2
   ],
   picking: [
-    0, 32, 16, 16,  // frame 1
+    0, 34, 16, 16,  // frame 1
   ],
 }
 
@@ -280,22 +278,22 @@ brushToolImage.src = './sprites/tools/brush.png'
 
 const brushToolAnims = {
   idle: [
-    0, 0, 16, 16-c, // frame 1
+    0, 0, 16, 16, // frame 1
   ],
   red: [
-    0, 16, 16, 16-c, // frame 1
+    0, 17, 16, 16, // frame 1
   ],
   orange: [
-    0, 32, 16, 16-c, // frame 1
+    0, 34, 16, 16, // frame 1
   ],
   yellow: [
-    0, 48, 16, 16-c, // frame 1
+    0, 51, 16, 16, // frame 1
   ],
   green: [
-    0, 64, 16, 16-c, // frame 1
+    0, 68, 16, 16, // frame 1
   ],
   blue: [
-    0, 80, 16, 16, // frame 1
+    0, 85, 16, 16, // frame 1
   ],
 }
 
@@ -328,16 +326,16 @@ const personToolAnims = {
     0, 0, 16, 16, // frame 1
   ],
   three: [
-    0, 16, 16, 16,
+    0, 17, 16, 16,
   ],
   two: [
-    0, 32, 16, 16,
+    0, 34, 16, 16,
   ],
   one: [
-    0, 48, 16, 16,
+    0, 51, 16, 16,
   ],
   clear: [
-    0, 64, 16, 16,
+    0, 68, 16, 16,
   ]
 }
 
@@ -357,28 +355,28 @@ timeToolImage.src = './sprites/tools/time.png'
 
 const timeToolAnims = {
   idle: [
-    0, 0, 16, 16-c, // frame 1
+    0, 0, 15, 15, // frame 1
   ],
   accel: [
-    0, 16, 16, 16-c, // frame 1
-    16, 16, 16, 16-c, // frame 2
-    32, 16, 16, 16-c, // frame 3
-    48, 16, 16, 16-c, // frame 4
+    0, 16, 15, 15, // frame 1
+    16, 16, 15, 15, // frame 2
+    32, 16, 15, 15, // frame 3
+    48, 16, 15, 15, // frame 4
   ],
   freeze: [
-    0, 32, 16, 16-c, // frame 1
-    16, 32, 16, 16-c, // frame 2
+    0, 32, 15, 15, // frame 1
+    16, 32, 15, 15, // frame 2
   ],
   unfreeze: [
-    0, 48, 16, 16-c, // frame 1
-    16, 48, 16, 16-c, // frame 2
+    0, 48, 15, 15, // frame 1
+    16, 48, 15, 15, // frame 2
   ],
   freezeWorld: [
-    0, 64, 16, 16-c, // frame 1
-    16, 64, 16, 16-c, // frame 2
+    0, 64, 15, 15, // frame 1
+    16, 64, 15, 15, // frame 2
   ],
   unfreezeWorld: [
-    0, 80, 16, 16, // frame 1
-    16, 80, 16, 16, // frame 2
+    0, 80, 15, 15, // frame 1
+    16, 80, 15, 15, // frame 2
   ],
 }
