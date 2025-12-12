@@ -324,7 +324,7 @@ class Person extends Being {
 
     // Create the thought bubble that gives the Time tool
     thinkAboutTime() {
-        let newThoughtBubble = new ThoughtBubble(this.sprite.x(), this.sprite.y())
+        let newThoughtBubble = new ThoughtBubble(this.sprite.x() - 4, this.sprite.y() - 32)
         newThoughtBubble.trackPerson(this)
 
         return newThoughtBubble
