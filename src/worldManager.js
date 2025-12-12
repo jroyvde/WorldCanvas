@@ -259,4 +259,7 @@ const makePersonThink = () => {
             }
         }
     }
+
+    // If the above loop doesn't find any People, create one instead for next time
+    spawnBeing('person')
 }
