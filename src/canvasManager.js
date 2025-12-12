@@ -2,7 +2,7 @@ console.log('canvasManager.js loaded')
 
 // Identify context (browser or desktop)
 let desktopMode = false
-if (typeof process !== 'undefined' && process.versions && Boolean(process.versions.nw)) {
+if (typeof navigator === 'object' && typeof navigator.userAgent === 'string' && navigator.userAgent.indexOf('Electron') >= 0) {
     desktopMode = true
 }
 
@@ -188,7 +188,7 @@ exitButtonSprite.on('click', (e) => {
     if (!desktopMode || e.evt.button !== 0) return  // Do nothing unless it's a left click, and in desktop mode
 
     sound.exit.cloneNode().play()
-    setTimeout(() => { nw.Window.get().close(true) }, 500)
+    setTimeout(() => { window.close() }, 500)
 })
 
 exitButtonSprite.on('mouseover', () => {

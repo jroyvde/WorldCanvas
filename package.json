@@ -1,5 +1,27 @@
 {
+    "name": "worldcanvas",
+    "version": "1.1.0",
+    "description": "A browser-based 'drawing tool' with unexpected twists.",
+    "main": "main.js",
+    "scripts": {
+        "start": "electron .",
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "app:dir": "electron-builder --dir",
+        "app:dist": "electron-builder"
+    },
+    "author": "CyanLime Studios",
+    "license": "UNLICENSED",
+    "build": {
+        "win": {
+            "target": "portable"
+        },
+        "linux": {
+            "target": "AppImage",
+            "category": "Game"
+        }
+    },
     "devDependencies": {
-        "nw-builder": "^4.16.0"
+        "electron": "^39.2.6",
+        "electron-builder": "^26.0.12"
     }
 }
